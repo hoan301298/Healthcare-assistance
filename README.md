@@ -89,7 +89,5 @@ GOOGLE_MAP_API_KEY=???
 
 ## 🤝 Contributing
 Contributions are welcome! Fork the repository and create a pull request.
-
----
 Feel free to modify and improve the project as needed. Happy coding! 🎉
 
