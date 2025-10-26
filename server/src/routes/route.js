@@ -13,7 +13,7 @@ router.get('/authenticated', authenticateToken, (req, res) => {
     res.json({message: 'Authenticated successfully'})
 })
 router.put('/account/update-userdetails', updateUserDetails)
-router.post('/location', placesController);
+router.post('/places', placesController);
 router.post('/login', login);
 router.post('/register', register);
 router.post('/send-email', sendEmail);

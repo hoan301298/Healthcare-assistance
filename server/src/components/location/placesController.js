@@ -4,12 +4,12 @@ import placesService from './placesService.js';
 const placesController = async (req, res) => {
     const location = req.body.location;
 
-    if (!location || !location.center) {
+    if (!location) {
         return res.status(400).json({ message: 'Location is required' });
     }
 
     try {
-        const response = await placesService(location.center);
+        const response = await placesService(location);
 
         const places = response;
         if (places.length === 0) {
@@ -18,7 +18,7 @@ const placesController = async (req, res) => {
 
         const enrichedPlaces = places.map(place => ({
           ...place,
-          distance: calculateDistance(location.center, place.location)
+          distance: calculateDistance(location, place.location)
         }));
 
         res.json(enrichedPlaces);

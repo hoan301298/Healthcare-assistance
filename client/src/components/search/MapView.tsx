@@ -1,6 +1,6 @@
 import { memo, useState } from "react";
 import { mapApiKey } from "@/constant";
-import { Facility } from "../models/Facility";
+import { Place } from "../models/place/Place";
 import { useLocation } from "@/hooks/useLocation";
 import {
     GoogleMap,
@@ -10,7 +10,7 @@ import {
 } from "@react-google-maps/api";
 
 interface MapViewProps {
-    facilities: Facility[];
+    places: Place[];
     address: string;
 }
 
@@ -19,23 +19,23 @@ const containerStyle: React.CSSProperties = {
     width: "100%",
 };
 
-const MapViewComponent: React.FC<MapViewProps> = ({ facilities, address }) => {
-    const { location, isLoading, error } = useLocation(address);
-    const [selectedFacility, setSelectedFacility] = useState<Facility | null>(null);
+const MapViewComponent: React.FC<MapViewProps> = ({ places, address }) => {
+    const { mapLocation, isLoading, error } = useLocation(address);
+    const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
 
-    const handleMarkerClick = (facility: Facility) => {
-        setSelectedFacility(facility);
+    const handleMarkerClick = (place: Place) => {
+        setSelectedPlace(place);
     };
-    console.log(location)
+
     return (
         <LoadScript googleMapsApiKey={mapApiKey}>
-            {location && (
+            {mapLocation && (
                 <GoogleMap
                     mapContainerStyle={containerStyle}
-                    center={location.center}
-                    zoom={location.zoom}
+                    center={mapLocation.center}
+                    zoom={mapLocation.zoom}
                 >
-                    {/* {facilities && facilities.map((facility, index) => (
+                    {/* {places && places.map((facility, index) => (
                         <Marker
                             key={index}
                             title="Marker"
@@ -69,7 +69,7 @@ export const MapView = memo(
     MapViewComponent,
     (prevProps, nextProps) =>
       prevProps.address === nextProps.address &&
-      prevProps.facilities === nextProps.facilities
+      prevProps.places === nextProps.places
 );
 
 export default MapView;

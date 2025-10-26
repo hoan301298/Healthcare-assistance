@@ -5,13 +5,13 @@ import { Badge } from '@/components/ui/badge';
 import { MapPin, Phone, Clock, Star, Calendar } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import clinicImage from '@/assets/clinic-interior.jpg';
-import { facilities } from '@/content/mockFacilities';
+import { Place } from '@/components/models/place/Place';
 
-const FacilityDetail = () => {
+const PlacesDetail = () => {
   const { id } = useParams();
-  const facility = facilities.find((f) => f.id === Number(id));
+  const place: Place = places.find((f) => f.id === Number(id));
 
-  if (!facility) {
+  if (!place) {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
@@ -42,39 +42,39 @@ const FacilityDetail = () => {
             <Card className="border-border">
               <CardHeader>
                 <div className="flex items-start justify-between mb-4">
-                  <Badge variant="secondary" className="text-sm">{facility.type}</Badge>
+                  <Badge variant="secondary" className="text-sm">{place.primaryType}</Badge>
                   <div className="flex items-center gap-2">
                     <div className="flex items-center gap-1">
                       <Star className="h-5 w-5 fill-accent text-accent" />
-                      <span className="text-xl font-bold">{facility.rating}</span>
+                      <span className="text-xl font-bold">{place.rating}</span>
                     </div>
-                    <span className="text-muted-foreground text-sm">({facility.reviews} reviews)</span>
+                    <span className="text-muted-foreground text-sm">({place.detail.user_ratings_total} reviews)</span>
                   </div>
                 </div>
-                <CardTitle className="text-3xl">{facility.name}</CardTitle>
+                <CardTitle className="text-3xl">{place.detail.name}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <img
                   src={clinicImage}
-                  alt={facility.name}
+                  alt={place.detail.name}
                   className="w-full h-64 object-cover rounded-lg"
                 />
                 
-                <div>
+                {/* <div>
                   <h3 className="text-lg font-semibold mb-2">About</h3>
-                  <CardDescription className="text-base">{facility.description}</CardDescription>
+                  <CardDescription className="text-base">{place.description}</CardDescription>
                 </div>
 
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Specialties</h3>
                   <div className="flex flex-wrap gap-2">
-                    {facility.specialties.map((specialty, index) => (
+                    {place.specialties.map((specialty, index) => (
                       <Badge key={index} variant="outline">
                         {specialty}
                       </Badge>
                     ))}
                   </div>
-                </div>
+                </div> */}
               </CardContent>
             </Card>
           </div>
@@ -91,22 +91,22 @@ const FacilityDetail = () => {
                   <MapPin className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                   <div>
                     <p className="font-medium">Address</p>
-                    <p className="text-sm text-muted-foreground">{facility.address}</p>
-                    <p className="text-sm text-muted-foreground">{facility.distance} away</p>
+                    <p className="text-sm text-muted-foreground">{place.formattedAddress}</p>
+                    <p className="text-sm text-muted-foreground">{place.distance} away</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <Phone className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                   <div>
                     <p className="font-medium">Phone</p>
-                    <p className="text-sm text-muted-foreground">{facility.phone}</p>
+                    <p className="text-sm text-muted-foreground">{place.detail.international_phone_number}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <Clock className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                   <div>
                     <p className="font-medium">Hours</p>
-                    <p className="text-sm text-muted-foreground whitespace-pre-line">{facility.hours}</p>
+                    <p className="text-sm text-muted-foreground whitespace-pre-line">{place.detail.opening_hours.weekday_text}</p>
                   </div>
                 </div>
               </CardContent>
@@ -124,7 +124,7 @@ const FacilityDetail = () => {
                 <p className="text-sm text-muted-foreground mb-4">
                   Schedule your visit with this facility
                 </p>
-                <Link to={`/booking/${facility.id}`}>
+                <Link to={`/booking/${place.id}`}>
                   <Button className="w-full bg-primary hover:bg-primary-dark">
                     Book Now
                   </Button>
@@ -155,4 +155,4 @@ const FacilityDetail = () => {
   );
 };
 
-export default FacilityDetail;
+export default PlacesDetail;

@@ -3,18 +3,24 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Search as SearchIcon } from 'lucide-react';
 import Navbar from '@/components/Navbar';
-import { facilities } from '@/content/mockFacilities';
 import MapView from '@/components/search/MapView';
-import FacilitiesList from '@/components/search/FacilitiesList';
+import PlaceList from '@/components/search/PlaceList';
+import usePlaces from '@/hooks/usePlaces';
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState<string | null>("");
   const [address, setAddress] = useState<string | null>("");
   const [selectedType, setSelectedType] = useState<string | null>(null);
 
+  const {
+    places,
+    isLoading,
+    error
+  } = usePlaces(address);
+
   const types = ['All', 'Hospital', 'Clinic', 'Dental', 'Medical Center', 'Urgent Care'];
 
-  const filteredFacilities = facilities.filter((facility) => {
+  const filteredPlaces = places.filter((facility) => {
     const matchesSearch =
       facility.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       facility.specialties.some((s) => s.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -38,9 +44,9 @@ const Search = () => {
       <div className="container mx-auto px-4 pt-24 pb-12">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-foreground mb-2">Find Healthcare Facilities</h1>
+          <h1 className="text-4xl font-bold text-foreground mb-2">Find Healthcare places</h1>
           <p className="text-lg text-muted-foreground">
-            Search and discover the best medical facilities near you
+            Search and discover the best medical places near you
           </p>
         </div>
 
@@ -61,7 +67,7 @@ const Search = () => {
 
         {/* Map */}
         <div className='mb-8 flex justify-center'>
-          <MapView facilities={facilities} address={address} />
+          <MapView places={places} address={address} />
         </div>
 
         {/* Filter Buttons */}
@@ -84,11 +90,11 @@ const Search = () => {
 
         {/* Results Count */}
         <p className="text-muted-foreground mb-6">
-          Found {filteredFacilities.length} {filteredFacilities.length === 1 ? 'facility' : 'facilities'}
+          Found {filteredplaces.length} {filteredplaces.length === 1 ? 'facility' : 'places'}
         </p>
 
-        {/* Facilities Grid */}
-        <FacilitiesList filteredFacilities={filteredFacilities} />
+        {/* places Grid */}
+        <PlaceList filteredPlaces={filteredPlaces} />
       </div>
     </div>
   );

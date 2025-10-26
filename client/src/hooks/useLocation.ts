@@ -1,15 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
-import { fetchGeoCode } from "@/hooks/request";
-import { GeoCodeResponseDTO } from "@/components/models/DTO/GeoCodeDTO";
 import { useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getGeoCode } from "@/hooks/requests/requestGeocode";
+import { GeoCodeResponseDTO } from "@/components/models/DTO/GeoCodeDTO";
+import { MapLocation } from "@/components/models/location/MapLocation";
 
-interface LocationProps {
-    center: google.maps.LatLngLiteral;
-    zoom: number;
-}
-
-// Finland lat-lng
-const DEFAULT_LOCATION : LocationProps = {
+const defaultProps: MapLocation = {
     center: {
         lat: 61.92410999999999,
         lng: 25.748151
@@ -22,18 +17,18 @@ export const useLocation = (address: string) => {
 
     const { data, isLoading, error } = useQuery<GeoCodeResponseDTO | null, Error>({
         queryKey: ["geocode", locationQuery],
-        queryFn: () => fetchGeoCode(locationQuery),
+        queryFn: () => getGeoCode(locationQuery),
     });
 
-    const location = useMemo(() => {
+    const mapLocation: MapLocation = useMemo(() => {
         if (data?.geometry?.location) {
             return {
                 center: data.geometry.location,
                 zoom: !address || address.trim() === "" ? 6 : 13,
-            } as LocationProps;
+            }
         }
-        return DEFAULT_LOCATION;
-      }, [data, address]);
+        return defaultProps;
+    }, [data, address]);
 
-return { location, data, isLoading, error };
+    return { mapLocation, isLoading, error };
 };

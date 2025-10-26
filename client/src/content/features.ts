@@ -3,8 +3,8 @@ import { Search, Calendar, MessageCircle, Shield, Clock, Star } from 'lucide-rea
 export const features = [
     {
         icon: Search,
-        title: 'Find Healthcare Facilities',
-        description: 'Search and discover medical facilities near you with detailed information.',
+        title: 'Find Healthcare places',
+        description: 'Search and discover medical places near you with detailed information.',
     },
     {
         icon: Calendar,
@@ -28,7 +28,7 @@ export const features = [
     },
     {
         icon: Star,
-        title: 'Verified Facilities',
-        description: 'All facilities are verified and rated by real patients.',
+        title: 'Verified places',
+        description: 'All places are verified and rated by real patients.',
     },
 ];

@@ -21,12 +21,12 @@ const Home = () => {
                 <span className="text-primary"> Our Priority</span>
               </h1>
               <p className="text-xl text-muted-foreground">
-                Find trusted healthcare facilities, book appointments, and get 24/7 support - all in one place.
+                Find trusted healthcare places, book appointments, and get 24/7 support - all in one place.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link to="/search">
                   <Button size="lg" className="bg-primary hover:bg-primary-dark w-full sm:w-auto">
-                    Find Facilities
+                    Find places
                   </Button>
                 </Link>
                 <Link to="/chat">

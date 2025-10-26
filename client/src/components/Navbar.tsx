@@ -23,7 +23,7 @@ const Navbar = () => {
               Home
             </Link>
             <Link to="/search" className="text-foreground hover:text-primary transition-colors">
-              Find Facilities
+              Find places
             </Link>
             <Link to="/chat" className="text-foreground hover:text-primary transition-colors">
               Chat Support
@@ -59,7 +59,7 @@ const Navbar = () => {
               className="block py-2 text-foreground hover:text-primary transition-colors"
               onClick={() => setIsOpen(false)}
             >
-              Find Facilities
+              Find places
             </Link>
             <Link
               to="/chat"
