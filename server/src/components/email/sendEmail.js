@@ -1,17 +1,17 @@
-require('dotenv').config();
-const nodemailer = require('nodemailer');
+import { createTransport } from 'nodemailer';
+import { constants } from '../../constant.js';
 
 const sendEmail = async (req, res) => {
     try {
         const selectedAppointment = req.body;
 
-        let transporter = new nodemailer.createTransport({
+        let transporter = new createTransport({
             host: 'live.smtp.mailtrap.io',
             port: 587,
             secure: false,
             auth: {
                 user: 'api',
-                pass: process.env.NODEMAILER_API_KEY
+                pass: constants.NODEMAILER_API_KEY,
             }
         })
 
@@ -41,5 +41,5 @@ const sendEmail = async (req, res) => {
     }
 }
 
-module.exports = sendEmail;
+export default sendEmail;
     

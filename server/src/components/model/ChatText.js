@@ -1,6 +1,6 @@
-const { Schema, model } = require('mongoose');
-const CryptoJS = require('crypto-js');
-const encryptKey = process.env.ENCRYPT_KEY;
+import { Schema, model } from 'mongoose';
+import { constants } from '../../constant.js';
+import crypto from 'crypto-js';
 
 const messageSchema = new Schema({
     room_id: {type: Number, required: true},
@@ -13,12 +13,12 @@ const messageSchema = new Schema({
 
 messageSchema.pre('save', function(next) {
     const message = this;
-    const encryptedContent = CryptoJS.AES.encrypt(message.content, encryptKey).toString();
+    const encryptedContent = crypto.AES.encrypt(message.content, constants.ENCRYPT_KEY).toString();
     message.content = encryptedContent;
     next();
 });
 
 const MessageDetail = model('message_details', messageSchema);
 
-module.exports = MessageDetail;
+export default MessageDetail;
 

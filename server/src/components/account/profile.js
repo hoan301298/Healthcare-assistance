@@ -1,5 +1,5 @@
-const User = require('../model/UserDetail');
-const bcrypt = require('bcrypt');
+import User from '../model/UserDetail.js';
+import { compare, hash } from 'bcrypt';
 
 const getProfile = async (req, res) => {
     const { username } = req.query;
@@ -19,7 +19,7 @@ const updateUserDetails = async (req, res) => {
     const { updateUser } = req.body;
     try {
         const user = await User.findOne({ username: updateUser.username});
-        bcrypt.compare(updateUser.password, user.password, async (err, result) => {
+        compare(updateUser.password, user.password, async (err, result) => {
             if (err || !result) {
                 return res.status(401).json({ error: 'Invalid password!' });
             } else {
@@ -38,11 +38,11 @@ const resetPassword = async (req, res) => {
     try {
         const user = await User.findOne({ username: username });
         if(user) {
-            bcrypt.compare(oldPassword, user.password, async (err, result) => {
+            compare(oldPassword, user.password, async (err, result) => {
                 if(err || !result) {
                     return res.status(401).json({error: 'Your current password is wrong!'})
                 } else {
-                    const hashedPassword = await bcrypt.hash(newPassword, 12);
+                    const hashedPassword = await hash(newPassword, 12);
                     const result = await User.updateOne({username: username}, {password: hashedPassword});
                     return res.json(`${result.modifiedCount} updated!`);
                 }
@@ -53,4 +53,8 @@ const resetPassword = async (req, res) => {
     }
 }
 
-module.exports = { getProfile, updateUserDetails, resetPassword };
+export { 
+    getProfile, 
+    updateUserDetails, 
+    resetPassword 
+};

@@ -7,14 +7,12 @@ import { componentTagger } from "lovable-tagger";
 export default defineConfig(({ mode }) => ({
   server: {
     proxy: {
-      // Proxy API calls to your ASP.NET backend
-      "/api": {
+      "/v1": {
         target: "http://localhost:5000",
         changeOrigin: true,
         secure: false,
       },
-      // Proxy calls to another backend (example: /auth)
-      "/auth": {
+      "/v2": {
         target: "http://localhost:5001",
         changeOrigin: true,
         secure: false,

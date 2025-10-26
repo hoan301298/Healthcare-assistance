@@ -1,20 +1,20 @@
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const SECRET_KEY = process.env.SECRET_KEY;
-const UserDetail = require('../model/UserDetail');
+import jsonToken from 'jsonwebtoken';
+import { hash } from 'bcrypt';
+import UserDetail from '../model/UserDetail.js';
+import { constants } from '../../constant.js';
 
 const registerComponent = async (req, res, next) => {
     const newUserDetail = req.body;
     try {
         let user = await UserDetail.findOne({ username: newUserDetail.username})
         if(!user) {
-            const hashedPassword = await bcrypt.hash(newUserDetail.password, 12);
+            const hashedPassword = await hash(newUserDetail.password, 12);
             newUserDetail.password = hashedPassword;
             const newUser = new UserDetail(newUserDetail);
             await newUser.save();
 
             user = await UserDetail.findOne({ username: newUserDetail.username});
-            const token = jwt.sign({ id: user.id, username: user.username}, SECRET_KEY);
+            const token = jsonToken.sign({ id: user.id, username: user.username}, constants.SECRET_KEY);
 
             res.json({token});
         } else {
@@ -25,5 +25,5 @@ const registerComponent = async (req, res, next) => {
     }
 }
 
-module.exports = registerComponent;
+export default registerComponent;
 

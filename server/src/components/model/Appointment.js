@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose');
+import { Schema, model } from 'mongoose';
 
 const AppointmentSchema = new Schema({
     id: {
@@ -21,4 +21,4 @@ const AppointmentSchema = new Schema({
 
 const AppointmentDetails = new model('appointment_details', AppointmentSchema);
 
-module.exports = AppointmentDetails;
+export default AppointmentDetails;

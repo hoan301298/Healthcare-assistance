@@ -1,5 +1,6 @@
-const mongoose = require('mongoose');
-const Mongo_URL = process.env.MONGO_URL;
+import mongoose from 'mongoose';
+import { constants } from '../../constant.js';
+const MONGO_URL = constants.MONGO_URL;
 
 mongoose.connection.once('open', () => {
     console.log('MongoDB connection ready!');
@@ -10,7 +11,7 @@ mongoose.connection.on('error', (err) => {
 });
 
 async function mongoConnect() {
-    await mongoose.connect(Mongo_URL, {
+    await mongoose.connect(MONGO_URL, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });
@@ -20,7 +21,7 @@ async function mongoDisconnect() {
     await mongoose.disconnect();
 };
 
-module.exports = {
+export {
     mongoConnect,
     mongoDisconnect
 };

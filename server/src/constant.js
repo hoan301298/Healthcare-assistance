@@ -1,13 +1,14 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-const constants = {
+export const constants = {
     APIKEY: process.env.GOOGLE_MAP_API_KEY,
     MONGO_URL: process.env.MONGO_URL,
     SECRET_KEY: process.env.SECRET_KEY,
     ENCRYPT_KEY: process.env.ENCRYPT_KEY,
-    PLACES_NEARBY_URL: 'https://places.googleapis.com/v1/places:searchNearby',
-    PLACE_DETAIL_URL: 'https://maps.googleapis.com/maps/api/place/details/json',
+    PLACES_NEARBY_URL: process.env.PLACES_NEARBY_URL,
+    PLACE_DETAIL_URL: process.env.PLACE_DETAIL_URL,
+    ORIGIN_URL: process.env.ORIGIN_URL,
+    PORT: process.env.PORT,
+    NODEMAILER_API_KEY: process.env.NODEMAILER_API_KEY,
 };
-
-export default constants;

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import constants from '../../constant.js';
+import { constants } from '../../constant.js';
 import { detailRequest, fieldsNearBy } from './calculateDistance.js';
 
 const placesService = async (center) => {

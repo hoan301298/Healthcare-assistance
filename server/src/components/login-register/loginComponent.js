@@ -1,7 +1,7 @@
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const UserDetail = require('../model/UserDetail');
-const SECRET_KEY = process.env.SECRET_KEY;
+import jsonToken from 'jsonwebtoken';
+import { compare } from 'bcrypt';
+import { constants } from '../../constant.js';
+import UserDetail from '../model/UserDetail.js';
 
 const loginComponent = async (req, res) => {
   
@@ -12,12 +12,12 @@ const loginComponent = async (req, res) => {
     if (!user) {
       return res.status(401).json({ error: 'Invalid username or password' });
     } else {
-      bcrypt.compare(password, user.password, (err, result) => {
+      compare(password, user.password, (err, result) => {
         if (err || !result) {
           return res.status(401).json({ error: 'Invalid username or password' });
         }
   
-        const token = jwt.sign({ id: user.id, username: user.username }, SECRET_KEY);
+        const token = jsonToken.sign({ id: user.id, username: user.username }, constants.SECRET_KEY);
         res.json({ token, username });  
       });
     }
@@ -29,4 +29,4 @@ const loginComponent = async (req, res) => {
   
   //Middleware to authenticate JWT token
 
-module.exports = loginComponent;
+export default loginComponent;

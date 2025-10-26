@@ -1,6 +1,5 @@
-const { Schema, model} = require('mongoose');
+import { Schema, model } from 'mongoose';
 
-// Define the schema for the User model
 const userDetailSchema =  new Schema({
     username: {
         type: String,
@@ -15,4 +14,4 @@ const userDetailSchema =  new Schema({
 
 const UserDetail = model('user_details', userDetailSchema);
 
-module.exports = UserDetail;
+export default UserDetail;

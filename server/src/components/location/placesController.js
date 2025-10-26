@@ -11,7 +11,6 @@ const placesController = async (req, res) => {
     try {
         const response = await placesService(location.center);
 
-        // Check if Google returned results
         const places = response;
         if (places.length === 0) {
             return res.status(404).json({ message: 'No places found nearby' });

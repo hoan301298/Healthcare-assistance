@@ -1,5 +1,5 @@
 import { getDistance } from 'geolib';
-import constants from '../../constant.js';
+import { constants } from '../../constant.js';
 import axios from 'axios';
 
 export const fieldsNearBy = ["places.id","places.formattedAddress", "places.location","places.primaryType","places.rating"];
