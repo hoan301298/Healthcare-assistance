@@ -9,7 +9,7 @@ const usePlaces = () => {
     const { search, setPlaces } = useSearch();
 
     const { data, isLoading, error } = useQuery<Place[] | null, Error>({
-        queryKey: ["places", search.location],
+        queryKey: ["places", search.location, search.selectedRadius],
         queryFn: () => getplaces(search),
         enabled: !!search.location,
     })
@@ -18,7 +18,7 @@ const usePlaces = () => {
         if (data && data.length > 0) {
             setPlaces(data);
         }
-    }, [data, search?.address]);
+    }, [data]);
 
     const places = useMemo(() => {
         return (search?.places ?? []).filter((place) => {
