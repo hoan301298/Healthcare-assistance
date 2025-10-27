@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Search from "./pages/Search";
-import PlacesDetail from "./pages/FacilitiesDetail";
+import PlacesDetail from "./pages/PlaceDetail";
 import Booking from "./pages/Booking";
 import Chat from "./pages/Chat";
 import Auth from "./pages/Auth";
@@ -26,7 +26,6 @@ const App = () => (
           <Route path="/booking/:id" element={<Booking />} />
           <Route path="/chat" element={<Chat />} />
           <Route path="/auth" element={<Auth />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

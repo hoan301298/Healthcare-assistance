@@ -3,19 +3,19 @@ import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '../ui/button';
 import { MapPin, Phone, Star } from 'lucide-react';
-import { Place } from '../models/place/Place';
+import { Place } from '../models/search/Place';
 
 interface placesListProps {
-    filteredPlaces: Place[];
+    places: Place[];
 }
 
-const placesList : React.FC<placesListProps> = ({ filteredPlaces }) => {
+const placesList : React.FC<placesListProps> = ({ places }) => {
     return (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredPlaces.map((place) => (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {places.map((place) => (
                 <Card
                     key={place.id}
-                    className="hover:shadow-md transition-shadow duration-300 border-border"
+                    className="hover:shadow-md transition-shadow duration-300 border-border flex flex-col"
                 >
                     <CardHeader>
                         <div className="flex items-start justify-between mb-2">
@@ -25,7 +25,9 @@ const placesList : React.FC<placesListProps> = ({ filteredPlaces }) => {
                                 <span className="font-semibold">{place.rating}</span>
                             </div>
                         </div>
-                        <CardTitle className="text-xl">{place.detail.name}</CardTitle>
+                        <CardTitle className="text-xl whitespace-nowrap overflow-hidden text-ellipsis">
+                            {place.detail.name}
+                        </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-3">
                         <div className="flex items-start gap-2 text-muted-foreground">
@@ -44,10 +46,10 @@ const placesList : React.FC<placesListProps> = ({ filteredPlaces }) => {
                             ))}
                         </div> */}
                         <CardDescription className="text-sm">
-                            Distance: {place.distance}
+                            Distance: {(place.distance / 1000).toFixed(2)} km
                         </CardDescription>
-                        <Link to={`/place/${place.id}`}>
-                            <Button className="w-full bg-primary hover:bg-primary-dark">
+                        <Link className='mt-auto rounded' to={`/place/${place.id}`}>
+                            <Button className="w-full bg-primary hover:bg-primary-dark mt-2 bottom-0">
                                 View Details
                             </Button>
                         </Link>

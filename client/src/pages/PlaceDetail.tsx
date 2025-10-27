@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { MapPin, Phone, Clock, Star, Calendar } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import clinicImage from '@/assets/clinic-interior.jpg';
-import { Place } from '@/components/models/place/Place';
+import { Place } from '@/components/models/search/Place';
 
 const PlacesDetail = () => {
   const { id } = useParams();

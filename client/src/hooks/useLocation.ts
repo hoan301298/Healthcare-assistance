@@ -1,34 +1,42 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getGeoCode } from "@/hooks/requests/requestGeocode";
 import { GeoCodeResponseDTO } from "@/components/models/DTO/GeoCodeDTO";
-import { MapLocation } from "@/components/models/location/MapLocation";
+import { MapLocation } from "@/components/models/search/MapLocation";
+import { defaultMapLocation } from "@/state/searchSlice";
+import useSearch from "./useSearch";
 
-const defaultProps: MapLocation = {
-    center: {
-        lat: 61.92410999999999,
-        lng: 25.748151
-    },
-    zoom: 6
-}
-
-export const useLocation = (address: string) => {
-    const locationQuery = address && address.trim() !== "" ? address : "Finland";
+export const useLocation = () => {
+    const { search, setMapLocation, setLocation } = useSearch();
 
     const { data, isLoading, error } = useQuery<GeoCodeResponseDTO | null, Error>({
-        queryKey: ["geocode", locationQuery],
-        queryFn: () => getGeoCode(locationQuery),
+        queryKey: ["geocode", search.address],
+        queryFn: () => getGeoCode(search.address),
+        enabled: !!search.address,
     });
+    
+    useEffect(() => {
+        if (data?.geometry?.location) {
+            setLocation({
+                latitude: data.geometry.location.lat,
+                longitude: data.geometry.location.lng
+            })
+            setMapLocation({
+                center: data.geometry.location,
+                zoom: search.address.trim() === "" || search.address.trim() === "Finland" ? 6 : 13,
+            })
+        }
+    }, [data, search?.address])
 
     const mapLocation: MapLocation = useMemo(() => {
         if (data?.geometry?.location) {
             return {
                 center: data.geometry.location,
-                zoom: !address || address.trim() === "" ? 6 : 13,
+                zoom: search.address.trim() === "" || search.address.trim() === "Finland" ? 6 : 13,
             }
         }
-        return defaultProps;
-    }, [data, address]);
+        return defaultMapLocation;
+    }, [data, search?.address]);
 
     return { mapLocation, isLoading, error };
 };

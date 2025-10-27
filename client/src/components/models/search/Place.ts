@@ -1,4 +1,4 @@
-import { Location } from "../location/Location";
+import { Location } from "./Location";
 import { PlaceDetail } from "./PlaceDetail";
 
 export interface Place {

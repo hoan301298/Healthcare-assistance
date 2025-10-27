@@ -1,3 +1,4 @@
+import { constants } from '../../constant.js';
 import { calculateDistance } from './calculateDistance.js';
 import placesService from './placesService.js';
 
@@ -17,8 +18,8 @@ const placesController = async (req, res) => {
         }
 
         const enrichedPlaces = places.map(place => ({
-          ...place,
-          distance: calculateDistance(location, place.location)
+            ...place,
+            distance: calculateDistance(location, place.location)
         }));
 
         res.json(enrichedPlaces);

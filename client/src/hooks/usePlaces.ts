@@ -1,25 +1,35 @@
-import { Place } from "@/components/models/place/Place";
+import { Place } from "@/components/models/search/Place";
 import { useQuery } from "@tanstack/react-query";
 import { getplaces } from "./requests/requestPlaces";
-import { Location } from "@/components/models/location/Location";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
+import { SelectedType } from "@/components/models/search/SelectedType";
+import useSearch from "./useSearch";
 
-const usePlaces = (location: Location) => {
+const usePlaces = () => {
+    const { search, setPlaces } = useSearch();
+
     const { data, isLoading, error } = useQuery<Place[] | null, Error>({
-        queryKey: ["places", location],
-        queryFn: () => getplaces(location),
+        queryKey: ["places", search.location],
+        queryFn: () => getplaces(search),
+        enabled: !!search.location,
     })
 
-    const places: Place[] = useMemo(() => {
-        if (data.length > 0) {
-            return data;
+    useEffect(() => {
+        if (data && data.length > 0) {
+            setPlaces(data);
         }
-        return null;
-    }, [data, location]);
+    }, [data, search?.address]);
 
-    return {
-        places, isLoading, error
-    }
+    const places = useMemo(() => {
+        return (search?.places ?? []).filter((place) => {
+            const matchesType =
+                search.selectedType === SelectedType.All || place.primaryType === search.selectedType;
+
+            return matchesType;
+        });
+    }, [search?.places, search?.selectedType, search?.selectedRadius, search?.location]);
+
+    return { places, isLoading, error }
 }
 
 export default usePlaces;

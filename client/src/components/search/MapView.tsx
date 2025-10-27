@@ -1,75 +1,70 @@
-import { memo, useState } from "react";
+import { useState } from "react";
 import { mapApiKey } from "@/constant";
-import { Place } from "../models/place/Place";
+import { Place } from "../models/search/Place";
 import { useLocation } from "@/hooks/useLocation";
 import {
     GoogleMap,
-    LoadScript,
     Marker,
     InfoWindow,
+    useJsApiLoader,
 } from "@react-google-maps/api";
 
 interface MapViewProps {
     places: Place[];
-    address: string;
 }
 
 const containerStyle: React.CSSProperties = {
     height: "500px",
     width: "100%",
+    marginBottom: "2rem",
 };
 
-const MapViewComponent: React.FC<MapViewProps> = ({ places, address }) => {
-    const { mapLocation, isLoading, error } = useLocation(address);
+const MapView: React.FC<MapViewProps> = ({ places }) => {
+    const { mapLocation, isLoading, error } = useLocation();
     const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
 
-    const handleMarkerClick = (place: Place) => {
-        setSelectedPlace(place);
-    };
+    const { isLoaded, loadError } = useJsApiLoader({
+        googleMapsApiKey: mapApiKey,
+    });
+    
+    if (!isLoaded) return <p>Loading map...</p>;
+    if (error || loadError) return <p>Error loading map</p>;
 
     return (
-        <LoadScript googleMapsApiKey={mapApiKey}>
-            {mapLocation && (
-                <GoogleMap
-                    mapContainerStyle={containerStyle}
-                    center={mapLocation.center}
-                    zoom={mapLocation.zoom}
-                >
-                    {/* {places && places.map((facility, index) => (
-                        <Marker
-                            key={index}
-                            title="Marker"
-                            position={facility.information.geometry.location}
-                            onClick={() => handleMarkerClick(facility)}
-                        />
-                    ))} */}
+        <GoogleMap
+            mapContainerStyle={containerStyle}
+            center={mapLocation.center}
+            zoom={mapLocation.zoom}
+        >
+            {places.map((place) => (
+                <Marker
+                    key={place.id}
+                    title="Marker"
+                    position={{
+                        lat: place.location.latitude,
+                        lng: place.location.longitude
+                    }}
+                    onClick={() => setSelectedPlace(place)}
+                />
+            ))}
 
-                    {/* {selectedFacility && (
-                        <InfoWindow
-                            key={selectedFacility.information.place_id}
-                            position={selectedFacility.information.geometry.location}
-                            onCloseClick={() => setSelectedFacility(null)}
-                        >
-                            <div>
-                                <h3>{selectedFacility.name}</h3>
-                                <p>
-                                    {selectedFacility.information.details.formatted_address}
-                                </p>
-                                <p>{selectedFacility.information.distance / 1000} km</p>
-                            </div>
-                        </InfoWindow>
-                    )} */}
-                </GoogleMap>
+            {selectedPlace && (
+                <InfoWindow
+                    position={{
+                        lat: selectedPlace.location.latitude,
+                        lng: selectedPlace.location.longitude
+                    }}
+                    onCloseClick={() => setSelectedPlace(null)}
+                >
+                    <div>
+                        <h3>{selectedPlace.detail.name}</h3>
+                        <p>{selectedPlace.formattedAddress}</p>
+                        <p>{(selectedPlace.distance / 1000).toFixed(2)} km</p>
+                    </div>
+                </InfoWindow>
             )}
-        </LoadScript>
+        </GoogleMap>
     );
 };
-
-export const MapView = memo(
-    MapViewComponent,
-    (prevProps, nextProps) =>
-      prevProps.address === nextProps.address &&
-      prevProps.places === nextProps.places
-);
 
 export default MapView;

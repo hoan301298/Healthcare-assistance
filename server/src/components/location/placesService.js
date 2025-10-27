@@ -10,10 +10,7 @@ const placesService = async (location) => {
         includedPrimaryTypes: ["chiropractor", "physiotherapist", "drugstore"],
         locationRestriction: {
           circle: {
-            center: {
-              latitude: location.latitude,
-              longitude: location.longitude,
-            },
+            center: location,
             radius: 5000.0,
           },
         },
