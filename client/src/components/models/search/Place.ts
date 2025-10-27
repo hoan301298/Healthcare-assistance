@@ -2,7 +2,7 @@ import { Location } from "./Location";
 import { PlaceDetail } from "./PlaceDetail";
 
 export interface Place {
-    id: number;
+    id: string;
     detail: PlaceDetail;
     primaryType: string;
     formattedAddress: string;

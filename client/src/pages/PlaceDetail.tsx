@@ -6,10 +6,13 @@ import { MapPin, Phone, Clock, Star, Calendar } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import clinicImage from '@/assets/clinic-interior.jpg';
 import { Place } from '@/components/models/search/Place';
+import useSearch from '@/hooks/useSearch';
 
 const PlacesDetail = () => {
+  const { search } = useSearch();
   const { id } = useParams();
-  const place: Place = places.find((f) => f.id === Number(id));
+
+  const place: Place = search?.places?.find((p) => p.id === id);
 
   if (!place) {
     return (
@@ -28,7 +31,7 @@ const PlacesDetail = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      
+
       <div className="container mx-auto px-4 pt-24 pb-12">
         <Link to="/search">
           <Button variant="outline" className="mb-6">
@@ -59,7 +62,7 @@ const PlacesDetail = () => {
                   alt={place.detail.name}
                   className="w-full h-64 object-cover rounded-lg"
                 />
-                
+
                 {/* <div>
                   <h3 className="text-lg font-semibold mb-2">About</h3>
                   <CardDescription className="text-base">{place.description}</CardDescription>
@@ -105,8 +108,10 @@ const PlacesDetail = () => {
                 <div className="flex items-start gap-3">
                   <Clock className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                   <div>
-                    <p className="font-medium">Hours</p>
-                    <p className="text-sm text-muted-foreground whitespace-pre-line">{place.detail.opening_hours.weekday_text}</p>
+                    <p className="font-medium">{`Opening: ${place.detail.opening_hours.open_now ? "" : "Closed"}`}</p>
+                    {place.detail.opening_hours.weekday_text.map(wt =>
+                      <p className="text-sm text-muted-foreground whitespace-pre-line">{wt}</p>
+                    )}
                   </div>
                 </div>
               </CardContent>

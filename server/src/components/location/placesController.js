@@ -1,16 +1,15 @@
-import { constants } from '../../constant.js';
 import { calculateDistance } from './calculateDistance.js';
 import placesService from './placesService.js';
 
 const placesController = async (req, res) => {
-    const location = req.body.location;
+    const { location, radius } = req.body;
 
     if (!location) {
         return res.status(400).json({ message: 'Location is required' });
     }
 
     try {
-        const response = await placesService(location);
+        const response = await placesService(location, radius);
 
         const places = response;
         if (places.length === 0) {
