@@ -1,8 +1,15 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
 
-const NotFound = () => {
+interface NotFoundProps {
+  href: string;
+  label: string;
+}
+
+const NotFound: React.FC<NotFoundProps> = ({ href, label }) => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.error("404 Error: User attempted to access non-existent route:", location.pathname);
@@ -13,9 +20,9 @@ const NotFound = () => {
       <div className="text-center">
         <h1 className="mb-4 text-4xl font-bold">404</h1>
         <p className="mb-4 text-xl text-gray-600">Oops! Page not found</p>
-        <a href="/" className="text-blue-500 underline hover:text-blue-700">
-          Return to Home
-        </a>
+        <Button onClick={() => navigate(href)} className=" text-white hover:text-blue-700">
+          {label}
+        </Button>
       </div>
     </div>
   );

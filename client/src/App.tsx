@@ -26,7 +26,7 @@ const App = () => (
           <Route path="/booking/:id" element={<Booking />} />
           <Route path="/chat" element={<Chat />} />
           <Route path="/auth" element={<Auth />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path="*" element={<NotFound href="/" label="Back to Home page"/>} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>

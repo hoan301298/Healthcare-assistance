@@ -5,7 +5,6 @@ import { Button } from '../ui/button';
 import { MapPin, Phone, Star } from 'lucide-react';
 import { Place } from '../models/search/Place';
 import { capitalizeFirst } from '../helper/capitalizeFirst';
-import { MedicalType } from '../models/search/MedicalType';
 
 interface placesListProps {
     places: Place[];

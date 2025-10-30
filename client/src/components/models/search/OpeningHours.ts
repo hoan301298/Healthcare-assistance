@@ -1,10 +1,10 @@
 export interface OpeningHours {
-    open_now: boolean;
-    periods: OnpeningHoursPerid[];
-    weekday_text: string[];
+    open_now?: boolean;
+    periods?: OnpeningHoursPeriod[];
+    weekday_text?: string[];
 }
 
-interface OnpeningHoursPerid {
+interface OnpeningHoursPeriod {
     close: { day: number, time: number};
     open: { day: number, time: number};
 }
