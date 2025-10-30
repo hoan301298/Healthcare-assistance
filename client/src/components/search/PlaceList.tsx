@@ -9,7 +9,7 @@ interface placesListProps {
     places: Place[];
 }
 
-const placesList : React.FC<placesListProps> = ({ places }) => {
+const placesList: React.FC<placesListProps> = ({ places }) => {
     return (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {places.map((place) => (
@@ -38,13 +38,6 @@ const placesList : React.FC<placesListProps> = ({ places }) => {
                             <Phone className="h-4 w-4 flex-shrink-0" />
                             <span className="text-sm">{place.detail.international_phone_number}</span>
                         </div>
-                        {/* <div className="flex flex-wrap gap-1">
-                            {place.specialties.map((specialty, index) => (
-                                <Badge key={index} variant="outline" className="text-xs">
-                                    {specialty}
-                                </Badge>
-                            ))}
-                        </div> */}
                         <CardDescription className="text-sm">
                             Distance: {(place.distance / 1000).toFixed(2)} km
                         </CardDescription>

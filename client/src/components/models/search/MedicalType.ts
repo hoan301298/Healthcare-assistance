@@ -1,4 +1,4 @@
-export enum SelectedType {
+export enum MedicalType {
     All = 'All',
     Hospital = 'Hospital',
     Clinic = 'Clinic',

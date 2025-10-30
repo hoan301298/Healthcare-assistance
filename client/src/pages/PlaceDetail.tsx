@@ -62,22 +62,6 @@ const PlacesDetail = () => {
                   alt={place.detail.name}
                   className="w-full h-64 object-cover rounded-lg"
                 />
-
-                {/* <div>
-                  <h3 className="text-lg font-semibold mb-2">About</h3>
-                  <CardDescription className="text-base">{place.description}</CardDescription>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold mb-2">Specialties</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {place.specialties.map((specialty, index) => (
-                      <Badge key={index} variant="outline">
-                        {specialty}
-                      </Badge>
-                    ))}
-                  </div>
-                </div> */}
               </CardContent>
             </Card>
           </div>

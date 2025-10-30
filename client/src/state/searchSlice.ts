@@ -1,13 +1,13 @@
 import { Location } from '@/components/models/search/Location';
 import { MapLocation } from '@/components/models/search/MapLocation';
 import { Place } from '@/components/models/search/Place';
-import { SelectedRadius } from '@/components/models/search/SelectedRadius';
-import { SelectedType } from '@/components/models/search/SelectedType';
+import { RadiusType } from '@/components/models/search/RadiusType';
+import { MedicalType } from '@/components/models/search/MedicalType';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface SearchState {
-  selectedType: SelectedType;
-  selectedRadius: SelectedRadius;
+  medicalType: MedicalType;
+  radiusType: RadiusType;
   address: string;
   searchQuery: string;
   location: Location | null;
@@ -24,8 +24,8 @@ export const defaultMapLocation: MapLocation = {
 }
 
 const initialState: SearchState = {
-  selectedType: SelectedType.All,
-  selectedRadius: SelectedRadius.R3000,
+  medicalType: MedicalType.All,
+  radiusType: RadiusType.R3000,
   address: 'Finland',
   searchQuery: '',
   location: null,
