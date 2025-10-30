@@ -2,12 +2,12 @@ import axios from 'axios';
 import { constants } from '../../constant.js';
 import { detailRequest, fieldsNearBy } from './calculateDistance.js';
 
-const placesService = async (location, radius) => {
+const placesService = async (location, radius, primaryType) => {
   try {
     const response = await axios.post(
       constants.PLACES_NEARBY_URL,
       {
-        includedPrimaryTypes: ["chiropractor", "physiotherapist", "drugstore"],
+        includedPrimaryTypes: [primaryType],
         locationRestriction: {
           circle: {
             center: location,

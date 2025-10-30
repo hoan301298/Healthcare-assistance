@@ -1,8 +1,8 @@
 export enum MedicalType {
-    All = 'All',
-    Hospital = 'Hospital',
-    Clinic = 'Clinic',
-    Dental = 'Dental',
-    MedicalCenter = 'Medical Center',
-    UrgentCare = 'Urgent Care',
+    hospital = 'Hospital',
+    dental_clinic = 'Dental Clinic',
+    physiotherapist = 'Physiotherapist',
+    drugstore = 'Drug Store',
+    chiropractor = 'Chiropractor',
+    pharmacy = 'Pharmacy',
 }

@@ -7,6 +7,7 @@ import Navbar from '@/components/Navbar';
 import clinicImage from '@/assets/clinic-interior.jpg';
 import { Place } from '@/components/models/search/Place';
 import useSearch from '@/hooks/useSearch';
+import { capitalizeFirst } from '@/components/helper/capitalizeFirst';
 
 const PlacesDetail = () => {
   const { search } = useSearch();
@@ -45,7 +46,7 @@ const PlacesDetail = () => {
             <Card className="border-border">
               <CardHeader>
                 <div className="flex items-start justify-between mb-4">
-                  <Badge variant="secondary" className="text-sm">{place.primaryType}</Badge>
+                  <Badge variant="secondary" className="text-sm">{capitalizeFirst(place.primaryType)}</Badge>
                   <div className="flex items-center gap-2">
                     <div className="flex items-center gap-1">
                       <Star className="h-5 w-5 fill-accent text-accent" />
@@ -79,7 +80,7 @@ const PlacesDetail = () => {
                   <div>
                     <p className="font-medium">Address</p>
                     <p className="text-sm text-muted-foreground">{place.formattedAddress}</p>
-                    <p className="text-sm text-muted-foreground">{place.distance} away</p>
+                    <p className="text-sm text-muted-foreground">{(place.distance / 1000).toFixed(2)} km</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">

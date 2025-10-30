@@ -4,6 +4,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '../ui/button';
 import { MapPin, Phone, Star } from 'lucide-react';
 import { Place } from '../models/search/Place';
+import { capitalizeFirst } from '../helper/capitalizeFirst';
+import { MedicalType } from '../models/search/MedicalType';
 
 interface placesListProps {
     places: Place[];
@@ -15,11 +17,11 @@ const placesList: React.FC<placesListProps> = ({ places }) => {
             {places.map((place) => (
                 <Card
                     key={place.id}
-                    className="hover:shadow-md transition-shadow duration-300 border-border flex flex-col"
+                    className="border-border flex flex-col transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-lg"
                 >
                     <CardHeader>
                         <div className="flex items-start justify-between mb-2">
-                            <Badge variant="secondary">{place.primaryType}</Badge>
+                            <Badge variant="secondary">{capitalizeFirst(place.primaryType)}</Badge>
                             <div className="flex items-center gap-1">
                                 <Star className="h-4 w-4 fill-accent text-accent" />
                                 <span className="font-semibold">{place.rating}</span>

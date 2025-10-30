@@ -12,7 +12,7 @@ export interface SearchState {
   searchQuery: string;
   location: Location | null;
   mapLocation: MapLocation;
-  places: Place[] | null;
+  places: Place[];
 }
 
 export const defaultMapLocation: MapLocation = {
@@ -24,13 +24,13 @@ export const defaultMapLocation: MapLocation = {
 }
 
 const initialState: SearchState = {
-  medicalType: MedicalType.All,
-  radiusType: RadiusType.R3000,
+  medicalType: MedicalType.hospital,
+  radiusType: RadiusType.R1000,
   address: 'Finland',
   searchQuery: '',
   location: null,
   mapLocation: defaultMapLocation,
-  places: null,
+  places: [],
 };
 
 const searchSlice = createSlice({
