@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getGeoCode } from "@/hooks/requests/requestGeocode";
+import { getGeoCode } from "@/hooks/requests/geocode";
 import { GeoCodeResponseDTO } from "@/components/models/DTO/GeoCodeDTO";
 import { MapLocation } from "@/components/models/search/MapLocation";
 import { defaultMapLocation } from "@/state/searchSlice";
@@ -13,6 +13,7 @@ export const useLocation = () => {
         queryKey: ["geocode", search.address],
         queryFn: () => getGeoCode(search.address),
         enabled: !!search.address,
+        refetchOnWindowFocus: false,
     });
     
     useEffect(() => {

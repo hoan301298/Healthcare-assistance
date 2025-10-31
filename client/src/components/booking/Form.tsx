@@ -6,12 +6,14 @@ import { Textarea } from "../ui/textarea"
 import { useNavigate } from "react-router-dom"
 import { useToast } from '@/hooks/use-toast';
 import { useState } from "react"
+import { FormData } from "../models/booking/FormData"
 
 const Form = () => {
     const navigate = useNavigate();
     const { toast } = useToast();
     const [date, setDate] = useState<Date | undefined>(new Date());
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<FormData>({
+        id: '',
         name: '',
         email: '',
         phone: '',
