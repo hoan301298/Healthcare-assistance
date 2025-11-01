@@ -39,6 +39,10 @@ const useSearch = () => {
         dispatch(setFilters({ places: places }));
     }
 
+    const setSelectedPlace = (place: Place) => {
+        dispatch(setFilters({ selectedPlace: place }));
+    }
+
     return {
         search,
         setAddress,
@@ -48,6 +52,7 @@ const useSearch = () => {
         setLocation,
         setMapLocation,
         setPlaces,
+        setSelectedPlace
     }
 }
 

@@ -31,17 +31,17 @@ const usePlaces = () => {
     })
 
     useEffect(() => {
-        if (data) {
+        if (data && JSON.stringify(data) !== JSON.stringify(search.places)) {
             setPlaces(data);
         }
-    }, [data]);
+    }, [data, setPlaces]);
 
     const places = useMemo(() => {
         return (search.places ? [...search.places].map(place => {
             const primaryType = getValue(MedicalType, place.primaryType);
             return { ...place, primaryType: primaryType }
         }).sort((a, b) => a.distance - b.distance) : []);
-    }, [search?.places, search?.medicalType, search?.radiusType, search?.location]);
+    }, [search.places]);
 
     return { places, isLoading, error }
 }

@@ -13,6 +13,7 @@ export interface SearchState {
   location: Location | null;
   mapLocation: MapLocation;
   places: Place[];
+  selectedPlace: Place;
 }
 
 export const defaultMapLocation: MapLocation = {
@@ -31,6 +32,7 @@ const initialState: SearchState = {
   location: null,
   mapLocation: defaultMapLocation,
   places: [],
+  selectedPlace: null,
 };
 
 const searchSlice = createSlice({

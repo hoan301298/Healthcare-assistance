@@ -6,11 +6,7 @@ import { MapPin, Phone, Star } from 'lucide-react';
 import { Place } from '../models/search/Place';
 import { capitalizeFirst } from '../helper/capitalizeFirst';
 
-interface placesListProps {
-    places: Place[];
-}
-
-const placesList: React.FC<placesListProps> = ({ places }) => {
+const PlaceList: React.FC<{ places: Place[]}> = ({ places }) => {
     return (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {places.map((place) => (
@@ -54,4 +50,4 @@ const placesList: React.FC<placesListProps> = ({ places }) => {
     )
 }
 
-export default placesList;
+export default PlaceList;
