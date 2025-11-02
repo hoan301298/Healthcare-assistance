@@ -4,7 +4,7 @@ import { Place } from "../models/search/Place"
 
 const SideBar: React.FC<{ place: Place }> = ({ place }) => {
     return (
-        <Card className="border-border" key={place.id}>
+        <Card className="border-border">
             <CardHeader>
                 <CardTitle>Contact Information</CardTitle>
             </CardHeader>

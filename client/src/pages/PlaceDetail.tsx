@@ -16,7 +16,7 @@ const PlacesDetail = () => {
   const place: Place = search?.places?.find((p) => p.id === id);
 
   if (!place) {
-    return <NotFound href="/search" label='Back to search page'/>;
+    return <NotFound href="/search" label='Back to search page' />;
   }
 
   return (
@@ -29,10 +29,10 @@ const PlacesDetail = () => {
           </Button>
         </Link>
         <div className="grid lg:grid-cols-3 gap-8">
-          <Description place={place}/>
+          <Description place={place} />
           <div className="space-y-6">
-            <SideBar place={place}/>
-            <BookingSection id={place.id}/>
+            <BookingSection id={place.id} />
+            <SideBar place={place} />
             <Assistance />
           </div>
         </div>

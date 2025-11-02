@@ -1,14 +1,12 @@
 import { Star } from "lucide-react"
 import { capitalizeFirst } from "../helper/capitalizeFirst"
 import { Badge } from "../ui/badge"
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
+import { Card, CardHeader, CardTitle } from "../ui/card"
 import { Place } from "../models/search/Place";
-import clinicImage from '@/assets/clinic-interior.jpg';
-import { mapApiKey } from "@/constant";
 import { useState } from "react";
+import ShowImage from "./content/ShowImage";
 
 const Description: React.FC<{ place: Place }> = ({ place }) => {
-    const [imageIndex, setImageIndex] = useState<number>(0);
     return (
         <div className="lg:col-span-2 space-y-6">
             <Card className="border-border">
@@ -25,21 +23,7 @@ const Description: React.FC<{ place: Place }> = ({ place }) => {
                     </div>
                     <CardTitle className="text-3xl">{place.displayName.text}</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-6 flex flex-wrap justify-center gap-4">
-                    {place.photos && place.photos.length > 0 ? (
-                        <img
-                            src={`https://places.googleapis.com/v1/${place.photos[imageIndex].name}/media?maxHeightPx=500&maxWidthPx=1000&key=${mapApiKey}`}
-                            alt={place.displayName?.text || "Place photo"}
-                            className="w-full h-[400px] object-cover rounded-lg shadow-md"
-                        />
-                    ) : (
-                        <img
-                            src={clinicImage}
-                            alt={place.displayName?.text || "Default image"}
-                            className="w-full h-64 object-cover rounded-lg"
-                        />
-                    )}
-                </CardContent>
+                <ShowImage photos={place.photos}/>
             </Card>
         </div>
     )
