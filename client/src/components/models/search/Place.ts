@@ -1,4 +1,4 @@
-import { AccessibilityOptions, DisplayName, Location, OpeningHours, ReviewDetail } from "./Properties";
+import { AccessibilityOptions, DisplayName, Location, OpeningHours, PaymentOptions, PhotoDetail, ReviewDetail } from "./Properties";
 
 export interface Place {
     id: string;
@@ -13,9 +13,9 @@ export interface Place {
     regularOpeningHours?: OpeningHours;
     userRatingCount?: number;
     reviews?: ReviewDetail[];
-    paymentOptions: any;
+    paymentOptions: PaymentOptions;
     accessibilityOptions?: AccessibilityOptions;
-    photos?: any;
+    photos?: PhotoDetail[];
     restroom: boolean;
     iconBackgroundColor?: string;
 }

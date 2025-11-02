@@ -68,3 +68,9 @@ export interface PaymentOptions {
     acceptsNFC?: boolean;
 }
 
+export interface PhotoDetail {
+    name: string;
+    heightPx: string;
+    widthPx: string;
+}
+
