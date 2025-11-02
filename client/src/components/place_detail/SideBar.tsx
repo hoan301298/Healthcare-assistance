@@ -17,29 +17,29 @@ const SideBar: React.FC<{ place: Place }> = ({ place }) => {
                         <p className="text-sm text-muted-foreground">{(place.distance / 1000).toFixed(2)} km</p>
                     </div>
                 </div>
-                {place.detail.international_phone_number &&
+                {place.internationalPhoneNumber &&
                     <div className="flex items-start gap-3">
                         <Phone className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                         <div>
                             <p className="font-medium">Phone</p>
-                            <p className="text-sm text-muted-foreground">{place.detail.international_phone_number}</p>
+                            <p className="text-sm text-muted-foreground">{place.internationalPhoneNumber}</p>
                         </div>
                     </div>
                 }
-                {place.detail.website &&
+                {place.websiteUri &&
                     <div className="flex items-start gap-3 max-w-full">
                         <Link className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                         <div>
                             <p className="font-medium">Website</p>
-                            <a href={place.detail.website} target="_blank" className="text-sm text-muted-foreground block truncate max-w-xs">{place.detail.website}</a>
+                            <a href={place.websiteUri} target="_blank" className="text-sm text-muted-foreground block truncate max-w-xs">{place.websiteUri}</a>
                         </div>
                     </div>
                 }
                 <div className="flex items-start gap-3">
                     <Clock className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                     <div>
-                        <p className="font-medium">{`Opening: ${place?.detail?.opening_hours?.open_now ? "Opened" : "Closed"}`}</p>
-                        {place?.detail?.opening_hours?.weekday_text && place.detail.opening_hours.weekday_text.map(wt =>
+                        <p className="font-medium">{`Now: ${place.regularOpeningHours?.open_now === undefined ? "No Information" : `${place.regularOpeningHours.open_now ? "Opening" : "Closeed"}` }`}</p>
+                        {place?.regularOpeningHours?.weekdayDescriptions && place.regularOpeningHours.weekdayDescriptions.map(wt =>
                             <p className="text-sm text-muted-foreground whitespace-pre-line">{wt}</p>
                         )}
                     </div>

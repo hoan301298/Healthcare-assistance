@@ -9,7 +9,6 @@ const placesController = async (req, res) => {
 
     try {
         const response = await placesService(location, radius, primaryType);
-
         res.status(200).json(response);
     } catch (error) {
         console.error('Error fetching hospitals:', error);

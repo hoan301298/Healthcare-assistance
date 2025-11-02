@@ -5,7 +5,7 @@ import usePlaces from '@/hooks/usePlaces';
 import SearchBar from '@/components/search/SearchBar';
 import Selection from '@/components/helper/Selection';
 import useSearch from '@/hooks/useSearch';
-import { MedicalType } from '@/components/models/search/MedicalType';
+import { MedicalType } from '@/components/models/search/Properties';
 
 const Search = () => {
   const { places, isLoading, error } = usePlaces();

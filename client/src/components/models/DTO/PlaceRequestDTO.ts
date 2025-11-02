@@ -1,4 +1,4 @@
-import { Location } from "../search/Location";
+import { Location } from "../search/Properties";
 
 export interface PlaceRequestDTO {
     location: Location,

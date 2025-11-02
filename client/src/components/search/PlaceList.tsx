@@ -7,6 +7,7 @@ import { Place } from '../models/search/Place';
 import { capitalizeFirst } from '../helper/capitalizeFirst';
 
 const PlaceList: React.FC<{ places: Place[]}> = ({ places }) => {
+    console.log(places);
     return (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {places.map((place) => (
@@ -23,7 +24,7 @@ const PlaceList: React.FC<{ places: Place[]}> = ({ places }) => {
                             </div>
                         </div>
                         <CardTitle className="text-xl whitespace-nowrap overflow-hidden text-ellipsis">
-                            {place.detail.name}
+                            {place.displayName.text}
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-3">
@@ -33,7 +34,7 @@ const PlaceList: React.FC<{ places: Place[]}> = ({ places }) => {
                         </div>
                         <div className="flex items-center gap-2 text-muted-foreground">
                             <Phone className="h-4 w-4 flex-shrink-0" />
-                            <span className="text-sm">{place.detail.international_phone_number}</span>
+                            <span className="text-sm">{place.internationalPhoneNumber}</span>
                         </div>
                         <CardDescription className="text-sm">
                             Distance: {(place.distance / 1000).toFixed(2)} km

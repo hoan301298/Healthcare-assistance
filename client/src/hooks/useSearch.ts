@@ -1,8 +1,5 @@
-import { Location } from "@/components/models/search/Location";
-import { MapLocation } from "@/components/models/search/MapLocation";
 import { Place } from "@/components/models/search/Place";
-import { RadiusType } from "@/components/models/search/RadiusType";
-import { MedicalType } from "@/components/models/search/MedicalType";
+import { Location, MapLocation, MedicalType, RadiusType } from "@/components/models/search/Properties";
 import { setFilters } from "@/state/searchSlice";
 import { RootState } from "@/state/store";
 import { useDispatch, useSelector } from "react-redux"

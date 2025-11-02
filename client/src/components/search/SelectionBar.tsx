@@ -1,6 +1,6 @@
 import useSearch from "@/hooks/useSearch"
 import Selection from "../helper/Selection"
-import { MedicalType } from "../models/search/MedicalType"
+import { MedicalType } from "../models/search/Properties";
 
 const SelectionBar = () => {
     const { search, setMedicalType } = useSearch();

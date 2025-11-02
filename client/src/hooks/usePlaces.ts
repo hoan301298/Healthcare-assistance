@@ -4,9 +4,8 @@ import { getPlaces } from "./requests/places";
 import { useEffect, useMemo } from "react";
 import { PlaceRequestDTO } from "@/components/models/DTO/PlaceRequestDTO";
 import { getKey, getValue } from "@/components/helper/getKey";
-import { RadiusType } from "@/components/models/search/RadiusType";
-import { MedicalType } from "@/components/models/search/MedicalType";
 import useSearch from "./useSearch";
+import { MedicalType, RadiusType } from "@/components/models/search/Properties";
 
 const usePlaces = () => {
     const { search, setPlaces } = useSearch();
