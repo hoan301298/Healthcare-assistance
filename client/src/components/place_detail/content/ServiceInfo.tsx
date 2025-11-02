@@ -32,84 +32,80 @@ const ServiceInfo: React.FC<{ place: Place }> = ({ place }) => {
                 </div>
             </div>
             {/* Accessibility */}
-            {accessibility && (
-                <div className="flex items-start gap-3">
-                    <Accessibility className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                    <div>
-                        <p className="font-medium mb-2">Accessibility</p>
-                        <p className="text-sm text-muted-foreground mb-1">
-                            {accessibility?.wheelchairAccessibleEntrance === true
-                                ? "✅ Wheelchair accessible entrance"
-                                : accessibility?.wheelchairAccessibleEntrance === false
-                                    ? "❌ No wheelchair accessible entrance"
-                                    : ""}
-                        </p>
-                        <p className="text-sm text-muted-foreground mb-1">
-                            {accessibility?.wheelchairAccessibleParking === true
-                                ? "✅ Wheelchair accessible parking"
-                                : accessibility?.wheelchairAccessibleParking === false
-                                    ? "❌ No wheelchair accessible parking"
-                                    : ""}
-                        </p>
-                        <p className="text-sm text-muted-foreground mb-1">
-                            {accessibility?.wheelchairAccessibleRestroom === true
-                                ? "✅ Wheelchair accessible restroom"
-                                : accessibility?.wheelchairAccessibleRestroom === false
-                                    ? "❌ No wheelchair accessible restroom"
-                                    : ""}
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                            {accessibility?.wheelchairAccessibleSeating === true
-                                ? "✅ Wheelchair accessible seating"
-                                : accessibility?.wheelchairAccessibleSeating === false
-                                    ? "❌ No wheelchair accessible seating"
-                                    : ""}
-                        </p>
-                    </div>
+            <div className="flex items-start gap-3">
+                <Accessibility className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                <div>
+                    <p className="font-medium mb-2">Accessibility{accessibility ? "" : ": No Information"}</p>
+                    <p className="text-sm text-muted-foreground mb-1">
+                        {accessibility?.wheelchairAccessibleEntrance === true
+                            ? "✅ Wheelchair accessible entrance"
+                            : accessibility?.wheelchairAccessibleEntrance === false
+                                ? "❌ No wheelchair accessible entrance"
+                                : ""}
+                    </p>
+                    <p className="text-sm text-muted-foreground mb-1">
+                        {accessibility?.wheelchairAccessibleParking === true
+                            ? "✅ Wheelchair accessible parking"
+                            : accessibility?.wheelchairAccessibleParking === false
+                                ? "❌ No wheelchair accessible parking"
+                                : ""}
+                    </p>
+                    <p className="text-sm text-muted-foreground mb-1">
+                        {accessibility?.wheelchairAccessibleRestroom === true
+                            ? "✅ Wheelchair accessible restroom"
+                            : accessibility?.wheelchairAccessibleRestroom === false
+                                ? "❌ No wheelchair accessible restroom"
+                                : ""}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                        {accessibility?.wheelchairAccessibleSeating === true
+                            ? "✅ Wheelchair accessible seating"
+                            : accessibility?.wheelchairAccessibleSeating === false
+                                ? "❌ No wheelchair accessible seating"
+                                : ""}
+                    </p>
                 </div>
-            )}
+            </div>
 
             {/* Payment Options */}
-            {payment && (
-                <div className="flex items-start gap-3">
-                    <CreditCard className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                    <div>
-                        <p className="font-medium mb-2">Payment Options</p>
+            <div className="flex items-start gap-3">
+                <CreditCard className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                <div>
+                    <p className="font-medium mb-2">Payment Options{payment ? "" : ": No Information"}</p>
 
-                        <p className="text-sm text-muted-foreground mb-1">
-                            {payment?.acceptsCashOnly === true
-                                ? "✅ Cash only"
-                                : payment?.acceptsCashOnly === false
-                                    ? "✅ Accepts multiple payment methods"
-                                    : "ℹ️ Cash-only status unknown"}
-                        </p>
+                    <p className="text-sm text-muted-foreground mb-1">
+                        {payment?.acceptsCashOnly === true
+                            ? "✅ Cash only"
+                            : payment?.acceptsCashOnly === false
+                                ? "✅ Accepts multiple payment methods"
+                                : "ℹ️ Cash-only status unknown"}
+                    </p>
 
-                        <p className="text-sm text-muted-foreground mb-1">
-                            {payment?.acceptsCreditCards === true
-                                ? "✅ Accepts credit cards"
-                                : payment?.acceptsCreditCards === false
-                                    ? "❌ Does not accept credit cards"
-                                    : ""}
-                        </p>
+                    <p className="text-sm text-muted-foreground mb-1">
+                        {payment?.acceptsCreditCards === true
+                            ? "✅ Accepts credit cards"
+                            : payment?.acceptsCreditCards === false
+                                ? "❌ Does not accept credit cards"
+                                : ""}
+                    </p>
 
-                        <p className="text-sm text-muted-foreground mb-1">
-                            {payment?.acceptsDebitCards === true
-                                ? "✅ Accepts debit cards"
-                                : payment?.acceptsDebitCards === false
-                                    ? "❌ Does not accept debit cards"
-                                    : ""}
-                        </p>
+                    <p className="text-sm text-muted-foreground mb-1">
+                        {payment?.acceptsDebitCards === true
+                            ? "✅ Accepts debit cards"
+                            : payment?.acceptsDebitCards === false
+                                ? "❌ Does not accept debit cards"
+                                : ""}
+                    </p>
 
-                        <p className="text-sm text-muted-foreground mb-1">
-                            {payment?.acceptsNfc === true
-                                ? "✅ Accepts contactless (NFC) payments"
-                                : payment?.acceptsNfc === false
-                                    ? "❌ No contactless (NFC) payments"
-                                    : ""}
-                        </p>
-                    </div>
+                    <p className="text-sm text-muted-foreground mb-1">
+                        {payment?.acceptsNfc === true
+                            ? "✅ Accepts contactless (NFC) payments"
+                            : payment?.acceptsNfc === false
+                                ? "❌ No contactless (NFC) payments"
+                                : ""}
+                    </p>
                 </div>
-            )}
+            </div>
         </CardContent>
     )
 }
