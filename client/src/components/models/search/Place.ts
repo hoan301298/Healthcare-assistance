@@ -13,9 +13,8 @@ export interface Place {
     regularOpeningHours?: OpeningHours;
     userRatingCount?: number;
     reviews?: ReviewDetail[];
-    paymentOptions: PaymentOptions;
+    paymentOptions?: PaymentOptions;
     accessibilityOptions?: AccessibilityOptions;
     photos?: PhotoDetail[];
     restroom: boolean;
-    iconBackgroundColor?: string;
 }

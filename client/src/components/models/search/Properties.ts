@@ -6,7 +6,7 @@ export enum RadiusType {
 }
 
 export interface OpeningHours {
-    open_now?: boolean;
+    openNow?: boolean;
     periods?: OnpeningHoursPeriod[];
     weekdayDescriptions?: string[];
     nextCloseTime?: string;
@@ -65,7 +65,7 @@ export interface PaymentOptions {
     acceptsCashOnly: boolean;
     acceptsCreditCards?: boolean;
     acceptsDebitCards?: boolean;
-    acceptsNFC?: boolean;
+    acceptsNfc?: boolean;
 }
 
 export interface PhotoDetail {

@@ -16,7 +16,6 @@ export const fields = [
     "accessibilityOptions",
     "photos",
     "restroom",
-    "iconBackgroundColor",
 ];
 
 export const calculateDistance = (currentPosition, hospitalLocation) => {
