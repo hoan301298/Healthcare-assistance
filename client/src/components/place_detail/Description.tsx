@@ -3,8 +3,8 @@ import { capitalizeFirst } from "../helper/capitalizeFirst"
 import { Badge } from "../ui/badge"
 import { Card, CardHeader, CardTitle } from "../ui/card"
 import { Place } from "../models/search/Place";
-import { useState } from "react";
-import ShowImage from "./content/ShowImage";
+import PlaceImage from "./content/PlaceImage";
+import Reviews from "./content/Reviews";
 
 const Description: React.FC<{ place: Place }> = ({ place }) => {
     return (
@@ -23,7 +23,8 @@ const Description: React.FC<{ place: Place }> = ({ place }) => {
                     </div>
                     <CardTitle className="text-3xl">{place.displayName.text}</CardTitle>
                 </CardHeader>
-                <ShowImage photos={place.photos}/>
+                <PlaceImage place={place}/>
+                <Reviews place={place}/>
             </Card>
         </div>
     )

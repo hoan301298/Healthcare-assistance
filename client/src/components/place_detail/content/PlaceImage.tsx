@@ -1,11 +1,12 @@
-import { PhotoDetail } from "@/components/models/search/Properties";
 import { CardContent } from "@/components/ui/card";
 import { useState } from "react";
 import clinicImage from '@/assets/clinic-interior.jpg';
 import { mapApiKey } from "@/constant";
+import { Place } from "@/components/models/search/Place";
 
-const ShowImage: React.FC<{ photos: PhotoDetail[] }> = ({ photos }) => {
+const PlaceImage: React.FC<{ place: Place }> = ({ place }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const photos = place.photos ?? [];
 
     const handleNext = () => {
         setCurrentIndex((prev) => (prev + 1) % photos.length);
@@ -28,13 +29,13 @@ const ShowImage: React.FC<{ photos: PhotoDetail[] }> = ({ photos }) => {
             ) : (
                 <img
                     src={clinicImage}
-                    alt={currentPhoto.name || "Default image"}
+                    alt="Default image"
                     className="w-full h-[500px] object-cover rounded-lg shadow-md"
                 />
             )}
 
             {photos.length > 1 && (
-                <div className="flex justify-center gap-4">
+                <div className="flex justify-center gap-4 items-center">
                     <button
                         onClick={handlePrev}
                         className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300"
@@ -56,4 +57,4 @@ const ShowImage: React.FC<{ photos: PhotoDetail[] }> = ({ photos }) => {
     );
 };
 
-export default ShowImage;
+export default PlaceImage;

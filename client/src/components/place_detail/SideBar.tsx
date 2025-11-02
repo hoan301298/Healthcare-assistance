@@ -9,7 +9,7 @@ const SideBar: React.FC<{ place: Place }> = ({ place }) => {
                 <CardTitle>Contact Information</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-                <div className="flex items-start gap-3">
+                <div className="flex items-start gap-3" key={place.id}>
                     <MapPin className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                     <div>
                         <p className="font-medium">Address</p>
@@ -18,7 +18,7 @@ const SideBar: React.FC<{ place: Place }> = ({ place }) => {
                     </div>
                 </div>
                 {place.internationalPhoneNumber &&
-                    <div className="flex items-start gap-3">
+                    <div className="flex items-start gap-3" key={place.id}>
                         <Phone className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                         <div>
                             <p className="font-medium">Phone</p>
