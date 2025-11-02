@@ -1,4 +1,3 @@
-import { calculateDistance } from './calculateDistance.js';
 import placesService from './placesService.js';
 
 const placesController = async (req, res) => {
@@ -11,16 +10,7 @@ const placesController = async (req, res) => {
     try {
         const response = await placesService(location, radius, primaryType);
 
-        let places = [];
-        
-        if (response.length > 0) {
-            places = response.map(place => ({
-                ...place,
-                distance: calculateDistance(location, place.location)
-            }));
-        }
-
-        res.json(places);
+        res.status(200).json(response);
     } catch (error) {
         console.error('Error fetching hospitals:', error);
         res.status(500).json({ message: 'Internal server error', error: error.message });
