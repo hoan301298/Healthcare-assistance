@@ -31,7 +31,6 @@ const ServiceInfo: React.FC<{ place: Place }> = ({ place }) => {
                     )}
                 </div>
             </div>
-            {/* Accessibility */}
             <div className="flex items-start gap-3">
                 <Accessibility className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                 <div>
@@ -66,8 +65,6 @@ const ServiceInfo: React.FC<{ place: Place }> = ({ place }) => {
                     </p>
                 </div>
             </div>
-
-            {/* Payment Options */}
             <div className="flex items-start gap-3">
                 <CreditCard className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                 <div>
@@ -78,7 +75,7 @@ const ServiceInfo: React.FC<{ place: Place }> = ({ place }) => {
                             ? "✅ Cash only"
                             : payment?.acceptsCashOnly === false
                                 ? "✅ Accepts multiple payment methods"
-                                : "ℹ️ Cash-only status unknown"}
+                                : ""}
                     </p>
 
                     <p className="text-sm text-muted-foreground mb-1">
