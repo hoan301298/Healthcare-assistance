@@ -1,7 +1,7 @@
-import { Filter } from "../models/search/Properties";
 import { Place } from "../models/search/Place";
+import { Filter } from "../models/search/SearchProperties";
 
-export const filteredPlaces = (places: Place[], filter: Filter) => {
+export const filteredPlaces = (places: Place[], filter: Filter) : Place[] | [] => {
 
     if (!places) return [];
 
@@ -21,5 +21,4 @@ export const filteredPlaces = (places: Place[], filter: Filter) => {
         default:
             return sortedPlaces;
     }
-
 }

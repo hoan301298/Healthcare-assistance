@@ -3,10 +3,11 @@ import { useQuery } from "@tanstack/react-query";
 import { getPlaces } from "./requests/places";
 import { useEffect, useMemo } from "react";
 import { PlaceRequestDTO } from "@/components/models/DTO/PlaceRequestDTO";
-import { getKey, getValue } from "@/components/helper/getKey";
+import { getKey } from "@/components/helper/KeyValue";
 import useSearch from "./useSearch";
-import { MedicalType, RadiusType } from "@/components/models/search/Properties";
+import { MedicalType } from "@/components/models/search/PlaceProperties";
 import { filteredPlaces } from "@/components/helper/filteredPlaces";
+import { RadiusType } from "@/components/models/search/SearchProperties";
 
 const usePlaces = () => {
     const { search, setPlaces } = useSearch();

@@ -1,10 +1,10 @@
-import { AccessibilityOptions, DisplayName, Location, OpeningHours, PaymentOptions, PhotoDetail, ReviewDetail } from "./Properties";
+import { AccessibilityOptions, DisplayName, Location, MedicalType, OpeningHours, PaymentOptions, PhotoDetail, ReviewDetail } from "./PlaceProperties";
 
 export interface Place {
     id: string;
     displayName: DisplayName;
     internationalPhoneNumber?: string;
-    primaryType: string;
+    primaryType: MedicalType;
     formattedAddress: string;
     rating?: number;
     distance: number;

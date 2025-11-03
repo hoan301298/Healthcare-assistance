@@ -1,11 +1,11 @@
 import useSearch from "@/hooks/useSearch"
 import Selection from "../helper/Selection"
-import { Filter, MedicalType } from "../models/search/Properties";
+import { MedicalType } from "../models/search/PlaceProperties";
 import DropDown from "../helper/DropDown";
+import { Filter } from "../models/search/SearchProperties";
 
 const SelectionBar = () => {
     const { search, setMedicalType, setFilter } = useSearch();
-    console.log(search.filter);
     return (
         <div>
             <div className="flex justify-between">

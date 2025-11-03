@@ -4,10 +4,10 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '../ui/button';
 import { MapPin, Phone, Star } from 'lucide-react';
 import { Place } from '../models/search/Place';
-import { capitalizeFirst } from '../helper/capitalizeFirst';
+import { getValue } from '../helper/KeyValue';
+import { MedicalType } from '../models/search/PlaceProperties';
 
 const PlaceList: React.FC<{ places: Place[]}> = ({ places }) => {
-    console.log(places);
     return (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {places.map((place) => (
@@ -17,7 +17,7 @@ const PlaceList: React.FC<{ places: Place[]}> = ({ places }) => {
                 >
                     <CardHeader>
                         <div className="flex items-start justify-between mb-2">
-                            <Badge variant="secondary">{capitalizeFirst(place.primaryType)}</Badge>
+                            <Badge variant="secondary">{getValue(MedicalType, place.primaryType)}</Badge>
                             <div className="flex items-center gap-1">
                                 <Star className="h-4 w-4 fill-accent text-accent" />
                                 <span className="font-semibold">{place.rating}</span>

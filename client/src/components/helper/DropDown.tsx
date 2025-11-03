@@ -26,7 +26,7 @@ const DropDown = <T extends string,>({ values, selectedValue, label, setValue }:
                 <Button
                     size="lg"
                     variant="outline"
-                    className="gap-3 text-md min-w-[7rem] shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 flex items-center justify-center"
+                    className="gap-3 text-md min-w-[7rem] flex items-center justify-center"
                 >
                     <ListFilter className="text-3xl transition-transform duration-200 group-data-[state=open]:rotate-180" />
                     {selectedValue}

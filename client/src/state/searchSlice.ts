@@ -1,5 +1,6 @@
 import { Place } from '@/components/models/search/Place';
-import { Filter, Location, MapLocation, MedicalType, RadiusType } from '@/components/models/search/Properties';
+import { Location, MedicalType } from '@/components/models/search/PlaceProperties';
+import { Filter, MapLocation, RadiusType } from '@/components/models/search/SearchProperties';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface SearchState {

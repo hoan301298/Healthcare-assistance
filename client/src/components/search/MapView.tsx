@@ -22,7 +22,6 @@ const MapView: React.FC<MapViewProps> = ({ places }) => {
   const { mapLocation, error } = useLocation();
   const [isReady, setIsReady] = useState(false);
 
-  // Load Google Maps script
   useEffect(() => {
     const existingScript = document.querySelector(
       `script[src*="maps.googleapis.com/maps/api/js"]`
@@ -41,7 +40,6 @@ const MapView: React.FC<MapViewProps> = ({ places }) => {
     document.body.appendChild(script);
   }, []);
 
-  // Initialize map once
   async function initMap() {
     if (!mapRef.current) return;
 
@@ -58,19 +56,16 @@ const MapView: React.FC<MapViewProps> = ({ places }) => {
     setIsReady(true);
   }
 
-  // Update markers + InfoWindows whenever `places` changes
   useEffect(() => {
     if (!isReady || !mapInstanceRef.current) return;
     const map = mapInstanceRef.current;
     const { AdvancedMarkerElement } = google.maps.marker as google.maps.MarkerLibrary;
 
-    // Clear old markers and InfoWindows
     markersRef.current.forEach((marker) => (marker.map = null));
     infoWindowsRef.current.forEach((info) => info.close());
     markersRef.current = [];
     infoWindowsRef.current = [];
 
-    // Add new markers
     places.forEach((place) => {
       if (place.location?.latitude && place.location?.longitude) {
         const position = {
@@ -84,24 +79,20 @@ const MapView: React.FC<MapViewProps> = ({ places }) => {
           title: place.displayName?.text || "Place",
         });
 
-        // Create InfoWindow
         const infoWindow = new google.maps.InfoWindow({
           content: `
             <div style="font-family:Arial;padding:6px 10px;">
               <h3 style="margin:0;font-size:16px;">${place.displayName?.text || "Unnamed Place"}</h3>
               <p style="margin:2px 0;">${place.formattedAddress || "No address available"}</p>
-              ${
-                place.distance
-                  ? `<p style="margin:2px 0;">${(place.distance / 1000).toFixed(2)} km away</p>`
-                  : ""
-              }
+              ${place.distance
+              ? `<p style="margin:2px 0;">${(place.distance / 1000).toFixed(2)} km away</p>`
+              : ""
+            }
             </div>
           `,
         });
 
-        // Add click event to open InfoWindow
         marker.addListener("click", () => {
-          // Close other open info windows
           infoWindowsRef.current.forEach((info) => info.close());
           infoWindow.open({ anchor: marker, map });
         });
@@ -111,7 +102,6 @@ const MapView: React.FC<MapViewProps> = ({ places }) => {
       }
     });
 
-    // Optionally center map on first place
     if (places.length > 0) {
       map.setCenter({
         lat: places[0].location.latitude,
@@ -121,7 +111,6 @@ const MapView: React.FC<MapViewProps> = ({ places }) => {
     }
   }, [places, isReady]);
 
-  // Update map center when user location changes
   useEffect(() => {
     if (!isReady || !mapInstanceRef.current) return;
     const map = mapInstanceRef.current;
