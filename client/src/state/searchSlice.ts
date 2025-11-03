@@ -1,5 +1,5 @@
 import { Place } from '@/components/models/search/Place';
-import { Location, MapLocation, MedicalType, RadiusType } from '@/components/models/search/Properties';
+import { Filter, Location, MapLocation, MedicalType, RadiusType } from '@/components/models/search/Properties';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface SearchState {
@@ -11,6 +11,7 @@ export interface SearchState {
   mapLocation: MapLocation;
   places: Place[];
   selectedPlace: Place;
+  filter: Filter;
 }
 
 export const defaultMapLocation: MapLocation = {
@@ -30,6 +31,7 @@ const initialState: SearchState = {
   mapLocation: defaultMapLocation,
   places: [],
   selectedPlace: null,
+  filter: Filter.distance
 };
 
 const searchSlice = createSlice({

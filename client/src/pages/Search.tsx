@@ -3,9 +3,8 @@ import MapView from '@/components/search/MapView';
 import PlaceList from '@/components/search/PlaceList';
 import usePlaces from '@/hooks/usePlaces';
 import SearchBar from '@/components/search/SearchBar';
-import Selection from '@/components/helper/Selection';
 import useSearch from '@/hooks/useSearch';
-import { MedicalType } from '@/components/models/search/Properties';
+import SelectionBar from '@/components/search/SelectionBar';
 
 const Search = () => {
   const { places, isLoading, error } = usePlaces();
@@ -23,14 +22,7 @@ const Search = () => {
         </div>
         <SearchBar />
         <MapView places={places} />
-        <Selection<MedicalType>
-          values={Object.values(MedicalType)}
-          selectedValue={search.medicalType}
-          setValue={setMedicalType}
-        />
-        <p className="text-muted-foreground my-6">
-          Found {(places?.length ?? 0)} {(places?.length === 1 ? 'place' : 'places')}
-        </p>
+        <SelectionBar />
         {places && <PlaceList places={places} />}
       </div>
     </div>

@@ -6,6 +6,7 @@ import { PlaceRequestDTO } from "@/components/models/DTO/PlaceRequestDTO";
 import { getKey, getValue } from "@/components/helper/getKey";
 import useSearch from "./useSearch";
 import { MedicalType, RadiusType } from "@/components/models/search/Properties";
+import { filteredPlaces } from "@/components/helper/filteredPlaces";
 
 const usePlaces = () => {
     const { search, setPlaces } = useSearch();
@@ -36,11 +37,8 @@ const usePlaces = () => {
     }, [data, setPlaces]);
 
     const places = useMemo(() => {
-        return (search.places ? [...search.places].map(place => {
-            const primaryType = getValue(MedicalType, place.primaryType);
-            return { ...place, primaryType: primaryType }
-        }).sort((a, b) => a.distance - b.distance) : []);
-    }, [search.places]);
+        return (search.places ? filteredPlaces(search.places, search.filter) : []);
+    }, [search.places, search.filter]);
 
     return { places, isLoading, error }
 }

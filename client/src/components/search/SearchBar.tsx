@@ -35,6 +35,7 @@ const SearchBar = () => {
                     values={Object.values(RadiusType)}
                     selectedValue={search.radiusType}
                     setValue={setRadiusType}
+                    label="Radius"
                 />
             </div>
         </div>

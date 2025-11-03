@@ -1,5 +1,5 @@
 import { Place } from "@/components/models/search/Place";
-import { Location, MapLocation, MedicalType, RadiusType } from "@/components/models/search/Properties";
+import { Filter, Location, MapLocation, MedicalType, RadiusType } from "@/components/models/search/Properties";
 import { setFilters } from "@/state/searchSlice";
 import { RootState } from "@/state/store";
 import { useDispatch, useSelector } from "react-redux"
@@ -40,6 +40,10 @@ const useSearch = () => {
         dispatch(setFilters({ selectedPlace: place }));
     }
 
+    const setFilter = (filter: Filter) => {
+        dispatch(setFilters({ filter: filter }));
+    }
+
     return {
         search,
         setAddress,
@@ -49,7 +53,8 @@ const useSearch = () => {
         setLocation,
         setMapLocation,
         setPlaces,
-        setSelectedPlace
+        setSelectedPlace,
+        setFilter
     }
 }
 

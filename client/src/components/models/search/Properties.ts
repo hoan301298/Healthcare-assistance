@@ -74,3 +74,8 @@ export interface PhotoDetail {
     widthPx: string;
 }
 
+export enum Filter {
+    distance = "Distance",
+    rating = "Rating",
+    review = "Reviews"
+}
