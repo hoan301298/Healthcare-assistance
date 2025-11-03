@@ -2,12 +2,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '../ui/button';
-import { MapPin, Phone, Star } from 'lucide-react';
+import { MapPin, Phone, Star, Link as LinkIcon } from 'lucide-react';
 import { Place } from '../models/search/Place';
 import { getValue } from '../helper/KeyValue';
 import { MedicalType } from '../models/search/PlaceProperties';
 
-const PlaceList: React.FC<{ places: Place[]}> = ({ places }) => {
+const PlaceList: React.FC<{ places: Place[] }> = ({ places }) => {
     return (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {places.map((place) => (
@@ -29,18 +29,33 @@ const PlaceList: React.FC<{ places: Place[]}> = ({ places }) => {
                     </CardHeader>
                     <CardContent className="space-y-3">
                         <div className="flex items-start gap-2 text-muted-foreground">
-                            <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                            <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0 text-primary" />
                             <span className="text-sm">{place.formattedAddress}</span>
                         </div>
-                        <div className="flex items-center gap-2 text-muted-foreground">
-                            <Phone className="h-4 w-4 flex-shrink-0" />
-                            <span className="text-sm">{place.internationalPhoneNumber}</span>
-                        </div>
-                        <CardDescription className="text-sm">
+                        {place.internationalPhoneNumber
+                            ? (
+                                <div className="flex items-center gap-2 text-muted-foreground">
+                                    <Phone className="h-4 w-4 flex-shrink-0 text-primary" />
+                                    <span className="text-sm">{place.internationalPhoneNumber}</span>
+                                </div>
+                            ) : (
+                                <div className='flex items-center gap-2 text-muted-foreground'>
+                                    <LinkIcon className="h-4 w-4 flex-shrink-0 text-primary" />
+                                    <a
+                                        href={place.websiteUri}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-sm text-muted-foreground block truncate max-w-xs"
+                                    >
+                                        {place.websiteUri}
+                                    </a>
+                                </div>
+                            )}
+                        <CardDescription className="text-sm mb-2">
                             Distance: {(place.distance / 1000).toFixed(2)} km
                         </CardDescription>
-                        <Link className='mt-auto rounded' to={`/place/${place.id}`}>
-                            <Button className="w-full bg-primary hover:bg-primary-dark mt-2 bottom-0">
+                        <Link className='rounded' to={`/place/${place.id}`}>
+                            <Button className="w-full bg-primary hover:bg-primary-dark mt-5 bottom-0">
                                 View Details
                             </Button>
                         </Link>
