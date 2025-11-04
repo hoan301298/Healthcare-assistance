@@ -5,22 +5,17 @@ import { Label } from "../ui/label"
 import { Textarea } from "../ui/textarea"
 import { useNavigate } from "react-router-dom"
 import { useToast } from '@/hooks/use-toast';
-import { useState } from "react"
 import { FormData } from "../models/booking/FormData"
-import { Place } from "../models/search/Place"
 
-const Form: React.FC<{ place: Place }> = ({ place }) => {
+interface FormProps {
+    formData: FormData;
+    setFormData: (form: FormData) => void;
+    clearFormData: () => void;
+}
+
+const Form: React.FC<FormProps> = ({ formData, setFormData, clearFormData }) => {
     const navigate = useNavigate();
     const { toast } = useToast();
-    const [date, setDate] = useState<Date | undefined>(new Date());
-    const [formData, setFormData] = useState<FormData>({
-        place: place,
-        name: '',
-        email: '',
-        phone: '',
-        time: '',
-        reason: '',
-    });
 
     const timeSlots = [
         '09:00 AM', '10:00 AM', '11:00 AM', '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM', '05:00 PM'
@@ -29,7 +24,7 @@ const Form: React.FC<{ place: Place }> = ({ place }) => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!date || !formData.time) {
+        if (!formData.date || !formData.time) {
             toast({
                 title: 'Missing Information',
                 description: 'Please select a date and time for your appointment.',
@@ -43,17 +38,21 @@ const Form: React.FC<{ place: Place }> = ({ place }) => {
             description: 'Your appointment has been successfully scheduled. Check your email for confirmation.',
         });
 
+        clearFormData();
+
         setTimeout(() => {
             navigate('/search');
         }, 2000);
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value,
+            [name]: value,
         });
     };
+
     return (
         <form onSubmit={handleSubmit} className="space-y-8">
             {/* Personal Information */}
@@ -66,7 +65,7 @@ const Form: React.FC<{ place: Place }> = ({ place }) => {
                             id="name"
                             name="name"
                             value={formData.name}
-                            onChange={e => (e)}
+                            onChange={e => handleChange(e)}
                             placeholder="John Doe"
                             required
                         />
@@ -104,8 +103,13 @@ const Form: React.FC<{ place: Place }> = ({ place }) => {
                 <div className="flex justify-center">
                     <Calendar
                         mode="single"
-                        selected={date}
-                        onSelect={setDate}
+                        selected={formData.date}
+                        onSelect={(selectedDate) => {
+                            setFormData({
+                                ...formData,
+                                date: selectedDate,
+                            });
+                        }}
                         disabled={(date) => date < new Date()}
                         className="rounded-md border border-border"
                     />
@@ -121,7 +125,7 @@ const Form: React.FC<{ place: Place }> = ({ place }) => {
                             key={time}
                             type="button"
                             variant={formData.time === time ? 'default' : 'outline'}
-                            onClick={() => setFormData({ ...formData, time })}
+                            onClick={() => setFormData({ ...formData, time: time })}
                             className={formData.time === time ? 'bg-primary hover:bg-primary-dark' : ''}
                         >
                             {time}

@@ -6,19 +6,29 @@ interface BookingState {
 }
 
 const initialState: BookingState = {
-    formData: null,
+    formData: {
+        place: null,
+        name: '',
+        email: '',
+        date: null,
+        phone: '',
+        time: null,
+        reason: '',
+    },
 }
 
 const bookingSlice = createSlice({
     name: 'booking',
     initialState,
     reducers: {
-        setFilters: (state, action: PayloadAction<Partial<BookingState>>) => {
-            Object.assign(state, action.payload);
+        setBookingForm: (state, action: PayloadAction<FormData>) => {
+            state.formData = action.payload;
         },
-        clearFilters: () => initialState,
+        clearBookingForm: (state) => {
+            state.formData = { ...initialState.formData };
+        }
     }
 });
 
-export const { setFilters, clearFilters } = bookingSlice.actions;
+export const { setBookingForm, clearBookingForm } = bookingSlice.actions;
 export default bookingSlice.reducer;

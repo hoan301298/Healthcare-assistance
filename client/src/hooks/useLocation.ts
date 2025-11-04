@@ -4,7 +4,7 @@ import { getGeoCode } from "@/hooks/requests/geocode";
 import { GeoCodeResponseDTO } from "@/components/models/DTO/GeoCodeDTO";
 import { defaultMapLocation } from "@/state/searchSlice";
 import useSearch from "./useSearch";
-import { MapLocation } from "@/components/models/search/PlaceProperties";
+import { MapLocation } from "@/components/models/search/SearchProperties";
 
 export const useLocation = () => {
     const { search, setMapLocation, setLocation } = useSearch();

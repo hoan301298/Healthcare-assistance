@@ -1,25 +1,25 @@
-import { clearFilters } from "@/state/bookingSlice";
-import { setFilters } from "@/state/searchSlice";
+import { FormData } from "@/components/models/booking/FormData";
+import { clearBookingForm, setBookingForm } from "@/state/bookingSlice";
 import { RootState } from "@/state/store"
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux"
 
 const useBooking = () => {
-    const booking = useSelector((state: RootState) => state.booking);
+    const formData = useSelector((state: RootState) => state.booking.formData);
     const dispatch = useDispatch();
 
-    const setBookingForm = (form: FormData) => {
-        dispatch(setFilters({ formData: form }));
+    const setFormData = (form: FormData) => {
+        dispatch(setBookingForm(form));
     }
 
-    const clearData = () => {
-        dispatch(clearFilters());
+    const clearFormData = () => {
+        dispatch(clearBookingForm());
     }
 
     return {
-        booking,
-        setBookingForm,
-        clearData,
+        formData,
+        setFormData,
+        clearFormData,
     }
 }
 
