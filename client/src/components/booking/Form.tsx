@@ -7,13 +7,14 @@ import { useNavigate } from "react-router-dom"
 import { useToast } from '@/hooks/use-toast';
 import { useState } from "react"
 import { FormData } from "../models/booking/FormData"
+import { Place } from "../models/search/Place"
 
-const Form = () => {
+const Form: React.FC<{ place: Place }> = ({ place }) => {
     const navigate = useNavigate();
     const { toast } = useToast();
     const [date, setDate] = useState<Date | undefined>(new Date());
     const [formData, setFormData] = useState<FormData>({
-        id: '',
+        place: place,
         name: '',
         email: '',
         phone: '',
@@ -22,7 +23,7 @@ const Form = () => {
     });
 
     const timeSlots = [
-        '09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM', '05:00 PM'
+        '09:00 AM', '10:00 AM', '11:00 AM', '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM', '05:00 PM'
     ];
 
     const handleSubmit = (e: React.FormEvent) => {

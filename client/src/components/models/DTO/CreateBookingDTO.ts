@@ -1,6 +1,6 @@
 import { Place } from "../search/Place";
 
-export interface FormData {
+export interface CreateBookingDTO {
     place: Place;
     name: string;
     email: string;
