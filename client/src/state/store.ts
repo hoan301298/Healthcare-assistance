@@ -7,6 +7,10 @@ export const store = configureStore({
     search: searchReducer,
     booking: bookingReducer
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false, // <--- here
+    }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

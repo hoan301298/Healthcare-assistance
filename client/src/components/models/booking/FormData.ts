@@ -1,7 +1,7 @@
 import { Place } from "../search/Place";
 
 export interface FormData {
-    place: Place;
+    place: Place | null;
     name: string;
     email: string;
     phone: string;

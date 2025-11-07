@@ -10,9 +10,9 @@ const initialState: BookingState = {
         place: null,
         name: '',
         email: '',
-        date: undefined,
+        date: '',
         phone: '',
-        time: null,
+        time: '',
         reason: '',
     },
 }
