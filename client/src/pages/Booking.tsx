@@ -8,6 +8,7 @@ import useSearch from '@/hooks/useSearch';
 import useBooking from '@/hooks/useBooking';
 import { useEffect } from 'react';
 import NotFound from './NotFound';
+import { capitalizeFirst } from '@/components/helper/capitalizeFirst';
 
 const Booking = () => {
   const { id } = useParams();
@@ -37,8 +38,8 @@ const Booking = () => {
           <Card className="lg:col-span-2 space-y-3">
             <CardHeader>
               <CardTitle className="text-3xl">Book an Appointment</CardTitle>
-              <CardTitle className="text-primary pt-3">Facility's name: {place?.displayName?.text || "Unknown"}</CardTitle>
-              <CardDescription className="text-base pt-2">
+              <CardTitle className="text-primary pt-2">{capitalizeFirst(place?.primaryType)}: {place?.displayName?.text || "Unknown"}</CardTitle>
+              <CardDescription className="text-base pt-5">
                 Fill in your details and select your preferred date and time
               </CardDescription>
             </CardHeader>

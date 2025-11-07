@@ -34,7 +34,6 @@ const placesService = async (location, radius, primaryType) => {
       distance: calculateDistance(location, place.location)
     }));
   
-    console.log(places);
     return places;
   } catch (error) {
     console.error('Error fetching data:', error);

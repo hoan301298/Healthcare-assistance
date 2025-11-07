@@ -65,7 +65,7 @@ const Form: React.FC<FormProps> = ({ formData, setFormData, clearFormData }) => 
                             id="name"
                             name="name"
                             value={formData.name}
-                            onChange={e => handleChange(e)}
+                            onChange={handleChange}
                             placeholder="John Doe"
                             required
                         />
@@ -107,7 +107,7 @@ const Form: React.FC<FormProps> = ({ formData, setFormData, clearFormData }) => 
                         onSelect={(selectedDate) => {
                             setFormData({
                                 ...formData,
-                                date: selectedDate,
+                                date: selectedDate ? new Date(selectedDate) : null,
                             });
                         }}
                         disabled={(date) => date < new Date()}
