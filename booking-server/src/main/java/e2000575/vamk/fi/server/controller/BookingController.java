@@ -24,19 +24,18 @@ public class BookingController {
     @Autowired
     private BookingService bookingService;
 
-    @GetMapping("/{username}")
-    public ResponseEntity<?> getAppointmentByUsername(@PathVariable String username){
-        List<BookingForm> appointments = bookingService.getAppointmentByUsername(username);
-        if(appointments.isEmpty()) {
+    @GetMapping("/get-appointment/{email}")
+    public ResponseEntity<?> getAppointmentByEmail(@PathVariable String email) {
+        List<BookingForm> list = bookingService.getAppointmentByEmail(email);
+        if (list == null) {
             return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(appointments);
         }
+        return ResponseEntity.ok(list);
     }
 
-    @GetMapping("/{username}/{id}")
-    public ResponseEntity<?> getAppointmentById(@PathVariable String username, @PathVariable String id) {
-        BookingForm appointment = bookingService.getAppointmentById(username, id);
+    @GetMapping("/get-appointment/{email}/{id}")
+    public ResponseEntity<?> getAppointmentById(@PathVariable String email, @PathVariable String id) {
+        BookingForm appointment = bookingService.getAppointmentById(id, email);
         if(appointment == null) {
             return ResponseEntity.notFound().build();
         }
@@ -45,27 +44,31 @@ public class BookingController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createAppointment(@RequestBody BookingRequestDTO requestBody) {
-        BookingForm createdForm = bookingService.createAppointment(requestBody);
-        System.out.println(requestBody);
-        if(createdForm == null) {
-            return ResponseEntity.badRequest().build();
+        try {
+            BookingForm createdForm = bookingService.createAppointment(requestBody);
+            return ResponseEntity.ok(createdForm);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        
-        return ResponseEntity.ok(createdForm);
     }
 
-    @PutMapping("/update/{username}/{id}")
-    public ResponseEntity<?> updateAppointment(@PathVariable String id, @PathVariable String username, @RequestBody BookingForm receivedForm) {
-        BookingForm updatedForm = bookingService.updateAppointmentById(id, username, receivedForm);
-        if(updatedForm == null) {
-            return ResponseEntity.badRequest().build();
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateAppointment(@PathVariable String id, @RequestBody BookingRequestDTO requestBody) {
+        try {
+            BookingForm updatedForm = bookingService.updateAppointmentById(id, requestBody);
+            return ResponseEntity.ok(updatedForm);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return ResponseEntity.ok("Appointment updated successfully");
     }
     
     @DeleteMapping("/delete/{username}/{id}")
     public ResponseEntity<?> deleteAppointment(@PathVariable String id, @PathVariable String username) {
-        String result = bookingService.deleteAppointment(username, id);
-        return ResponseEntity.ok(result);
+        try {
+            bookingService.deleteAppointment(id, username);
+            return ResponseEntity.ok("Appointment deleted successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

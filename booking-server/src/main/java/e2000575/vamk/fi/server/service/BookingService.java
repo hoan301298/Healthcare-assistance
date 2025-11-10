@@ -34,15 +34,15 @@ public class BookingService {
 
     public List<BookingForm> getAppointmentByEmail (String email) {
         for (BookingForm form : getAllAppointment()) {
-            if(form.getEmail().equals(HashUtil.hashWithHmacSHA256(email, secretConfig.getSecretKey()))) {
+            if(form.getEmail().equals(hashing(email))) {
                 appointments.add(appointment);
             }
         }
         return appointments;
     }
 
-    public BookingForm getAppointmentById(String id) {
-        for (BookingForm form : getAllAppointment()) {
+    public BookingForm getAppointmentById(String id, String email) {
+        for (BookingForm form : getAppointmentByEmail(email)) {
             if(form.getId().equals(id)) {
                 appointment = form;
             }
@@ -51,6 +51,10 @@ public class BookingService {
     }
     
     public BookingForm createAppointment(BookingRequestDTO requestBody) {
+        if (requestBody == null) {
+            throw new IllegalArgumentException("RequestBody missing!");
+        }
+
         BookingForm form = new BookingForm()
             .setHospital(requestBody.getPlace())
             .setName(requestBody.getName())
@@ -65,16 +69,10 @@ public class BookingService {
     }
 
     public BookingForm updateAppointmentById(String id, BookingRequestDTO requestBody) {
-        BookingForm form = getAppointmentById(id);
+        BookingForm form = getAppointmentById(id, requestBody.getEmail());
 
         if (form == null) {
             throw new IllegalArgumentException("No appointment found!");
-        }
-
-        String hashedEmail = hashing(requestBody.getEmail());
-        
-        if (!form.getEmail().equals(hashedEmail)) {
-            throw new IllegalArgumentException("Email mismatch");
         }
 
         if(form.getHospital().equals(requestBody.getPlace())) {
@@ -89,16 +87,10 @@ public class BookingService {
     }
 
     public void deleteAppointment(String id, String email) {
-        BookingForm form = getAppointmentById(id);
+        BookingForm form = getAppointmentById(id, email);
 
         if (form == null) {
             throw new IllegalArgumentException("No appointment found!");
-        }
-        
-        String hashedEmail = hashing(email);
-
-        if (!form.getEmail().equals(hashedEmail)) {
-            throw new IllegalArgumentException("Email mismatch");
         }
 
         bookingRepository.deleteById(id);
