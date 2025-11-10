@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import e2000575.vamk.fi.server.entity.BookingForm;
+import e2000575.vamk.fi.server.entity.DTO.BookingRequestDTO;
 import e2000575.vamk.fi.server.service.BookingService;
 
 @RestController
-@RequestMapping("/booking-form")
+@RequestMapping("/v2")
 public class BookingController {
 
     @Autowired
@@ -42,9 +43,10 @@ public class BookingController {
         return ResponseEntity.ok(appointment);
     }
 
-    @PostMapping("/create/{username}")
-    public ResponseEntity<?> createAppointment(@PathVariable String username, @RequestBody BookingForm receivedForm) {
-        BookingForm createdForm = bookingService.createAppointment(username, receivedForm);
+    @PostMapping("/create")
+    public ResponseEntity<?> createAppointment(@RequestBody BookingRequestDTO requestBody) {
+        BookingForm createdForm = bookingService.createAppointment(requestBody);
+        System.out.println(requestBody);
         if(createdForm == null) {
             return ResponseEntity.badRequest().build();
         }

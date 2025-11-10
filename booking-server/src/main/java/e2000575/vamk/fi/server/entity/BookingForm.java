@@ -1,24 +1,27 @@
 package e2000575.vamk.fi.server.entity;
 
 import lombok.*;
+import lombok.experimental.Accessors;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
+@Data
 @Document(collection = "appointment")
-@Getter
-@Setter
+@Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookingForm {
     @Id
-    private String id;  // MongoDB will auto-generate if null
-    private String username;
+    private String id;
+    private String name;
     private String email;
-    private String hospital;
+    private Hospital hospital;
     private String phone;
     private String date;
     private String time;
+    private String reason;
     private LocalDateTime createdAt = LocalDateTime.now();
 }

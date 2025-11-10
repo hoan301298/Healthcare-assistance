@@ -6,6 +6,7 @@ import { Textarea } from "../ui/textarea"
 import { useNavigate } from "react-router-dom"
 import { useToast } from '@/hooks/use-toast';
 import { FormData, timeSlots } from "../models/booking/FormData"
+import { createBooking } from "@/hooks/requests/booking"
 
 interface FormProps {
     formData: FormData;
@@ -17,7 +18,7 @@ const Form: React.FC<FormProps> = ({ formData, setFormData, clearFormData }) => 
     const navigate = useNavigate();
     const { toast } = useToast();
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (!formData.date || !formData.time) {
@@ -29,12 +30,14 @@ const Form: React.FC<FormProps> = ({ formData, setFormData, clearFormData }) => 
             return;
         }
         
+        const response = await createBooking(formData);
+        
         toast({
             title: 'Booking Confirmed!',
             description: 'Your appointment has been successfully scheduled. Check your email for confirmation.',
         });
 
-        clearFormData();
+        // clearFormData();
 
         setTimeout(() => {
             navigate('/search');
