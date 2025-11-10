@@ -1,0 +1,7 @@
+{
+    "type": "java",
+    "name": "Spring Boot Server",
+    "request": "launch",
+    "mainClass": "e2000575.vamk.fi.server.BookingServerApplication",
+    "envFile": "${workspaceFolder}/.env"
+}

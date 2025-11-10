@@ -1,5 +1,12 @@
 import { CreateBookingDTO } from "@/components/models/DTO/CreateBookingDTO";
+import axios from "axios";
 
-export const createBooking = (createBookingDTO: CreateBookingDTO) => {
+export const createBooking = async (createBooking: CreateBookingDTO) : Promise<FormData | null> => {
+    if(!createBooking) return null;
     
+    try {
+        const response = await axios.post('/v2/create')
+    } catch (error) {
+        
+    }
 }

@@ -5,7 +5,7 @@ import { Label } from "../ui/label"
 import { Textarea } from "../ui/textarea"
 import { useNavigate } from "react-router-dom"
 import { useToast } from '@/hooks/use-toast';
-import { FormData } from "../models/booking/FormData"
+import { FormData, timeSlots } from "../models/booking/FormData"
 
 interface FormProps {
     formData: FormData;
@@ -16,10 +16,6 @@ interface FormProps {
 const Form: React.FC<FormProps> = ({ formData, setFormData, clearFormData }) => {
     const navigate = useNavigate();
     const { toast } = useToast();
-
-    const timeSlots = [
-        '09:00 AM', '10:00 AM', '11:00 AM', '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM', '05:00 PM'
-    ];
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -32,7 +28,7 @@ const Form: React.FC<FormProps> = ({ formData, setFormData, clearFormData }) => 
             });
             return;
         }
-
+        
         toast({
             title: 'Booking Confirmed!',
             description: 'Your appointment has been successfully scheduled. Check your email for confirmation.',
@@ -103,11 +99,11 @@ const Form: React.FC<FormProps> = ({ formData, setFormData, clearFormData }) => 
                 <div className="flex justify-center">
                     <Calendar
                         mode="single"
-                        selected={formData.date}
+                        selected={formData.date ? new Date(formData.date) : undefined}
                         onSelect={(selectedDate) => {
                             setFormData({
                                 ...formData,
-                                date: selectedDate ? new Date(selectedDate) : null,
+                                date: selectedDate ? selectedDate.toISOString() : "",
                             });
                         }}
                         disabled={(date) => date < new Date()}

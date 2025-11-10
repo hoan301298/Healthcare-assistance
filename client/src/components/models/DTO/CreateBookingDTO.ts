@@ -6,5 +6,6 @@ export interface CreateBookingDTO {
     email: string;
     phone: string;
     time: string;
+    date: string;
     reason: string;
 }
