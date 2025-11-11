@@ -5,8 +5,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SecretConfig {
-    @Value("${myapp.secret-key}")
-    private String secretKey;
+
+    private final String secretKey;
+
+    public SecretConfig(@Value("${myapp.secret-key}") String secretKey) {
+        if (secretKey == null || secretKey.isEmpty()) {
+            throw new IllegalStateException("SECRET_KEY not defined");
+        }
+        this.secretKey = secretKey;
+    }
 
     public String getSecretKey() {
         return secretKey;

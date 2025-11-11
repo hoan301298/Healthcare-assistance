@@ -3,6 +3,7 @@ package e2000575.vamk.fi.server.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import e2000575.vamk.fi.server.entity.BookingForm;
@@ -13,13 +14,11 @@ import e2000575.vamk.fi.server.repository.BookingRepository;
 
 @Service
 public class BookingService {
-    private final BookingRepository bookingRepository;
-    private final SecretConfig secretConfig;
 
-    public BookingService(BookingRepository bookingRepository, SecretConfig secretConfig) {
-        this.bookingRepository = bookingRepository;
-        this.secretConfig = secretConfig;
-    }
+    @Autowired
+    private BookingRepository bookingRepository;
+    @Autowired
+    private SecretConfig secretConfig;
 
     List<BookingForm> appointments = new ArrayList<BookingForm>();
     BookingForm appointment = new BookingForm();
@@ -55,7 +54,7 @@ public class BookingService {
             throw new IllegalArgumentException("RequestBody missing!");
         }
 
-        BookingForm form = new BookingForm()
+        appointment
             .setHospital(requestBody.getPlace())
             .setName(requestBody.getName())
             .setPhone(requestBody.getPhone())
@@ -64,32 +63,32 @@ public class BookingService {
             .setReason(requestBody.getReason())
             .setEmail(hashing(requestBody.getEmail()));
 
-        BookingForm savedForm = bookingRepository.save(form);
+        BookingForm savedForm = bookingRepository.save(appointment);
         return savedForm;
     }
 
     public BookingForm updateAppointmentById(String id, BookingRequestDTO requestBody) {
-        BookingForm form = getAppointmentById(id, requestBody.getEmail());
+        appointment = getAppointmentById(id, requestBody.getEmail());
 
-        if (form == null) {
+        if (appointment == null) {
             throw new IllegalArgumentException("No appointment found!");
         }
 
-        if(form.getHospital().equals(requestBody.getPlace())) {
-            form.setName(requestBody.getName());
-            form.setDate(requestBody.getDate());
-            form.setTime(requestBody.getTime());
-            form.setReason(requestBody.getReason());
+        if(appointment.getHospital().equals(requestBody.getPlace())) {
+            appointment.setName(requestBody.getName());
+            appointment.setDate(requestBody.getDate());
+            appointment.setTime(requestBody.getTime());
+            appointment.setReason(requestBody.getReason());
             
-            bookingRepository.save(form);
+            bookingRepository.save(appointment);
         }
-        return form;
+        return appointment;
     }
 
     public void deleteAppointment(String id, String email) {
-        BookingForm form = getAppointmentById(id, email);
+        appointment = getAppointmentById(id, email);
 
-        if (form == null) {
+        if (appointment == null) {
             throw new IllegalArgumentException("No appointment found!");
         }
 
