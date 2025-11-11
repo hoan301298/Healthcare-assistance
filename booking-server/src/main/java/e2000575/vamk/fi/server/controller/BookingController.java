@@ -1,6 +1,6 @@
 package e2000575.vamk.fi.server.controller;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,11 +26,11 @@ public class BookingController {
 
     @GetMapping("/get-appointment/{email}")
     public ResponseEntity<?> getAppointmentByEmail(@PathVariable String email) {
-        List<BookingForm> list = bookingService.getAppointmentByEmail(email);
-        if (list == null) {
+        Optional<BookingForm> appointments = bookingService.getAppointmentByEmail(email);
+        if (appointments == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok(appointments);
     }
 
     @GetMapping("/get-appointment/{email}/{id}")
