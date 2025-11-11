@@ -40,7 +40,7 @@ public class EncryptionUtil {
         byte[] ciphertext = cipher.doFinal(input.getBytes("UTF-8"));
 
         byte[] combined = new byte[iv.length + ciphertext.length];
-        System.arraycopy(iv, 0, combined, iv.length, ciphertext.length);
+        System.arraycopy(iv, 0, combined, 0, iv.length);
         System.arraycopy(ciphertext, 0, combined, iv.length, ciphertext.length);
 
         return Base64.getEncoder().encodeToString(combined);

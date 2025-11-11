@@ -67,12 +67,9 @@ public class BookingService {
         if (requestBody == null)
             throw new IllegalArgumentException("RequestBody missing!");
 
-        String emailPlain = requestBody.getEmail();
-
         try {
-            String encryptedEmail = EncryptionUtil.encrypt(emailPlain, aesKey);
-
-            BookingForm form = new BookingForm()
+            String encryptedEmail = EncryptionUtil.encrypt(requestBody.getEmail(), aesKey);
+            appointment
                     .setHospital(requestBody.getPlace())
                     .setName(requestBody.getName())
                     .setPhone(requestBody.getPhone())
@@ -81,7 +78,7 @@ public class BookingService {
                     .setReason(requestBody.getReason())
                     .setEmail(encryptedEmail);
 
-            return bookingRepository.save(form);
+            return bookingRepository.save(appointment);
         } catch (Exception e) {
             throw new RuntimeException("Failed to encrypt email", e);
         }
