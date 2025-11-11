@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '../ui/button';
-import { MapPin, Phone, Star, Link as LinkIcon } from 'lucide-react';
+import { MapPinned, Phone, Star, Link as LinkIcon, Navigation } from 'lucide-react';
 import { Place } from '../models/search/Place';
 import { getValue } from '../helper/KeyValue';
 import { MedicalType } from '../models/search/PlaceProperties';
@@ -29,8 +29,8 @@ const PlaceList: React.FC<{ places: Place[] }> = ({ places }) => {
                     </CardHeader>
                     <CardContent className="space-y-3">
                         <div className="flex items-start gap-2 text-muted-foreground">
-                            <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0 text-primary" />
-                            <span className="text-sm">{place.formattedAddress}</span>
+                            <MapPinned className="h-4 w-4 mt-0.5 flex-shrink-0 text-primary" />
+                            <span className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">{place.formattedAddress}</span>
                         </div>
                         {place.internationalPhoneNumber
                             ? (
@@ -51,8 +51,9 @@ const PlaceList: React.FC<{ places: Place[] }> = ({ places }) => {
                                     </a>
                                 </div>
                             )}
-                        <CardDescription className="text-sm mb-2">
-                            Distance: {(place.distance / 1000).toFixed(2)} km
+                        <CardDescription className="text-sm mb-2 flex gap-2">
+                            <Navigation className="h-4 w-4 mt-0.5 flex-shrink-0 text-primary" />
+                            <span>Distance: {(place.distance / 1000).toFixed(2)} km</span>
                         </CardDescription>
                         <Link className='rounded' to={`/place/${place.id}`}>
                             <Button className="w-full bg-primary hover:bg-primary-dark mt-5 bottom-0">

@@ -13,3 +13,15 @@ export const createBooking = async (createBooking: CreateBookingDTO) : Promise<F
         return null;
     }
 }
+
+export const getBookingById = async (id: string, email: string) : Promise<FormData | null> => {
+    if (!id || !email) return null;
+
+    try {
+        const response = await axios.get(`/v2/get-appointment/${email}/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error("Fail to fetch appointment:", error);
+        return null;
+    }
+}
