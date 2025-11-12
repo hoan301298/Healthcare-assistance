@@ -3,46 +3,16 @@ import { Calendar } from "../ui/calendar"
 import { Input } from "../ui/input"
 import { Label } from "../ui/label"
 import { Textarea } from "../ui/textarea"
-import { useNavigate } from "react-router-dom"
-import { useToast } from '@/hooks/use-toast';
-import { FormData, timeSlots } from "../models/booking/FormData"
-import { createBooking } from "@/hooks/requests/booking"
+import { timeSlots } from "../models/booking/FormData"
+import useBooking from "@/hooks/useBooking"
+import { useHandleBookingSubmit } from "@/hooks/useHandleBookingSubmit"
 
-interface FormProps {
-    formData: FormData;
-    setFormData: (form: FormData) => void;
-    clearFormData: () => void;
-}
-
-const Form: React.FC<FormProps> = ({ formData, setFormData, clearFormData }) => {
-    const navigate = useNavigate();
-    const { toast } = useToast();
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        if (!formData.date || !formData.time) {
-            toast({
-                title: 'Missing Information',
-                description: 'Please select a date and time for your appointment.',
-                variant: 'destructive',
-            });
-            return;
-        }
-        
-        const response = await createBooking(formData);
-        
-        toast({
-            title: 'Booking Confirmed!',
-            description: 'Your appointment has been successfully scheduled. Check your email for confirmation.',
-        });
-
-        // clearFormData();
-
-        setTimeout(() => {
-            navigate('/appointment-detail');
-        }, 2000);
-    };
+const Form = () => {
+    const {
+        formData,
+        setFormData,
+    } = useBooking();
+    const { handleBookingSubmit } = useHandleBookingSubmit();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -53,8 +23,7 @@ const Form: React.FC<FormProps> = ({ formData, setFormData, clearFormData }) => 
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-8">
-            {/* Personal Information */}
+        <form onSubmit={handleBookingSubmit} className="space-y-8">
             <div className="space-y-4">
                 <h3 className="text-xl font-semibold">Personal Information</h3>
                 <div className="grid md:grid-cols-2 gap-4">
@@ -89,14 +58,13 @@ const Form: React.FC<FormProps> = ({ formData, setFormData, clearFormData }) => 
                             type="tel"
                             value={formData.phone}
                             onChange={handleChange}
-                            placeholder="(555) 123-4567"
+                            placeholder="01234567"
                             required
                         />
                     </div>
                 </div>
             </div>
 
-            {/* Date Selection */}
             <div className="space-y-4">
                 <h3 className="text-xl font-semibold">Select Date</h3>
                 <div className="flex justify-center">
@@ -115,7 +83,6 @@ const Form: React.FC<FormProps> = ({ formData, setFormData, clearFormData }) => 
                 </div>
             </div>
 
-            {/* Time Selection */}
             <div className="space-y-4">
                 <h3 className="text-xl font-semibold">Select Time</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -133,7 +100,6 @@ const Form: React.FC<FormProps> = ({ formData, setFormData, clearFormData }) => 
                 </div>
             </div>
 
-            {/* Reason for Visit */}
             <div className="space-y-4">
                 <h3 className="text-xl font-semibold">Reason for Visit</h3>
                 <div className="space-y-2">
@@ -149,7 +115,6 @@ const Form: React.FC<FormProps> = ({ formData, setFormData, clearFormData }) => 
                 </div>
             </div>
 
-            {/* Submit Button */}
             <div className="pt-4">
                 <Button
                     type="submit"

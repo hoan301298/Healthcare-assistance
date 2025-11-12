@@ -12,7 +12,7 @@ import { capitalizeFirst } from '@/components/helper/capitalizeFirst';
 
 const Booking = () => {
   const { id } = useParams();
-  const { formData, setFormData, clearFormData } = useBooking();
+  const { formData, setFormData } = useBooking();
   const { search } = useSearch();
   
   const place = search?.places.find(p => p.id === id);
@@ -44,11 +44,7 @@ const Booking = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Form
-                formData={formData}
-                setFormData={setFormData}
-                clearFormData={clearFormData}
-              />
+              <Form />
             </CardContent>
           </Card>
           <div className='space-y-6'>
