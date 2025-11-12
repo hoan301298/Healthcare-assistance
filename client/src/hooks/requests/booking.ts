@@ -25,3 +25,13 @@ export const getBookingById = async (id: string, email: string) : Promise<FormDa
         return null;
     }
 }
+
+export const getBookingByEmail = async (email: string) : Promise<FormData[] | null> => {
+    if (!email) return null;
+    
+    try {
+        const response = await axios.get(`/v2/`)
+    } catch (error) {
+        
+    }
+}

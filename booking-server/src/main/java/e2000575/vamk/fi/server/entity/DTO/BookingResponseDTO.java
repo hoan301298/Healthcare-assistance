@@ -1,14 +1,15 @@
 package e2000575.vamk.fi.server.entity.DTO;
 
 import e2000575.vamk.fi.server.entity.Hospital;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookingRequestDTO {
+public class BookingResponseDTO {
+    private String id;
     private Hospital place;
     private String name;
     private String email;

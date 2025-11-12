@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import e2000575.vamk.fi.server.entity.BookingForm;
 import e2000575.vamk.fi.server.entity.DTO.BookingRequestDTO;
+import e2000575.vamk.fi.server.entity.DTO.BookingResponseDTO;
 import e2000575.vamk.fi.server.service.BookingService;
 
 @RestController
@@ -26,7 +26,7 @@ public class BookingController {
 
     @GetMapping("/get-appointment/{email}")
     public ResponseEntity<?> getAppointmentByEmail(@PathVariable String email) {
-        Optional<BookingForm> appointments = bookingService.getAppointmentByEmail(email);
+        Optional<BookingResponseDTO> appointments = bookingService.getAppointmentByEmail(email);
         if (appointments == null) {
             return ResponseEntity.notFound().build();
         }
@@ -35,7 +35,7 @@ public class BookingController {
 
     @GetMapping("/get-appointment/{email}/{id}")
     public ResponseEntity<?> getAppointmentById(@PathVariable String email, @PathVariable String id) {
-        BookingForm appointment = bookingService.getAppointmentById(id, email);
+        BookingResponseDTO appointment = bookingService.getAppointmentById(id, email);
         if(appointment == null) {
             return ResponseEntity.notFound().build();
         }
@@ -45,7 +45,7 @@ public class BookingController {
     @PostMapping("/create")
     public ResponseEntity<?> createAppointment(@RequestBody BookingRequestDTO requestBody) {
         try {
-            BookingForm createdForm = bookingService.createAppointment(requestBody);
+            BookingResponseDTO createdForm = bookingService.createAppointment(requestBody);
             return ResponseEntity.ok(createdForm);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -55,7 +55,7 @@ public class BookingController {
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateAppointment(@PathVariable String id, @RequestBody BookingRequestDTO requestBody) {
         try {
-            BookingForm updatedForm = bookingService.updateAppointmentById(id, requestBody);
+            BookingResponseDTO updatedForm = bookingService.updateAppointmentById(id, requestBody);
             return ResponseEntity.ok(updatedForm);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

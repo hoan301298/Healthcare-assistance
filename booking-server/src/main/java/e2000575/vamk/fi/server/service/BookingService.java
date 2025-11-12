@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import e2000575.vamk.fi.server.entity.BookingForm;
 import e2000575.vamk.fi.server.entity.DTO.BookingRequestDTO;
+import e2000575.vamk.fi.server.entity.DTO.BookingResponseDTO;
 import e2000575.vamk.fi.server.helper.EncryptionUtil;
 import e2000575.vamk.fi.server.helper.HashUtil;
 import e2000575.vamk.fi.server.helper.SecretConfig;
@@ -28,19 +29,20 @@ public class BookingService {
         this.aesKey = EncryptionUtil.deriveKeyFromSecret(secretConfig.getSecretKey());
     }
 
-    public String hashEmail(String input) {
-        return HashUtil.hashWithHmacSHA256(input, secretConfig.getSecretKey());
+    public Optional<BookingResponseDTO> getAppointmentByEmail(String email) {
+        return bookingRepository.findByHashedEmail(hashEmail(email))
+                .map(appointment -> new BookingResponseDTO(
+                        appointment.getId(),
+                        appointment.getHospital(),
+                        appointment.getName(),
+                        decryptEmailSafely(appointment.getEncryptedEmail()),
+                        appointment.getPhone(),
+                        appointment.getTime(),
+                        appointment.getDate(),
+                        appointment.getReason()));
     }
 
-    public Optional<BookingForm> getAppointmentByEmail(String email) {
-        try {
-            return bookingRepository.findByHashedEmail(hashEmail(email));
-        } catch (Exception e) {
-            throw new RuntimeException("Error decrypting email", e);
-        }
-    }
-
-    public BookingForm getAppointmentById(String id, String email) {
+    public BookingResponseDTO getAppointmentById(String id, String email) {
         return getAppointmentByEmail(email)
                 .stream()
                 .filter(form -> form.getId().equals(id))
@@ -48,15 +50,15 @@ public class BookingService {
                 .orElse(null);
     }
 
-    public BookingForm createAppointment(BookingRequestDTO requestBody) {
+    public BookingResponseDTO createAppointment(BookingRequestDTO requestBody) {
         if (requestBody == null)
             throw new IllegalArgumentException("RequestBody missing!");
 
-        BookingForm appointment = new BookingForm();
-        
         try {
             String encryptedEmail = EncryptionUtil.encrypt(requestBody.getEmail(), aesKey);
-            appointment
+            String hashedEmail = hashEmail(requestBody.getEmail());
+
+            BookingForm appointment = new BookingForm()
                     .setHospital(requestBody.getPlace())
                     .setName(requestBody.getName())
                     .setPhone(requestBody.getPhone())
@@ -64,16 +66,18 @@ public class BookingService {
                     .setDate(requestBody.getDate())
                     .setReason(requestBody.getReason())
                     .setEncryptedEmail(encryptedEmail)
-                    .setHashedEmail(hashEmail(requestBody.getEmail()));
+                    .setHashedEmail(hashedEmail);
 
-            return bookingRepository.save(appointment);
+            BookingForm saved = bookingRepository.save(appointment);
+
+            return convertFormToResponseDTO(saved);
         } catch (Exception e) {
             throw new RuntimeException("Failed to encrypt email", e);
         }
     }
 
-    public BookingForm updateAppointmentById(String id, BookingRequestDTO requestBody) {
-        BookingForm appointment = getAppointmentById(id, requestBody.getEmail());
+    public BookingResponseDTO updateAppointmentById(String id, BookingRequestDTO requestBody) {
+        BookingForm appointment = getAppointmentByIdEntity(id, requestBody.getEmail());
 
         if (appointment == null) {
             throw new IllegalArgumentException("No appointment found!");
@@ -85,16 +89,50 @@ public class BookingService {
                 .setTime(requestBody.getTime())
                 .setReason(requestBody.getReason());
 
-        return bookingRepository.save(appointment);
+        BookingForm saved = bookingRepository.save(appointment);
+        return convertFormToResponseDTO(saved);
     }
 
     public void deleteAppointment(String id, String email) {
-        BookingForm appointment = getAppointmentById(id, email);
+        BookingForm appointment = getAppointmentByIdEntity(id, email);
 
         if (appointment == null) {
             throw new IllegalArgumentException("Appointment not found");
         }
 
         bookingRepository.deleteById(id);
+    }
+
+    private BookingForm getAppointmentByIdEntity(String id, String email) {
+        return bookingRepository.findByHashedEmail(email)
+                .stream()
+                .filter(a -> a.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private BookingResponseDTO convertFormToResponseDTO(BookingForm form) {
+        return new BookingResponseDTO(
+            form.getId(),
+            form.getHospital(),
+            form.getName(),
+            decryptEmailSafely(form.getEncryptedEmail()),
+            form.getPhone(),
+            form.getTime(),
+            form.getDate(),
+            form.getDate()
+        );
+    }
+
+    private String hashEmail(String input) {
+        return HashUtil.hashWithHmacSHA256(input, secretConfig.getSecretKey());
+    }
+
+    private String decryptEmailSafely(String encryptedEmail) {
+        try {
+            return EncryptionUtil.decrypt(encryptedEmail, aesKey);
+        } catch (Exception e) {
+            throw new RuntimeException("Fail decrypting Email", e);
+        }
     }
 }
