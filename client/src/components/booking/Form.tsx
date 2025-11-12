@@ -40,7 +40,7 @@ const Form: React.FC<FormProps> = ({ formData, setFormData, clearFormData }) => 
         // clearFormData();
 
         setTimeout(() => {
-            navigate('/search');
+            navigate('/appointment-detail');
         }, 2000);
     };
 

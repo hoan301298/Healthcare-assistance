@@ -1,15 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
 import searchReducer from './searchSlice';
 import bookingReducer from './bookingSlice';
+import appointmentReducer from './appointmentSlice';
 
 export const store = configureStore({
   reducer: {
     search: searchReducer,
-    booking: bookingReducer
+    booking: bookingReducer,
+    appointment: appointmentReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: false, // <--- here
+      serializableCheck: false,
     }),
 });
 

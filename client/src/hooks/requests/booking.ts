@@ -1,7 +1,8 @@
+import { Appointment } from "@/components/models/appointment/Appointment";
 import { CreateBookingDTO } from "@/components/models/DTO/CreateBookingDTO";
 import axios from "axios";
 
-export const createBooking = async (createBooking: CreateBookingDTO) : Promise<FormData | null> => {
+export const createBooking = async (createBooking: CreateBookingDTO) : Promise<Appointment | null> => {
     if(!createBooking) return null;
     
     try {
@@ -14,7 +15,7 @@ export const createBooking = async (createBooking: CreateBookingDTO) : Promise<F
     }
 }
 
-export const getBookingById = async (id: string, email: string) : Promise<FormData | null> => {
+export const getBookingById = async (id: string, email: string) : Promise<Appointment | null> => {
     if (!id || !email) return null;
 
     try {
@@ -26,7 +27,7 @@ export const getBookingById = async (id: string, email: string) : Promise<FormDa
     }
 }
 
-export const getBookingByEmail = async (email: string) : Promise<FormData[] | null> => {
+export const getBookingByEmail = async (email: string) : Promise<Appointment[] | null> => {
     if (!email) return null;
     
     try {
