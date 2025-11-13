@@ -6,4 +6,5 @@ export interface Appointment {
     time: string;
     date: string;
     reason: string;
+    createAt: string;
 }

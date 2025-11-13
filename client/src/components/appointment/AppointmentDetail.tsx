@@ -13,6 +13,10 @@ const AppointmentDetail: React.FC<{ appointment: Appointment | null }> = ({ appo
     return (
         <CardContent className="space-y-2 text-gray-800">
             <div>
+                <span className="font-medium">Reference Number: </span>
+                {appointment.id}
+            </div>
+            <div>
                 <span className="font-medium">Name: </span>
                 {appointment.name}
             </div>

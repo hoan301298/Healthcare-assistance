@@ -31,15 +31,7 @@ public class BookingService {
 
     public Optional<BookingResponseDTO> getAppointmentByEmail(String email) {
         return bookingRepository.findByHashedEmail(hashEmail(email))
-                .map(appointment -> new BookingResponseDTO(
-                        appointment.getId(),
-                        appointment.getHospital(),
-                        appointment.getName(),
-                        decryptEmailSafely(appointment.getEncryptedEmail()),
-                        appointment.getPhone(),
-                        appointment.getTime(),
-                        appointment.getDate(),
-                        appointment.getReason()));
+                .map(appointment -> convertFormToResponseDTO(appointment));
     }
 
     public BookingResponseDTO getAppointmentById(String id, String email) {
@@ -120,7 +112,8 @@ public class BookingService {
             form.getPhone(),
             form.getTime(),
             form.getDate(),
-            form.getDate()
+            form.getDate(),
+            form.getCreatedAt()
         );
     }
 

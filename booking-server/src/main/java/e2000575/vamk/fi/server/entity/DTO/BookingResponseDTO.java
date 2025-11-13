@@ -1,5 +1,7 @@
 package e2000575.vamk.fi.server.entity.DTO;
 
+import java.time.LocalDateTime;
+
 import e2000575.vamk.fi.server.entity.Hospital;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,4 +19,5 @@ public class BookingResponseDTO {
     private String time;
     private String date;
     private String reason;
+    private LocalDateTime createAt;
 }
