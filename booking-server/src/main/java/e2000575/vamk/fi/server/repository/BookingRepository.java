@@ -1,6 +1,6 @@
 package e2000575.vamk.fi.server.repository;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
@@ -9,5 +9,5 @@ import e2000575.vamk.fi.server.entity.BookingForm;
 
 @Repository
 public interface BookingRepository extends MongoRepository<BookingForm, String> {
-    Optional<BookingForm> findByHashedEmail(String hashedEmail);
+    List<BookingForm> findByHashedEmail(String hashedEmail);
 }

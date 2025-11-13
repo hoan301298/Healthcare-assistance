@@ -5,14 +5,14 @@ import { Label } from "../ui/label"
 import { Textarea } from "../ui/textarea"
 import { timeSlots } from "../models/booking/FormData"
 import useBooking from "@/hooks/useBooking"
-import { useHandleBookingSubmit } from "@/hooks/useHandleBookingSubmit"
+import { useHandleBookingAction } from "@/hooks/useHandleBookingAction"
 
 const Form = () => {
     const {
         formData,
         setFormData,
     } = useBooking();
-    const { handleBookingSubmit } = useHandleBookingSubmit();
+    const { handleCreateBooking } = useHandleBookingAction();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -23,7 +23,7 @@ const Form = () => {
     };
 
     return (
-        <form onSubmit={handleBookingSubmit} className="space-y-8">
+        <form onSubmit={handleCreateBooking} className="space-y-8">
             <div className="space-y-4">
                 <h3 className="text-xl font-semibold">Personal Information</h3>
                 <div className="grid md:grid-cols-2 gap-4">

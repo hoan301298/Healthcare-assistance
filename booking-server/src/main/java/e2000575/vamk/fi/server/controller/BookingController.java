@@ -1,6 +1,6 @@
 package e2000575.vamk.fi.server.controller;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +26,8 @@ public class BookingController {
 
     @GetMapping("/get-appointment/{email}")
     public ResponseEntity<?> getAppointmentByEmail(@PathVariable String email) {
-        Optional<BookingResponseDTO> appointments = bookingService.getAppointmentByEmail(email);
-        if (appointments == null) {
+        List<BookingResponseDTO> appointments = bookingService.getAppointmentByEmail(email);
+        if (appointments == null || appointments.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(appointments);

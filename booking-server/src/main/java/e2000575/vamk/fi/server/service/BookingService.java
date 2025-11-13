@@ -1,6 +1,6 @@
 package e2000575.vamk.fi.server.service;
 
-import java.util.Optional;
+import java.util.List;
 
 import javax.crypto.SecretKey;
 
@@ -29,9 +29,11 @@ public class BookingService {
         this.aesKey = EncryptionUtil.deriveKeyFromSecret(secretConfig.getSecretKey());
     }
 
-    public Optional<BookingResponseDTO> getAppointmentByEmail(String email) {
-        return bookingRepository.findByHashedEmail(hashEmail(email))
-                .map(appointment -> convertFormToResponseDTO(appointment));
+    public List<BookingResponseDTO> getAppointmentByEmail(String email) {
+        List<BookingForm> appointments = bookingRepository.findByHashedEmail(hashEmail(email));
+        return appointments.stream()
+                .map(this::convertFormToResponseDTO)
+                .toList();
     }
 
     public BookingResponseDTO getAppointmentById(String id, String email) {
@@ -105,16 +107,15 @@ public class BookingService {
 
     private BookingResponseDTO convertFormToResponseDTO(BookingForm form) {
         return new BookingResponseDTO(
-            form.getId(),
-            form.getHospital(),
-            form.getName(),
-            decryptEmailSafely(form.getEncryptedEmail()),
-            form.getPhone(),
-            form.getTime(),
-            form.getDate(),
-            form.getDate(),
-            form.getCreatedAt()
-        );
+                form.getId(),
+                form.getHospital(),
+                form.getName(),
+                decryptEmailSafely(form.getEncryptedEmail()),
+                form.getPhone(),
+                form.getTime(),
+                form.getDate(),
+                form.getDate(),
+                form.getCreatedAt());
     }
 
     private String hashEmail(String input) {

@@ -1,16 +1,21 @@
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/components/ui/use-toast";
-import { createBooking } from "@/hooks/requests/booking";
+import { createBooking, getBookingById } from "@/hooks/requests/booking";
 import { CreateBookingDTO } from "../components/models/DTO/CreateBookingDTO";
 import useBooking from "@/hooks/useBooking";
 import useAppointment from "@/hooks/useAppointment";
 
-export function useHandleBookingSubmit() {
+export function useHandleBookingAction() {
     const navigate = useNavigate();
     const { formData, clearFormData } = useBooking();
-    const { setAppointment } = useAppointment();
+    const { 
+        appointment,
+        setAppointment,
+        setEmail,
+        setReferenceId
+    } = useAppointment();
 
-    const handleBookingSubmit = async (e: React.FormEvent) => {
+    const handleCreateBooking = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (!formData.date || !formData.time) {
@@ -56,5 +61,44 @@ export function useHandleBookingSubmit() {
         }
     };
 
-    return { handleBookingSubmit };
+    const handleSearchBooking = async (e: React.FormEvent, setIsLoading: (state: boolean) => void) => {
+        e.preventDefault();
+        
+        if(!appointment.email || !appointment.referenceId) return;
+
+        try {
+            setIsLoading(true);
+            const response = await getBookingById(appointment.referenceId, appointment.email);
+            console.log(response);
+            if (response) {
+                setAppointment(response);
+                toast({
+                    title: "Appointment Found!",
+                    description: "You can print out the appointment or update it."
+                })
+            } else {
+                toast({
+                    title: "Couldn't find your appointment!",
+                    description: "Please try again with *Reference Number* and *Email*. Make sure all the fields are correct.",
+                    variant: "destructive"
+                })
+                return null;
+            }
+        } catch (error) {
+            console.error("Error to fetch appointment", error);
+            toast({
+                title: "Couldn't find your appointment!",
+                description: "Please try again with *Reference Number* and *Email*. Make sure all the fields are correct.",
+                variant: "destructive"
+            })
+            return null;
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    return { 
+        handleCreateBooking,
+        handleSearchBooking
+    };
 }
