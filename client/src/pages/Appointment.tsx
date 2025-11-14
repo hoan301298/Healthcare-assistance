@@ -31,7 +31,7 @@ const Appointment = () => {
                         <form
                             onSubmit={(e) => handleSearchBooking(e, setIsLoading)}
                         >
-                            <CardDescription className="flex gap-5">
+                            <div className="flex gap-5">
                                 <div className="flex-1">
                                     <Label htmlFor="id" className="text-black pl-1">Reference Number *</Label>
                                     <Input
@@ -62,7 +62,7 @@ const Appointment = () => {
                                     <Search />
                                     Search
                                 </Button>
-                            </CardDescription>
+                            </div>
                         </form>
                     </CardHeader>
                     <AppointmentDetail appointment={appointment.fetchedAppointment} />
@@ -73,7 +73,3 @@ const Appointment = () => {
 }
 
 export default Appointment;
-
-function useHandleBookingSubmit(): { handleSearchBooking: any; } {
-    throw new Error("Function not implemented.");
-}

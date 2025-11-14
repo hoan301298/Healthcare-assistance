@@ -11,8 +11,6 @@ export function useHandleBookingAction() {
     const { 
         appointment,
         setAppointment,
-        setEmail,
-        setReferenceId
     } = useAppointment();
 
     const handleCreateBooking = async (e: React.FormEvent) => {
@@ -20,7 +18,7 @@ export function useHandleBookingAction() {
 
         if (!formData.date || !formData.time) {
             toast({
-                title: "Missing Information",
+                title: "Missing Information!",
                 description: "Please select a date and time for your appointment.",
                 variant: "destructive",
             });
@@ -43,8 +41,7 @@ export function useHandleBookingAction() {
                 setAppointment(response);
                 toast({
                     title: "Booking Confirmed!",
-                    description:
-                        "Your appointment has been successfully scheduled. Check your email for confirmation.",
+                    description: "Your appointment has been successfully scheduled. Check your email for confirmation.",
                 });
                 clearFormData();
 
@@ -54,8 +51,7 @@ export function useHandleBookingAction() {
             console.error("Booking error:", error);
             toast({
                 title: "Error",
-                description:
-                    "Something went wrong while booking your appointment. Please try again later.",
+                description: "Something went wrong while booking your appointment. Please try again later.",
                 variant: "destructive",
             });
         }
@@ -69,7 +65,6 @@ export function useHandleBookingAction() {
         try {
             setIsLoading(true);
             const response = await getBookingById(appointment.referenceId, appointment.email);
-            console.log(response);
             if (response) {
                 setAppointment(response);
                 toast({
@@ -80,7 +75,7 @@ export function useHandleBookingAction() {
                 toast({
                     title: "Couldn't find your appointment!",
                     description: "Please try again with *Reference Number* and *Email*. Make sure all the fields are correct.",
-                    variant: "destructive"
+                    variant: "destructive",
                 })
                 return null;
             }
@@ -89,7 +84,7 @@ export function useHandleBookingAction() {
             toast({
                 title: "Couldn't find your appointment!",
                 description: "Please try again with *Reference Number* and *Email*. Make sure all the fields are correct.",
-                variant: "destructive"
+                variant: "destructive",
             })
             return null;
         } finally {
