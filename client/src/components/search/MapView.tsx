@@ -40,8 +40,23 @@ const MapView: React.FC<MapViewProps> = ({ places }) => {
     document.body.appendChild(script);
   }, []);
 
+  function waitForGoogle() {
+    return new Promise<void>((resolve) => {
+      const check = () => {
+        if (window.google && google.maps) {
+          resolve();
+        } else {
+          setTimeout(check, 50);
+        }
+      };
+      check();
+    });
+  }
+
   async function initMap() {
     if (!mapRef.current) return;
+
+    await waitForGoogle();
 
     const { Map } = (await google.maps.importLibrary("maps")) as google.maps.MapsLibrary;
     const { AdvancedMarkerElement } = (await google.maps.importLibrary("marker")) as google.maps.MarkerLibrary;

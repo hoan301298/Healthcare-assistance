@@ -26,7 +26,7 @@ const Navbar = () => {
               Find places
             </Link>
             <Link to="/appointment-detail" className="text-foreground hover:text-primary transition-colors">
-              Track Appointments
+              Track appointment
             </Link>
             <Link to="/chat" className="text-foreground hover:text-primary transition-colors">
               Chat Support

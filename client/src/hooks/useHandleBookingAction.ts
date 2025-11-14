@@ -65,6 +65,7 @@ export function useHandleBookingAction() {
         try {
             setIsLoading(true);
             const response = await getBookingById(appointment.referenceId, appointment.email);
+            
             if (response) {
                 setAppointment(response);
                 toast({
