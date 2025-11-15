@@ -6,10 +6,12 @@ import e2000575.vamk.fi.server.entity.Hospital;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Accessors(chain = true)
 public class BookingResponseDTO {
     private String id;
     private Hospital place;

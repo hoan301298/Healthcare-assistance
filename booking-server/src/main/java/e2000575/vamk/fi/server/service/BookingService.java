@@ -82,7 +82,8 @@ public class BookingService {
                 .setName(requestBody.getName())
                 .setDate(requestBody.getDate())
                 .setTime(requestBody.getTime())
-                .setReason(requestBody.getReason());
+                .setReason(requestBody.getReason())
+                .setNotes(requestBody.getNotes());
 
         BookingForm saved = bookingRepository.save(appointment);
         return convertFormToResponseDTO(saved);
@@ -107,16 +108,20 @@ public class BookingService {
     }
 
     private BookingResponseDTO convertFormToResponseDTO(BookingForm form) {
-        return new BookingResponseDTO(
-                form.getId(),
-                form.getHospital(),
-                form.getName(),
-                decryptEmailSafely(form.getEncryptedEmail()),
-                form.getPhone(),
-                form.getTime(),
-                form.getDate(),
-                form.getReason(),
-                form.getCreatedAt());
+        BookingResponseDTO response = new BookingResponseDTO();
+        response
+            .setId(form.getId())
+            .setPlace(form.getHospital())
+            .setName(form.getName())
+            .setEmail(decryptEmailSafely(form.getEncryptedEmail()))
+            .setPhone(form.getPhone())
+            .setTime(form.getTime())
+            .setDate(form.getDate())
+            .setReason(form.getReason())
+            .setNotes(form.getNotes())
+            .setCreateAt(form.getCreatedAt())
+        ;
+        return response;
     }
 
     private String hashEmail(String input) {

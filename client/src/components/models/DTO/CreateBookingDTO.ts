@@ -8,4 +8,5 @@ export interface CreateBookingDTO {
     time: string;
     date: string;
     reason: string;
+    notes: string;
 }
