@@ -28,6 +28,7 @@ public class BookingForm {
     private String date;
     private String time;
     private String reason;
+    private String notes;
     private LocalDateTime createdAt = LocalDateTime.now();
     
 }

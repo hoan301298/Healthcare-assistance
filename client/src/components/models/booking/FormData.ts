@@ -8,6 +8,7 @@ export interface FormData {
     time: string;
     date: string;
     reason: string;
+    notes: string;
 }
 
 export const timeSlots = [

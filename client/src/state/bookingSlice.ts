@@ -14,6 +14,7 @@ const initialState: BookingState = {
         phone: '',
         time: '',
         reason: '',
+        notes: ''
     },
 }
 

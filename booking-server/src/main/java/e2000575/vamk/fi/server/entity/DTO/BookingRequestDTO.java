@@ -16,4 +16,5 @@ public class BookingRequestDTO {
     private String time;
     private String date;
     private String reason;
+    private String notes;
 }

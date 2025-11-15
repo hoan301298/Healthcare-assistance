@@ -59,6 +59,7 @@ public class BookingService {
                     .setTime(requestBody.getTime())
                     .setDate(requestBody.getDate())
                     .setReason(requestBody.getReason())
+                    .setNotes(requestBody.getNotes())
                     .setEncryptedEmail(encryptedEmail)
                     .setHashedEmail(hashedEmail);
 
@@ -114,7 +115,7 @@ public class BookingService {
                 form.getPhone(),
                 form.getTime(),
                 form.getDate(),
-                form.getDate(),
+                form.getReason(),
                 form.getCreatedAt());
     }
 

@@ -19,5 +19,6 @@ public class BookingResponseDTO {
     private String time;
     private String date;
     private String reason;
+    private String notes;
     private LocalDateTime createAt;
 }

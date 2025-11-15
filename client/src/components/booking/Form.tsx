@@ -79,6 +79,7 @@ const Form = () => {
                         }}
                         disabled={(date) => date < new Date()}
                         className="rounded-md border border-border"
+                        required
                     />
                 </div>
             </div>
@@ -110,6 +111,22 @@ const Form = () => {
                         value={formData.reason}
                         onChange={handleChange}
                         placeholder="Brief description of your symptoms or reason for appointment..."
+                        rows={4}
+                        required
+                    />
+                </div>
+            </div>
+
+            <div className="space-y-4">
+                <h3 className="text-xl font-semibold">Notes</h3>
+                <div className="space-y-2">
+                    <Label htmlFor="reason">Tell us your notes</Label>
+                    <Textarea
+                        id="notes"
+                        name="notes"
+                        value={formData.notes}
+                        onChange={handleChange}
+                        placeholder="What you need when visitting..."
                         rows={4}
                     />
                 </div>
