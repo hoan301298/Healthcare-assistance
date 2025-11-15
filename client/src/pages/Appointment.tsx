@@ -21,7 +21,7 @@ const Appointment = () => {
     return (
         <div className="min-h-screen bg-background">
             <Navbar />
-            <div className="container mx-auto px-4 pt-20 pb-12 mt-5">
+            <div className="container mx-auto px-4 py-[5rem]">
                 <Card className="lg:col-span-2 space-y-3">
                     <CardHeader>
                         <CardTitle className="text-3xl">Find Appointment</CardTitle>
