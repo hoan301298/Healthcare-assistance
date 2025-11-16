@@ -2,6 +2,7 @@ import { Calendar, CircleCheckBig, Clock, FileText, Hash, Mail, Phone, StickyNot
 import { CardContent } from "../ui/card"
 import { Separator } from "../ui/separator"
 import { Appointment } from "../models/appointment/Appointment"
+import { getFormatDate } from "../helper/formatDateTime"
 
 const AppointmentContent: React.FC<{ appointment: Appointment }> = ({ appointment }) => {
     return (
@@ -62,7 +63,7 @@ const AppointmentContent: React.FC<{ appointment: Appointment }> = ({ appointmen
                             </div>
                             <div className="flex-1">
                                 <p className="text-sm font-medium text-muted-foreground mb-1">Date</p>
-                                <p className="text-base text-foreground font-medium">{appointment.date}</p>
+                                <p className="text-base text-foreground font-medium">{getFormatDate(appointment.date)}</p>
                             </div>
                         </div>
                         <div className="flex items-start gap-4 group hover:bg-muted/50 p-3 rounded-lg transition-colors">
@@ -102,8 +103,8 @@ const AppointmentContent: React.FC<{ appointment: Appointment }> = ({ appointmen
                         <CircleCheckBig className="w-5 h-5 text-accent" />
                     </div>
                     <div className="flex-1">
-                        <p className="text-sm font-medium text-muted-foreground mb-1">Create At</p>
-                        <p className="text-base text-foreground">{appointment.createAt}</p>
+                        <p className="text-sm font-medium text-muted-foreground mb-1">Created At</p>
+                        <p className="text-base text-foreground">{getFormatDate(appointment.createAt)}</p>
                     </div>
                 </div>
             </div>

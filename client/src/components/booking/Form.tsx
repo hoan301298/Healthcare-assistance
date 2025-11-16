@@ -72,9 +72,17 @@ const Form = () => {
                         mode="single"
                         selected={formData.date ? new Date(formData.date) : undefined}
                         onSelect={(selectedDate) => {
+                            if(!selectedDate) {
+                                setFormData({ ...formData, date: ""});
+                                return;
+                            }
+
+                            const adjusted = new Date(selectedDate);
+                            adjusted.setHours(adjusted.getHours() + 2); // only for UTC+2 (Finnish Time Zone)
+
                             setFormData({
                                 ...formData,
-                                date: selectedDate ? selectedDate.toISOString() : "",
+                                date: adjusted.toISOString(),
                             });
                         }}
                         disabled={(date) => date < new Date()}
