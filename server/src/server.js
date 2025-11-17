@@ -15,7 +15,8 @@ const io = new Server(server, {
   cors: {
     origin: constants.ORIGIN_URL,
     methods: ['GET', 'POST'],
-  }
+  },
+  path: "/v1/socket.io"
 });
 
 app.use(json());
