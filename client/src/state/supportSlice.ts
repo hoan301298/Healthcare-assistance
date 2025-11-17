@@ -1,12 +1,12 @@
 import { Message } from "@/components/models/chat/Message";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface MessageState {
+interface SupportState {
     messages: Message[] | null;
     inputValue: string;
 }
 
-const initialState: MessageState = {
+const initialState: SupportState = {
     messages: [
         {
             id: (Date.now() + Math.random()).toString(),
@@ -18,8 +18,8 @@ const initialState: MessageState = {
     inputValue: ''
 }
 
-const messageSlice = createSlice({
-    name: "messages",
+const supportSlice = createSlice({
+    name: "support",
     initialState,
     reducers: {
         setMessageState: (state, action: PayloadAction<Message[] | ((prev: Message[]) => Message[])>) => {
@@ -36,5 +36,5 @@ const messageSlice = createSlice({
     }
 })
 
-export const { setMessageState, setInputValueState, clearMessageState } = messageSlice.actions;
-export default messageSlice.reducer;
+export const { setMessageState, setInputValueState, clearMessageState } = supportSlice.actions;
+export default supportSlice.reducer;

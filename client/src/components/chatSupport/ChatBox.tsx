@@ -4,22 +4,21 @@ import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Send, Bot, User } from 'lucide-react';
 import { useLayoutEffect, useRef } from 'react';
-import useMessages from '@/hooks/useMessages';
+import { botResponses } from '../models/chat/BotResponses';
+import useSupport from '@/hooks/useSupport';
 
 const ChatBox = () => {
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const {
-        messageState,
+        supportState,
         setMessages,
         setInputValue,
         clearMessages
-    } = useMessages()
+    } = useSupport()
 
     useLayoutEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [messageState.messages]);
-
-    console.log(messageState.messages)
+    }, [supportState.messages]);
 
     const sendUserMessage = (text: string) => {
         setInputValue('');
@@ -33,14 +32,6 @@ const ChatBox = () => {
     };
 
     const sendBotMessage = () => {
-        const botResponses = [
-            'I understand your concern. Let me help you find the right facility.',
-            'That\'s a great question! I recommend checking out our verified places.',
-            'I can help you book an appointment. Would you like to search for places near you?',
-            'For urgent matters, I recommend visiting our urgent care places.',
-            'I\'m here to assist you with any healthcare-related questions.',
-        ];
-
         setMessages(prev => [
             ...prev,
             {
@@ -52,8 +43,8 @@ const ChatBox = () => {
         ]);
     };
     const handleSend = () => {
-        if (!messageState.inputValue.trim()) return;
-        sendUserMessage(messageState.inputValue);
+        if (!supportState.inputValue.trim()) return;
+        sendUserMessage(supportState.inputValue);
     };
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -76,7 +67,7 @@ const ChatBox = () => {
                 </CardDescription>
             </CardHeader>
             <CardContent className="flex-1 overflow-y-auto p-6 space-y-4">
-                {messageState.messages.map((message) => (
+                {supportState.messages.map((message) => (
                     <div
                         key={message.id}
                         className={`flex items-start gap-3 ${message.sender === 'user' ? 'flex-row-reverse' : ''
@@ -117,7 +108,7 @@ const ChatBox = () => {
             <div className="border-t border-border p-4">
                 <div className="flex gap-2">
                     <Input
-                        value={messageState.inputValue}
+                        value={supportState.inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
                         onKeyPress={handleKeyPress}
                         placeholder="Type your message..."

@@ -1,11 +1,11 @@
 import { Message } from "@/components/models/chat/Message";
-import { clearMessageState, setMessageState, setInputValueState } from "@/state/messagesSlice";
+import { clearMessageState, setMessageState, setInputValueState } from "@/state/supportSlice";
 import { RootState } from "@/state/store"
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux"
 
-const useMessages = () => {
-    const messageState = useSelector((state: RootState) => state.messages);
+const useSupport = () => {
+    const supportState = useSelector((state: RootState) => state.support);
     const dispatch = useDispatch();
 
     const setMessages = (update: Message[] | ((prev: Message[]) => Message[])) => {
@@ -21,11 +21,11 @@ const useMessages = () => {
     }
 
     return {
-        messageState,
+        supportState,
         setMessages,
         setInputValue,
         clearMessages
     }
 }
 
-export default useMessages;
+export default useSupport;

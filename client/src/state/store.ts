@@ -2,14 +2,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import searchReducer from './searchSlice';
 import bookingReducer from './bookingSlice';
 import appointmentReducer from './appointmentSlice';
-import messagesReducer from './messagesSlice';
+import supportReducer from './supportSlice';
 
 export const store = configureStore({
   reducer: {
     search: searchReducer,
     booking: bookingReducer,
     appointment: appointmentReducer,
-    messages: messagesReducer,
+    support: supportReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
