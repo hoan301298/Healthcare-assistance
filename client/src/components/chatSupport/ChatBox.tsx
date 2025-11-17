@@ -12,13 +12,15 @@ const ChatBox = () => {
     const {
         supportState,
         setMessages,
+        setChatDetail,
         setInputValue,
-        clearMessages
     } = useSupport()
+
+    const messages = supportState?.chatDetail?.messages ?? [];
 
     useLayoutEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [supportState.messages]);
+    }, [supportState.chatDetail.messages]);
 
     const sendUserMessage = (text: string) => {
         setInputValue('');
@@ -42,7 +44,9 @@ const ChatBox = () => {
             }
         ]);
     };
+
     const handleSend = () => {
+        if (!supportState.isVerified) return;
         if (!supportState.inputValue.trim()) return;
         sendUserMessage(supportState.inputValue);
     };
@@ -67,11 +71,10 @@ const ChatBox = () => {
                 </CardDescription>
             </CardHeader>
             <CardContent className="flex-1 overflow-y-auto p-6 space-y-4">
-                {supportState.messages.map((message) => (
+                {messages && messages.map((message) => (
                     <div
                         key={message.id}
-                        className={`flex items-start gap-3 ${message.sender === 'user' ? 'flex-row-reverse' : ''
-                            }`}
+                        className={`flex items-start gap-3 ${message.sender === 'user' ? 'flex-row-reverse' : ''}`}
                     >
                         <Avatar className={message.sender === 'bot' ? 'bg-primary/10' : 'bg-accent/10'}>
                             <AvatarFallback>
@@ -83,14 +86,12 @@ const ChatBox = () => {
                             </AvatarFallback>
                         </Avatar>
                         <div
-                            className={`flex flex-col max-w-[70%] ${message.sender === 'user' ? 'items-end' : 'items-start'
-                                }`}
+                            className={`flex flex-col max-w-[70%] ${message.sender === 'user' ? 'items-end' : 'items-start'}`}
                         >
                             <div
                                 className={`px-4 py-2 rounded-lg ${message.sender === 'bot'
                                     ? 'bg-muted text-foreground'
-                                    : 'bg-primary text-primary-foreground'
-                                    }`}
+                                    : 'bg-primary text-primary-foreground'}`}
                             >
                                 <p className="text-sm">{message.text}</p>
                             </div>
@@ -112,14 +113,17 @@ const ChatBox = () => {
                         onChange={(e) => setInputValue(e.target.value)}
                         onKeyPress={handleKeyPress}
                         placeholder="Type your message..."
-                        className="flex-1"
+                        className="flex-[0.9]"
+                        disabled={!supportState.isVerified}
                     />
                     <Button
                         onClick={handleSend}
                         size="icon"
-                        className="bg-primary hover:bg-primary-dark flex-shrink-0"
+                        className="bg-primary hover:bg-primary-dark flex-shrink-0 flex-[0.1]"
+                        disabled={!supportState.isVerified}
                     >
                         <Send className="h-4 w-4" />
+                        Send
                     </Button>
                 </div>
             </div>
