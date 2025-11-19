@@ -1,9 +1,10 @@
 import { Message } from "@/components/models/chat/Message";
-import { clearSupportState, setIsVerified, setChatDetailState, setMessageState, setInputValueState } from "@/state/supportSlice";
+import { clearSupportState, setIsVerified, setChatDetailState, setMessageState, setInputValueState, setChatRequest } from "@/state/supportSlice";
 import { RootState } from "@/state/store"
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux"
 import { ChatDetail } from "@/components/models/chat/ChatDetail";
+import { ChatInfoRequestDTO } from "@/components/models/DTO/ChatInfoRequestDTO";
 
 const useSupport = () => {
     const supportState = useSelector((state: RootState) => state.support);
@@ -25,6 +26,10 @@ const useSupport = () => {
         dispatch(setInputValueState(value));
     };
 
+    const setInfoRequest = (request: ChatInfoRequestDTO) => {
+        dispatch(setChatRequest(request));
+    }
+
     const clearData = () => {
         dispatch(clearSupportState());
     }
@@ -35,6 +40,7 @@ const useSupport = () => {
         setVerified,
         setMessages,
         setInputValue,
+        setInfoRequest,
         clearData
     }
 }

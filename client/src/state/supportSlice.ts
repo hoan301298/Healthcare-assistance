@@ -1,35 +1,31 @@
 import { ChatDetail } from "@/components/models/chat/ChatDetail";
 import { Message } from "@/components/models/chat/Message";
+import { ChatInfoRequestDTO } from "@/components/models/DTO/ChatInfoRequestDTO";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface SupportState {
-    chatDetail: ChatDetail;
+    chatDetail: ChatDetail | null;
     isVerified: boolean;
     inputValue: string;
+    chatRequest: ChatInfoRequestDTO
 }
 
 const initialState: SupportState = {
-    chatDetail: {
-        id: '',
-        username: '',
-        messages: [{
-            id: (Date.now() + Math.random()).toString(),
-            text: 'I\'m here to support you. Tell me what you need!',
-            sender: 'bot',
-            timestamp: new Date()
-        }],
-        email: '',
-    },
+    chatDetail: null,
     isVerified: false,
-    inputValue: ''
+    inputValue: '',
+    chatRequest: {
+        username: '',
+        email: ''
+    }
 }
 
 const supportSlice = createSlice({
     name: "support",
     initialState,
     reducers: {
-        setChatDetailState: (state, action: PayloadAction<Partial<ChatDetail>>) => {
-            Object.assign(state.chatDetail, action.payload);
+        setChatDetailState: (state, action: PayloadAction<ChatDetail>) => {
+            state.chatDetail = action.payload;
         },
         setMessageState: (state, action: PayloadAction<Message[] | ((prev: Message[]) => Message[])>) => {
             if (typeof action.payload === 'function') {
@@ -44,9 +40,12 @@ const supportSlice = createSlice({
         setInputValueState: (state, action: PayloadAction<string>) => {
             state.inputValue = action.payload;
         },
+        setChatRequest: (state, action: PayloadAction<Partial<ChatInfoRequestDTO>>) => {
+            Object.assign(state.chatRequest, action.payload);
+        },
         clearSupportState: () => initialState,
     }
 })
 
-export const { setChatDetailState, setMessageState, setIsVerified ,setInputValueState, clearSupportState } = supportSlice.actions;
+export const { setChatDetailState, setMessageState, setIsVerified ,setInputValueState, setChatRequest, clearSupportState } = supportSlice.actions;
 export default supportSlice.reducer;

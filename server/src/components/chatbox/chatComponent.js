@@ -1,67 +1,123 @@
-import MessageDetail from '../model/ChatText.js';
+import { encrypt } from '../helper/cryptoFunctions.js';
+import ChatDetail from '../model/ChatDetail.js';
 
 const chatComponent = (io) => {
-    let rooms = [];
-
-    const generateRoomID = () => Math.floor(Math.random() * 90000) + 10000;
 
     io.on('connection', (socket) => {
         console.log(`⚡: User connected - ${socket.id}`);
 
-        socket.on('getRooms', () => {
-            io.emit('roomsList', rooms);
+        socket.on('join-chat', async (data) => {
+            try {
+                // Validate input
+                if (!data?.id) {
+                    return socket.emit('error', { message: 'Chat ID is required' });
+                }
+
+                const chatDetail = await ChatDetail.findById(data.id);
+
+                if (!chatDetail) {
+                    console.log(`Chat not found: ${data.id}`);
+                    socket.emit('error', { message: 'Chat not found' });
+                    return socket.disconnect(true);
+                }
+
+                socket.data.chatId = chatDetail.id;
+                socket.join(chatDetail.id);
+
+                console.log(`User ${socket.id} joined chat ${chatDetail.id}`);
+                
+                socket.emit('joined-chat', {
+                    chatId: chatDetail.id,
+                    username: chatDetail.username
+                });
+
+            } catch (error) {
+                console.error('Error in join-chat:', error);
+                socket.emit('error', { message: 'Failed to join chat' });
+            }
         });
 
-        socket.on('create', (data) => {
-            const newRoom = {
-                roomID: generateRoomID(),
-                title: data.title,
-                selectedName: data.selectedName,
-            };
+        socket.on('send-message', async (data) => {
+            try {
+                // Check if user has joined a chat
+                if (!socket.data.chatId) {
+                    return socket.emit('error', { message: 'Join a chat first' });
+                }
 
-            rooms.push(newRoom);
+                // Validate message data
+                if (!data?.text || typeof data.text !== 'string') {
+                    return socket.emit('error', { message: 'Invalid message text' });
+                }
 
-            socket.join(newRoom.roomID);
-            socket.data = { ...newRoom };
+                if (!data?.sender || typeof data.sender !== 'string') {
+                    return socket.emit('error', { message: 'Invalid sender' });
+                }
 
-            socket.emit('roomDetails', newRoom);
-            io.emit('roomsList', rooms);
-        });
+                const text = data.text.trim();
+                if (text.length === 0) {
+                    return socket.emit('error', { message: 'Message cannot be empty' });
+                }
+                if (text.length > 5000) {
+                    return socket.emit('error', { message: 'Message too long (max 5000 chars)' });
+                }
 
-        socket.on('join', (room) => {
-            socket.join(room.roomID);
-            socket.data = { ...room };
-            socket.emit('roomDetails', room);
-        });
+                const chatDetail = await ChatDetail.findById(socket.data.chatId);
+                if (!chatDetail) {
+                    return socket.emit('error', { message: 'Chat not found' });
+                }
 
-        socket.on('message', async (data) => {
-            const message = new MessageDetail({
-                room_id: data.roomDetails.roomID,
-                username: data.username,
-                title: data.roomDetails.title,
-                sender: data.roomDetails.selectedName,
-                content: data.text,
-            });
+                const encryptedText = encrypt(text);
 
-            await message.save();
+                const newMessage = {
+                    id: data.id || Date.now().toString(), // Generate ID if not provided
+                    sender: data.sender,
+                    text: encryptedText,
+                    timestamp: data.timestamp || new Date()
+                };
 
-            io.to(data.roomDetails.roomID).emit('messageResponse', data);
+                chatDetail.messages.push(newMessage);
+                await chatDetail.save();
+
+                io.to(socket.data.chatId).emit('message-response', {
+                    id: newMessage.id,
+                    sender: newMessage.sender,
+                    text: text, // Send unencrypted to clients
+                    timestamp: newMessage.timestamp
+                });
+
+                console.log(`Message sent in chat ${socket.data.chatId} by ${data.sender}`);
+
+            } catch (error) {
+                console.error('Error in send-message:', error);
+                socket.emit('error', { message: 'Failed to send message' });
+            }
         });
 
         socket.on('typing', (data) => {
-            socket.to(socket.data?.roomID).emit('typingResponse', data);
+            try {
+                if (!socket.data.chatId) {
+                    return;
+                }
+
+                // Validate typing data
+                if (!data?.sender) {
+                    return;
+                }
+
+                // Broadcast to others in the room (not including sender)
+                socket.to(socket.data.chatId).emit('typing-response', {
+                    sender: data.sender,
+                    isTyping: data.isTyping || true
+                });
+
+            } catch (error) {
+                console.error('Error in typing:', error);
+            }
         });
 
         socket.on('disconnect', () => {
-            const { roomID, title } = socket.data || {};
-            if (roomID && title) {
-                rooms = rooms.filter(
-                    (room) => room.roomID !== roomID || room.title !== title
-                );
-                io.emit('roomsList', rooms);
-            }
-
             console.log(`❌: User disconnected - ${socket.id}`);
+            // Socket.IO automatically handles room cleanup
         });
     });
 };

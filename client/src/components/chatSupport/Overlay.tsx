@@ -1,22 +1,42 @@
 import useSupport from "@/hooks/useSupport";
 import { Input } from "../ui/input";
+import { useState } from "react";
+import { getChatInfo } from "@/hooks/requests/chatInfo";
 
 const Overlay = () => {
+    const [loading, setLoading] = useState<boolean>(false);
     const { 
         supportState,
         setChatDetail,
+        setInfoRequest,
         setVerified
     } = useSupport();
 
     if (supportState.isVerified) return null;
 
+    const handleStartChat = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        try {
+            setLoading(true);
+            const response = await getChatInfo(supportState.chatRequest);
+            if (response) {
+                setChatDetail(response);
+                setTimeout(() => {
+                    setVerified(true);
+                }, 1000);
+            }
+        } catch (error) {
+            console.error("Fail fetch data:", error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
     return !supportState.isVerified && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/40 z-20">
             <form 
-                onSubmit={(e) => {
-                    e.preventDefault();
-                    setVerified(true)
-                }} 
+                onSubmit={handleStartChat} 
                 className="bg-card p-6 rounded-xl shadow-lg space-y-4 w-[350px]"
             >
                 <h2 className="text-xl font-semibold">Start Chat Support</h2>
@@ -28,9 +48,9 @@ const Overlay = () => {
                     type="text"
                     placeholder="Your Name"
                     className="w-full p-2 border rounded-md"
-                    value={supportState.chatDetail.username}
-                    onChange={e => setChatDetail({
-                        ...supportState.chatDetail,
+                    value={supportState.chatRequest.username}
+                    onChange={e => setInfoRequest({
+                        ...supportState.chatRequest,
                         username: e.target.value
                     })}
                     required
@@ -40,9 +60,9 @@ const Overlay = () => {
                     type="email"
                     placeholder="Your Email"
                     className="w-full p-2 border rounded-md"
-                    value={supportState.chatDetail.email}
-                    onChange={e => setChatDetail({
-                        ...supportState.chatDetail,
+                    value={supportState.chatRequest.email}
+                    onChange={e => setInfoRequest({
+                        ...supportState.chatRequest,
                         email: e.target.value
                     })}
                     required
@@ -52,7 +72,7 @@ const Overlay = () => {
                     type="submit"
                     className="w-full bg-primary text-white py-2 rounded-md"
                 >
-                    Start Chat
+                    {loading ? "Starting..." : "Start Chat"}
                 </button>
             </form>
         </div>

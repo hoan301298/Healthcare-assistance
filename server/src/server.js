@@ -15,6 +15,7 @@ const io = new Server(server, {
   cors: {
     origin: constants.ORIGIN_URL,
     methods: ['GET', 'POST'],
+    credentials: false
   },
   path: "/v1/socket.io"
 });
@@ -23,7 +24,6 @@ app.use(json());
 app.use(cors({
   origin: constants.ORIGIN_URL,
   methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true,
 }));
 app.use('/v1', routes);
 app.use(morgan('dev'));

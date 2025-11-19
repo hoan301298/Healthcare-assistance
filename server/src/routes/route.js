@@ -7,11 +7,13 @@ import register from '../components/login-register/registerComponent.js';
 import authenticateToken from '../components/login-register/authenticateToken.js';
 import sendEmail from '../components/email/sendEmail.js';
 import { getProfile, updateUserDetails } from '../components/account/profile.js';
+import chatController from '../components/chatbox/chatController.js';
 
-router.get('/account', getProfile);
 router.get('/authenticated', authenticateToken, (req, res) => {
     res.json({message: 'Authenticated successfully'})
 })
+router.get('/account', getProfile);
+router.post('/chat/info', chatController);
 router.put('/account/update-userdetails', updateUserDetails)
 router.post('/places', placesController);
 router.post('/login', login);
