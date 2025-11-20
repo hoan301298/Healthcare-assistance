@@ -8,7 +8,6 @@ const chatComponent = (io) => {
 
         socket.on('join-chat', async (data) => {
             try {
-                // Validate input
                 if (!data?.id) {
                     return socket.emit('error', { message: 'Chat ID is required' });
                 }
@@ -39,12 +38,10 @@ const chatComponent = (io) => {
 
         socket.on('send-message', async (data) => {
             try {
-                // Check if user has joined a chat
                 if (!socket.data.chatId) {
                     return socket.emit('error', { message: 'Join a chat first' });
                 }
 
-                // Validate message data
                 if (!data?.text || typeof data.text !== 'string') {
                     return socket.emit('error', { message: 'Invalid message text' });
                 }
@@ -99,12 +96,10 @@ const chatComponent = (io) => {
                     return;
                 }
 
-                // Validate typing data
                 if (!data?.sender) {
                     return;
                 }
 
-                // Broadcast to others in the room (not including sender)
                 socket.to(socket.data.chatId).emit('typing-response', {
                     sender: data.sender,
                     isTyping: data.isTyping || true
@@ -117,7 +112,6 @@ const chatComponent = (io) => {
 
         socket.on('disconnect', () => {
             console.log(`❌: User disconnected - ${socket.id}`);
-            // Socket.IO automatically handles room cleanup
         });
     });
 };
