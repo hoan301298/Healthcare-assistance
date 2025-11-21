@@ -1,5 +1,5 @@
 import { Appointment } from "@/components/models/appointment/Appointment";
-import { CreateBookingDTO } from "@/components/models/DTO/CreateBookingDTO";
+import { CreateBookingDTO } from "@/components/models/Dto/CreateBookingDTO";
 import axios from "axios";
 
 export const createBooking = async (createBooking: CreateBookingDTO) : Promise<Appointment | null> => {

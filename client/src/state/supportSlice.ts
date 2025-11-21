@@ -1,6 +1,6 @@
 import { ChatDetail } from "@/components/models/chat/ChatDetail";
 import { Message } from "@/components/models/chat/Message";
-import { ChatInfoRequestDTO } from "@/components/models/DTO/ChatInfoRequestDTO";
+import { ChatInfoRequestDTO } from "@/components/models/Dto/ChatInfoRequestDTO";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface SupportState {

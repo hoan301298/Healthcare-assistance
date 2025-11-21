@@ -3,6 +3,7 @@ import searchReducer from './searchSlice';
 import bookingReducer from './bookingSlice';
 import appointmentReducer from './appointmentSlice';
 import supportReducer from './supportSlice';
+import authReducer from './authSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     booking: bookingReducer,
     appointment: appointmentReducer,
     support: supportReducer,
+    auth: authReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -4,7 +4,7 @@ import { RootState } from "@/state/store"
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux"
 import { ChatDetail } from "@/components/models/chat/ChatDetail";
-import { ChatInfoRequestDTO } from "@/components/models/DTO/ChatInfoRequestDTO";
+import { ChatInfoRequestDTO } from "@/components/models/Dto/ChatInfoRequestDTO";
 
 const useSupport = () => {
     const supportState = useSelector((state: RootState) => state.support);

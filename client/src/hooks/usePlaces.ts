@@ -2,7 +2,7 @@ import { Place } from "@/components/models/search/Place";
 import { useQuery } from "@tanstack/react-query";
 import { getPlaces } from "./requests/places";
 import { useEffect, useMemo } from "react";
-import { PlaceRequestDTO } from "@/components/models/DTO/PlaceRequestDTO";
+import { PlaceRequestDTO } from "@/components/models/Dto/PlaceRequestDTO";
 import { getKey } from "@/components/helper/KeyValue";
 import useSearch from "./useSearch";
 import { MedicalType } from "@/components/models/search/PlaceProperties";

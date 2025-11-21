@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/components/ui/use-toast";
 import { createBooking, getBookingById } from "@/hooks/requests/booking";
-import { CreateBookingDTO } from "../components/models/DTO/CreateBookingDTO";
+import { CreateBookingDTO } from "../components/models/Dto/CreateBookingDTO";
 import useBooking from "@/hooks/useBooking";
 import useAppointment from "@/hooks/useAppointment";
 

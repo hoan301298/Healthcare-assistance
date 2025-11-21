@@ -1,4 +1,4 @@
-import { GeoCodeResponseDTO } from "@/components/models/DTO/GeoCodeDTO";
+import { GeoCodeResponseDTO } from "@/components/models/Dto/GeoCodeDTO";
 import { geocodeURL, mapApiKey } from "@/constant";
 import axios from "axios";
 

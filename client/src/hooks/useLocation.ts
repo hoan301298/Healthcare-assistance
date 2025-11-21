@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getGeoCode } from "@/hooks/requests/geocode";
-import { GeoCodeResponseDTO } from "@/components/models/DTO/GeoCodeDTO";
+import { GeoCodeResponseDTO } from "@/components/models/Dto/GeoCodeDTO";
 import { defaultMapLocation } from "@/state/searchSlice";
 import useSearch from "./useSearch";
 import { MapLocation } from "@/components/models/search/SearchProperties";

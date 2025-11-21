@@ -1,4 +1,4 @@
-import { PlaceRequestDTO } from "@/components/models/DTO/PlaceRequestDTO";
+import { PlaceRequestDTO } from "@/components/models/Dto/PlaceRequestDTO";
 import { Place } from "@/components/models/search/Place";
 import axios from "axios";
 

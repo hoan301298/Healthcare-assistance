@@ -1,5 +1,5 @@
 import { ChatDetail } from "@/components/models/chat/ChatDetail";
-import { ChatInfoRequestDTO } from "@/components/models/DTO/ChatInfoRequestDTO";
+import { ChatInfoRequestDTO } from "@/components/models/Dto/ChatInfoRequestDTO";
 import axios from "axios";
 
 export const getChatInfo = async (chatInfoReqeust: ChatInfoRequestDTO) : Promise<ChatDetail | null> => {
