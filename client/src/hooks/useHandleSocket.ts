@@ -25,7 +25,7 @@ const useHandleSocket = () => {
     }];
 
     useEffect(() => {
-        if (!isVerified) return;
+        if (!isVerified || !isConnected) return;
 
         if (!socket) {
             socket = io(SOCKET_SERVER_URL, {
