@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { mapApiKey } from "@/constant";
 import { Place } from "../models/search/Place";
-import { useLocation } from "@/hooks/useLocation";
+import { useLocation } from "@/hooks/search/useLocation";
 import { defaultMapLocation } from "@/state/searchSlice";
 
 interface MapViewProps {

@@ -4,10 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import useAppointment from "@/hooks/appointment/useAppointment";
-import { useHandleBookingAction } from "@/hooks/useHandleBookingAction";
+import useHandleAction from "@/hooks/appointment/useHandleAction";
 import { Search } from "lucide-react";
 import { useState } from "react";
+import useAppointment from "@/hooks/appointment/useAppointment";
 
 const Appointment = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -16,7 +16,7 @@ const Appointment = () => {
         setReferenceId,
         setEmail,
     } = useAppointment();
-    const { handleSearchBooking } = useHandleBookingAction();
+    const { handleSearchBooking } = useHandleAction();
 
     return (
         <div className="min-h-screen bg-background">

@@ -1,18 +1,18 @@
-import { Button } from "../ui/button"
-import { Calendar } from "../ui/calendar"
-import { Input } from "../ui/input"
-import { Label } from "../ui/label"
-import { Textarea } from "../ui/textarea"
-import { timeSlots } from "../models/booking/FormData"
-import useBooking from "@/hooks/booking/useBooking"
-import { useHandleBookingAction } from "@/hooks/useHandleBookingAction"
+import { Button } from "../ui/button";
+import { Calendar } from "../ui/calendar";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import { Textarea } from "../ui/textarea";
+import { timeSlots } from "../models/booking/FormData";
+import useBooking from "@/hooks/booking/useBooking";
+import useHandleSubmit from "@/hooks/booking/useHandleSubmit";
 
 const Form = () => {
     const {
         formData,
         setFormData,
     } = useBooking();
-    const { handleCreateBooking } = useHandleBookingAction();
+    const { handleCreateBooking } = useHandleSubmit();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
