@@ -3,12 +3,10 @@ import MapView from '@/components/search/MapView';
 import PlaceList from '@/components/search/PlaceList';
 import usePlaces from '@/hooks/search/usePlaces';
 import SearchBar from '@/components/search/SearchBar';
-import useSearch from '@/hooks/search/useSearch';
 import SelectionBar from '@/components/search/SelectionBar';
 
 const Search = () => {
-  const { places, isLoading, error } = usePlaces();
-  const { search, setMedicalType } = useSearch();
+  const { places } = usePlaces();
 
   return (
     <div className="min-h-screen bg-background">
