@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/components/ui/use-toast";
 import { createBooking, getBookingById } from "@/hooks/requests/booking";
-import { CreateBookingDTO } from "../components/models/Dto/CreateBookingDTO";
-import useBooking from "@/hooks/useBooking";
-import useAppointment from "@/hooks/useAppointment";
+import { CreateBookingDTO } from "@/components/models/Dto/CreateBookingDTO";
+import useBooking from "@/hooks/booking/useBooking";
+import useAppointment from "@/hooks/appointment/useAppointment";
 
 export function useHandleBookingAction() {
     const navigate = useNavigate();

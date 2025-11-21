@@ -1,10 +1,17 @@
 import { Message } from "@/components/models/chat/Message";
-import { clearSupportState, setIsVerified, setChatDetailState, setMessageState, setInputValueState, setChatRequest } from "@/state/supportSlice";
 import { RootState } from "@/state/store"
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux"
 import { ChatDetail } from "@/components/models/chat/ChatDetail";
 import { ChatInfoRequestDTO } from "@/components/models/Dto/ChatInfoRequestDTO";
+import { 
+    clearSupportState, 
+    setIsVerified, 
+    setChatDetailState, 
+    setMessageState, 
+    setInputValueState, 
+    setChatRequest 
+} from "@/state/supportSlice";
 
 const useSupport = () => {
     const supportState = useSelector((state: RootState) => state.support);

@@ -3,7 +3,7 @@ import { Location, MedicalType } from "@/components/models/search/PlacePropertie
 import { Filter, MapLocation, RadiusType } from "@/components/models/search/SearchProperties";
 import { setFilters } from "@/state/searchSlice";
 import { RootState } from "@/state/store";
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
 
 const useSearch = () => {
     const dispatch = useDispatch();

@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import Navbar from '@/components/Navbar';
 import { io, Socket } from 'socket.io-client';
 import ChatBox from '@/components/chatSupport/ChatBox';
-import useSupport from '@/hooks/useSupport';
+import useSupport from '@/hooks/chatSupport/useSupport';
 import Overlay from '@/components/chatSupport/Overlay';
 
 const Chat = () => {

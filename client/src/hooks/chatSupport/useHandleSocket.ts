@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client"
-import useSupport from "./useSupport";
 import { SOCKET_SERVER_URL } from "@/constant";
 import { Message } from "@/components/models/chat/Message";
 import { botResponses } from "@/components/models/chat/BotResponses";
+import useSupport from "./useSupport";
 
 let socket: Socket | null = null;
 

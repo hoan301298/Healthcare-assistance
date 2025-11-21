@@ -1,4 +1,4 @@
-import useSupport from "@/hooks/useSupport";
+import useSupport from "@/hooks/chatSupport/useSupport";
 import { Input } from "../ui/input";
 import { useState } from "react";
 import { getChatInfo } from "@/hooks/requests/chatInfo";

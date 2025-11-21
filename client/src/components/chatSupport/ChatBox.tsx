@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Send, Bot, User } from 'lucide-react';
 import { useLayoutEffect } from 'react';
-import useHandleSocket from '@/hooks/useHandleSocket';
+import useHandleSocket from '@/hooks/chatSupport/useHandleSocket';
 
 const ChatBox = () => {
     const {

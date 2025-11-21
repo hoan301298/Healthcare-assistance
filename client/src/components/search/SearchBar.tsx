@@ -1,6 +1,6 @@
 import { SearchIcon } from "lucide-react"
 import { Input } from "../ui/input"
-import useSearch from "@/hooks/useSearch"
+import useSearch from "@/hooks/search/useSearch"
 import DropDown from "../helper/DropDown";
 import { RadiusType } from "../models/search/SearchProperties";
 

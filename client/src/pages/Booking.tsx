@@ -4,8 +4,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import Navbar from '@/components/Navbar';
 import Form from '@/components/booking/Form';
 import SideBar from '@/components/place_detail/SideBar';
-import useSearch from '@/hooks/useSearch';
-import useBooking from '@/hooks/useBooking';
+import useSearch from '@/hooks/search/useSearch';
+import useBooking from '@/hooks/booking/useBooking';
 import { useEffect } from 'react';
 import NotFound from './NotFound';
 import { capitalizeFirst } from '@/components/helper/capitalizeFirst';

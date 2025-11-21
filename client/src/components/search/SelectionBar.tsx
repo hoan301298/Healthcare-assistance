@@ -1,4 +1,4 @@
-import useSearch from "@/hooks/useSearch"
+import useSearch from "@/hooks/search/useSearch"
 import Selection from "../helper/Selection"
 import { MedicalType } from "../models/search/PlaceProperties";
 import DropDown from "../helper/DropDown";

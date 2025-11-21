@@ -4,7 +4,7 @@ import { Input } from "../ui/input"
 import { Label } from "../ui/label"
 import { Textarea } from "../ui/textarea"
 import { timeSlots } from "../models/booking/FormData"
-import useBooking from "@/hooks/useBooking"
+import useBooking from "@/hooks/booking/useBooking"
 import { useHandleBookingAction } from "@/hooks/useHandleBookingAction"
 
 const Form = () => {

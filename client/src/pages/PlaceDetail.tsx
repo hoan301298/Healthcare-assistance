@@ -2,7 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/Navbar';
 import { Place } from '@/components/models/search/Place';
-import useSearch from '@/hooks/useSearch';
+import useSearch from '@/hooks/search/useSearch';
 import BookingSection from '@/components/place_detail/BookingSection';
 import Assistance from '@/components/helper/Assistance';
 import SideBar from '@/components/place_detail/SideBar';
