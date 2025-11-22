@@ -5,6 +5,7 @@ import { Label } from "../ui/label";
 import { toast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { loginSubmit } from "@/hooks/requests/authenticate";
+import useHandleAuth from "@/hooks/auth/useHandleAuth";
 
 const LoginForm = () => {
     const navigate = useNavigate();
@@ -15,22 +16,7 @@ const LoginForm = () => {
     } = useAuth();
 
     const { loginData } = authState;
-
-    const handleLogin = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        try {
-            const response = await loginSubmit();
-
-            toast({
-                title: 'Login Successful',
-                description: 'Welcome back to HealthCare+',
-            });
-            setTimeout(() => navigate('/'), 1500);    
-        } catch (error) {
-            
-        }
-    };
+    const { handleLogin } = useHandleAuth();
 
     return (
         <form onSubmit={handleLogin} className="space-y-4">
