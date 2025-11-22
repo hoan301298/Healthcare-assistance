@@ -18,7 +18,7 @@ const initialState: AuthState = {
     signUpData: {
         email: '',
         password: '',
-        username: '',
+        name: '',
         confirmPassword: ''
     },
     userData: null,
