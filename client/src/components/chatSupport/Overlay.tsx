@@ -22,9 +22,7 @@ const Overlay = () => {
             const response = await getChatInfo(supportState.chatRequest);
             if (response) {
                 setChatDetail(response);
-                setTimeout(() => {
-                    setVerified(true);
-                }, 1000);
+                setVerified(true);
             }
         } catch (error) {
             console.error("Fail fetch data:", error);
