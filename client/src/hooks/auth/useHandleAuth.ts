@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { loginSubmit } from "../requests/authenticate";
+import { loginSubmit, signUpSubmit } from "../requests/authenticate";
 import { useToast } from "../use-toast";
 import useAuth from "./useAuth"
 
@@ -29,13 +29,18 @@ const useHandleAuth = () => {
                 email: '',
                 password: ''
             });
+            setIsSuccess(true);
             setTimeout(() => navigate('/'), 1500);
         } catch (error) {
-
+            toast({
+                title: 'Login failed',
+                description: 'Your credentail is wrong.',
+                variant: 'destructive'
+            })
         }
     };
 
-    const handleSignUp = (e: React.FormEvent) => {
+    const handleSignUp = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (signUpData.password !== signUpData.confirmPassword) {
@@ -48,6 +53,7 @@ const useHandleAuth = () => {
         }
 
         try {
+            const response = await signUpSubmit(signUpData);
 
             toast({
                 title: 'Account Created',
@@ -60,9 +66,14 @@ const useHandleAuth = () => {
                 password: '',
                 confirmPassword: ''
             })
+            setIsSuccess(true);
             setTimeout(() => navigate('/'), 1500);    
         } catch (error) {
-            
+            toast({
+                title: 'Sign up failed',
+                description: 'Your email already existed!',
+                variant: 'destructive'
+            })
         }
 
         
