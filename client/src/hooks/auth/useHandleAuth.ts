@@ -75,8 +75,6 @@ const useHandleAuth = () => {
                 variant: 'destructive'
             })
         }
-
-        
     };
 
     return {

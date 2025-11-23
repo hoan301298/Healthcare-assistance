@@ -1,7 +1,7 @@
 import { CardContent } from "@/components/ui/card";
 import { useState } from "react";
 import clinicImage from '@/assets/clinic-interior.jpg';
-import { mapApiKey } from "@/constant";
+import { MAP_API_KEY } from "@/constant";
 import { Place } from "@/components/models/search/Place";
 
 const PlaceImage: React.FC<{ place: Place }> = ({ place }) => {
@@ -22,7 +22,7 @@ const PlaceImage: React.FC<{ place: Place }> = ({ place }) => {
         <CardContent className="space-y-4 flex flex-col items-center">
             {currentPhoto ? (
                 <img
-                    src={`https://places.googleapis.com/v1/${currentPhoto.name}/media?maxHeightPx=500&maxWidthPx=1000&key=${mapApiKey}`}
+                    src={`https://places.googleapis.com/v1/${currentPhoto.name}/media?maxHeightPx=500&maxWidthPx=1000&key=${MAP_API_KEY}`}
                     alt={currentPhoto.name || "Place photo"}
                     className="w-full h-[500px] object-cover rounded-lg shadow-md"
                 />

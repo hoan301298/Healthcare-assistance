@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { mapApiKey } from "@/constant";
+import { MAP_API_KEY } from "@/constant";
 import { Place } from "../models/search/Place";
 import { useLocation } from "@/hooks/search/useLocation";
 import { defaultMapLocation } from "@/state/searchSlice";
@@ -33,7 +33,7 @@ const MapView: React.FC<MapViewProps> = ({ places }) => {
     }
 
     const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${mapApiKey}&v=weekly`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${MAP_API_KEY}&v=weekly`;
     script.async = true;
     script.defer = true;
     script.onload = initMap;

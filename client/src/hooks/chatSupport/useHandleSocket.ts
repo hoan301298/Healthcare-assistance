@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client"
-import { SOCKET_SERVER_URL } from "@/constant";
+import { API_V1_URL } from "@/constant";
 import { Message } from "@/components/models/chat/Message";
 import { botResponses } from "@/components/models/chat/BotResponses";
 import useSupport from "./useSupport";
@@ -28,7 +28,7 @@ const useHandleSocket = () => {
         if (!isVerified) return;
 
         if (!socket) {
-            socket = io(SOCKET_SERVER_URL, {
+            socket = io(API_V1_URL, {
                 path: '/v1/socket.io',
                 transports: ['websocket', 'polling'],
                 autoConnect: true,
@@ -57,10 +57,6 @@ const useHandleSocket = () => {
                     sender: message.sender,
                     timestamp: new Date(message.timestamp)
                 }]);
-            });
-
-            socket.on('typing-response', (data) => {
-
             });
 
             socket.on('error', (error) => {

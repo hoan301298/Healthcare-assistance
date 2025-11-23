@@ -1,15 +1,15 @@
 import { GeoCodeResponseDTO } from "@/components/models/Dto/GeoCodeDTO";
-import { geocodeURL, mapApiKey } from "@/constant";
+import { GEOCODE_URL, MAP_API_KEY } from "@/constant";
 import axios from "axios";
 
 export const getGeoCode = async (address: string = "Finland"): Promise<GeoCodeResponseDTO | null> => {
     try {
         const location = address.trim() || "Finland";
 
-        const res = await axios.get(geocodeURL, {
+        const res = await axios.get(GEOCODE_URL, {
             params: {
                 address: location,
-                key: mapApiKey,
+                key: MAP_API_KEY,
             },
         });
 
