@@ -19,7 +19,7 @@ const useHandleAuth = () => {
         e.preventDefault();
 
         try {
-            const response = await loginSubmit();
+            const response = await loginSubmit(loginData);
 
             toast({
                 title: 'Login Successful',
