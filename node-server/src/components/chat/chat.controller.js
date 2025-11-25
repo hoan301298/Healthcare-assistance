@@ -1,5 +1,5 @@
-import { decrypt, encrypt, hashEmailForLookup } from "../helper/cryptoFunctions.js";
-import ChatDetail from "../model/ChatDetail.js";
+import { decrypt, encrypt, hashEmailForLookup } from "../helper/auth/cryptoFunctions.js";
+import Chat from "../../model/Chat.schema.js";
 
 const chatController = async (req, res) => {
     const { username, email } = req.body;
@@ -11,10 +11,10 @@ const chatController = async (req, res) => {
     try {
         const hashedEmail = hashEmailForLookup(email);
 
-        let chat = await ChatDetail.findOne({ hashedEmail });
+        let chat = await Chat.findOne({ hashedEmail });
         
         if (!chat) {
-            chat = new ChatDetail({ 
+            chat = new Chat({ 
                 username,
                 hashedEmail,
                 encryptedEmail: encrypt(email),

@@ -1,7 +1,7 @@
-import { encrypt } from '../helper/cryptoFunctions.js';
-import ChatDetail from '../model/ChatDetail.js';
+import { encrypt } from '../helper/auth/cryptoFunctions.js';
+import Chat from '../../model/Chat.schema.js';
 
-const chatComponent = (io) => {
+const socketService = (io) => {
 
     io.on('connection', (socket) => {
         console.log(`⚡: User connected - ${socket.id}`);
@@ -12,22 +12,22 @@ const chatComponent = (io) => {
                     return socket.emit('error', { message: 'Chat ID is required' });
                 }
 
-                const chatDetail = await ChatDetail.findById(data.id);
+                const chat = await Chat.findById(data.id);
 
-                if (!chatDetail) {
+                if (!chat) {
                     console.log(`Chat not found: ${data.id}`);
                     socket.emit('error', { message: 'Chat not found' });
                     return socket.disconnect(true);
                 }
 
-                socket.data.chatId = chatDetail.id;
-                socket.join(chatDetail.id);
+                socket.data.chatId = chat.id;
+                socket.join(chat.id);
 
-                console.log(`User ${socket.id} joined chat ${chatDetail.id}`);
+                console.log(`User ${socket.id} joined chat ${chat.id}`);
                 
                 socket.emit('joined-chat', {
-                    chatId: chatDetail.id,
-                    username: chatDetail.username
+                    chatId: chat.id,
+                    username: chat.username
                 });
 
             } catch (error) {
@@ -58,8 +58,8 @@ const chatComponent = (io) => {
                     return socket.emit('error', { message: 'Message too long (max 5000 chars)' });
                 }
 
-                const chatDetail = await ChatDetail.findById(socket.data.chatId);
-                if (!chatDetail) {
+                const chat = await Chat.findById(socket.data.chatId);
+                if (!chat) {
                     return socket.emit('error', { message: 'Chat not found' });
                 }
 
@@ -72,8 +72,8 @@ const chatComponent = (io) => {
                     timestamp: data.timestamp || new Date()
                 };
 
-                chatDetail.messages.push(newMessage);
-                await chatDetail.save();
+                chat.messages.push(newMessage);
+                await chat.save();
 
                 io.to(socket.data.chatId).emit('message-response', {
                     id: newMessage.id,
@@ -116,4 +116,4 @@ const chatComponent = (io) => {
     });
 };
 
-export default chatComponent;
+export default socketService;

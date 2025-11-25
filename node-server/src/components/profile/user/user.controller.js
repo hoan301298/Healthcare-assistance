@@ -1,11 +1,11 @@
-import User from '../model/UserDetail.js';
+import User from '../../../model/User.schema.js';
 import { compare, hash } from 'bcrypt';
 
-const getProfile = async (req, res) => {
-    const { username } = req.query;
+const getUser = async (req, res) => {
+    const { id } = req.params;
     try {
         const userDetails = await User.findOne({ username: username });
-        console.log(userDetails)
+
         if (!userDetails) {
             return res.status(401).json({ error: `Error Fetching User ${username}` });
         }
@@ -15,7 +15,7 @@ const getProfile = async (req, res) => {
     }
 }
 
-const updateUserDetails = async (req, res) => {
+const updateUser = async (req, res) => {
     const { updateUser } = req.body;
     try {
         const user = await User.findOne({ username: updateUser.username});
@@ -54,7 +54,7 @@ const resetPassword = async (req, res) => {
 }
 
 export { 
-    getProfile, 
-    updateUserDetails, 
+    getUser, 
+    updateUser, 
     resetPassword 
 };

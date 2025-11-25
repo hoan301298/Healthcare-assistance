@@ -1,5 +1,5 @@
 import jsonToken from 'jsonwebtoken';
-import { constants } from '../../constant.js';
+import { constants } from '../../../constant.js';
 
 const authenticateToken = (req, res, next) => {
     const token = req.headers['authorization']?.split(' ')[1];

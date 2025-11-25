@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import { constants } from '../../constant.js';
+import { constants } from '../../../constant.js';
 
 const ALGO = 'aes-256-gcm';
 const IV_LENGTH = 12;

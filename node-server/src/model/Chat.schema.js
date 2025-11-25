@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { messageDetailSchema } from "./MessageDetail.js";
+import { messageDetailSchema } from "./Message.schema.js";
 
 const chatDetailSchema = new Schema({
     username: { type: String, required: true },

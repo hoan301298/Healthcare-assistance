@@ -1,13 +1,13 @@
 import jsonToken from 'jsonwebtoken';
 import { compare } from 'bcrypt';
-import { constants } from '../../constant.js';
-import UserDetail from '../model/UserDetail.js';
+import { constants } from '../../../constant.js';
+import User from '../../../model/User.schema.js';
 
-const loginComponent = async (req, res) => {
+const loginController = async (req, res) => {
   
   const { username, password } = req.body;
   try {
-    const user = await UserDetail.findOne({ username: username });
+    const user = await User.findOne({ username: username });
 
     if (!user) {
       return res.status(401).json({ error: 'Invalid username or password' });
@@ -26,7 +26,5 @@ const loginComponent = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 }
-  
-  //Middleware to authenticate JWT token
 
-export default loginComponent;
+export default loginController;
