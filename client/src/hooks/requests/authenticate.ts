@@ -5,7 +5,7 @@ import axios from "axios"
 
 export const loginSubmit = async (loginData: LoginRequestDto) : Promise<User | null> => {
     try {
-        const response = await axios.post('/v1/login', loginData);
+        const response = await axios.post('/v1/auth/login', loginData);
 
         if (response.status != 200) {
             return null;
@@ -19,7 +19,7 @@ export const loginSubmit = async (loginData: LoginRequestDto) : Promise<User | n
 
 export const signUpSubmit = async (signUpData: SignUpRequestDto) : Promise<User | null> => {
     try {
-        const response = await axios.post('/v1/register', signUpData);
+        const response = await axios.post('/v1/auth/register', signUpData);
 
         if (response.status != 200) {
             return null;
