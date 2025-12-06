@@ -22,7 +22,8 @@ const loginController = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      user: response.user
+      user: response.user,
+      mesesage: response.message
     });
   } catch (error) {
     console.error({ message: error })
@@ -54,7 +55,8 @@ const registerController = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      user: response.user
+      user: response.user,
+      mesesage: response.message
     });
   } catch (error) {
     console.error({ message: error });
