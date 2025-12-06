@@ -1,7 +1,6 @@
 import { Router } from "express";
-import loginController from "./user/controllers/login.controller.js";
-import registerController from "./user/controllers/register.controller.js";
 import auth from '../middleware/authMiddleware.js';
+import { loginController, registerController } from "./user/controllers/user.controller.js";
 import {
     getUser,
     updateUser,
