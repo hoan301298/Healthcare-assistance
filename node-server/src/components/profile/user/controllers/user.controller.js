@@ -1,3 +1,4 @@
+import { COOKIE_OPTIONS } from "../../../middleware/cookies/cookie.config";
 import { loginService, registerService } from "../services/user.service";
 
 const loginController = async (req, res) => {
@@ -17,7 +18,12 @@ const loginController = async (req, res) => {
       return res.status(401).json(response);
     }
 
-    return res.status(200).json(response);
+    res.cookie("token", response.token, COOKIE_OPTIONS)
+
+    return res.status(200).json({
+      success: true,
+      user: response.user
+    });
   } catch (error) {
     console.error({ message: error })
     return res.status(500).json({
@@ -44,7 +50,12 @@ const registerController = async (req, res) => {
       return res.status(401).json(response);
     }
 
-    return res.status(200).json(response);
+    res.cookie("token", response.token, COOKIE_OPTIONS);
+
+    return res.status(200).json({
+      success: true,
+      user: response.user
+    });
   } catch (error) {
     console.error({ message: error });
     return res.status(500).json({

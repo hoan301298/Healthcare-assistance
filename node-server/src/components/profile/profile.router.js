@@ -1,5 +1,5 @@
 import { Router } from "express";
-import auth from '../middleware/authMiddleware.js';
+import { authMiddleware } from '../middleware/authMiddleware.js';
 import { loginController, registerController } from "./user/controllers/user.controller.js";
 import {
     getUser,
@@ -12,8 +12,8 @@ const profileRouter = Router();
 profileRouter.post('/login', loginController);
 profileRouter.post('/register', registerController);
 
-profileRouter.get('/users/:id', auth, getUser);
-profileRouter.put('/users', auth, updateUser);
-profileRouter.post('/users/reset-password', auth, resetPassword);
+profileRouter.get('/users/:id', authMiddleware, getUser);
+profileRouter.put('/users', authMiddleware, updateUser);
+profileRouter.post('/users/reset-password', authMiddleware, resetPassword);
 
 export default profileRouter;

@@ -1,19 +1,18 @@
-import { verify } from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
+import { constants } from '../../constant';
 
-export default (req, res, next) => {
-    const authHeader = req.headers.authorization;
+export const authMiddleware = (req, res, next) => {
+    const token = req.cookies.token;
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        return res.status(401).json({ message: "Unauthorized" });
+    if(!token) {
+        return res.status(401).json({ success: false, message: "Unauthorized" });
     }
 
-    const token = authHeader.split(" ")[1];
-
     try {
-        const decoded = verify(token, process.env.JWT_SECRET);
-        req.user = decoded; // store user data (id, email) on req
-        next(); // go to controller
-    } catch (error) {
-        return res.status(401).json({ message: "Invalid Token" });
+        const decoded = jwt.verify(token, constants.SECRET_KEY);
+        req.user = decoded; // attach user id to request
+        next();
+    } catch (err) {
+        return res.status(401).json({ success: false, message: "Invalid token" });
     }
 };
