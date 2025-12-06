@@ -21,16 +21,16 @@ const useHandleAuth = () => {
         try {
             const response = await loginSubmit(loginData);
 
-            toast({
-                title: 'Login Successful',
-                description: 'Welcome back to HealthCare+',
-            });
-            setLoginData({
-                email: '',
-                password: ''
-            });
-            setIsSuccess(true);
-            setTimeout(() => navigate('/'), 1500);
+            // toast({
+            //     title: 'Login Successful',
+            //     description: 'Welcome back to HealthCare+',
+            // });
+            // setLoginData({
+            //     email: '',
+            //     password: ''
+            // });
+            // setIsSuccess(true);
+            // setTimeout(() => navigate('/'), 1500);
         } catch (error) {
             toast({
                 title: 'Login failed',

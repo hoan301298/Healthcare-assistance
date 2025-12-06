@@ -10,6 +10,7 @@ export const loginSubmit = async (loginData: LoginRequestDto) : Promise<User | n
         if (response.status != 200) {
             return null;
         }
+        console.log(response);
         return response.data as User;
     } catch (error) {
         console.error("Fail to login", error);
@@ -24,6 +25,7 @@ export const signUpSubmit = async (signUpData: SignUpRequestDto) : Promise<User 
         if (response.status != 200) {
             return null;
         }
+        console.log(response);
         return response.data as User;
     } catch (error) {
         console.error("Fail to register", error);

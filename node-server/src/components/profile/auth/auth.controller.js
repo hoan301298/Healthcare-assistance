@@ -4,10 +4,10 @@ import { compare, hash } from 'bcrypt';
 const getUser = async (req, res) => {
     const { id } = req.params;
     try {
-        const userDetails = await User.findOne({ username: username });
+        const userDetails = await User.findOne({ id: id });
 
         if (!userDetails) {
-            return res.status(401).json({ error: `Error Fetching User ${username}` });
+            return res.status(401).json({ error: 'Error Fetching User' });
         }
         return res.json({userDetails});
     } catch (error) {

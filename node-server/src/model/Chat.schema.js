@@ -9,7 +9,7 @@ const chatDetailSchema = new Schema({
 }, { 
     timestamps: true,
     indexs: [
-        { key: { email: 1 }, unique: true },
+        { key: { hashedEmail: 1 }, unique: true },
         { key: { username: 1 } }
     ]
 });
