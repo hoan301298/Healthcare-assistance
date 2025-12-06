@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { calculateDistance } from './calculateDistance.js';
-import { constants } from '../../constant.js';
-import { fields } from './calculateDistance.js';
+import { calculateDistance } from '../../helper/calculateDistance.js';
+import { constants } from '../../../constant.js';
+import { fields } from '../../helper/calculateDistance.js';
 
 const placesService = async (location, radius, primaryType) => {
   const fieldsByString = fields.map(f => `places.${f}`).join(',');
