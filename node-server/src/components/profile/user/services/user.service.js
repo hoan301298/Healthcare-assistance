@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import User from "../../../../model/User.schema.js"
 import { decrypt, encrypt, hashEmailForLookup, hashPassword, verifyPassword } from "../../../helper/cryptoFunctions.js"
 import { constants } from "../../../../constant.js";
+import { createToken } from "../../../helper/createToken.js";
 
 const loginService = async (email, password) => {
     const hashedEmail = hashEmailForLookup(email);
@@ -22,11 +23,7 @@ const loginService = async (email, password) => {
         };
     }
 
-    const token = jwt.sign(
-        { id: user._id },
-        constants.SECRET_KEY,
-        { expiresIn: "1d" }
-    );
+    const token = createToken(user._id);
 
     return {
         success: true,
@@ -59,12 +56,7 @@ const registerService = async (userRequest) => {
     })
 
     await newUser.save();
-
-    const token = jwt.sign(
-        { id: newUser._id },
-        constants.SECRET_KEY,
-        { expiresIn: "1d" }
-    )
+    const token = createToken(newUser._id);
 
     return {
         success: true,
