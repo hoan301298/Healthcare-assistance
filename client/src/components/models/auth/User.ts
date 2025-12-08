@@ -5,6 +5,4 @@ export interface User {
     email: string;
     name: string;
     appointments: Appointment[] | null;
-    token: string;
-    tokenExpiredTime: number;
 }

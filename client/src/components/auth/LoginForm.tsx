@@ -2,17 +2,12 @@ import useAuth from "@/hooks/auth/useAuth";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { toast } from "@/hooks/use-toast";
-import { useNavigate } from "react-router-dom";
-import { loginSubmit } from "@/hooks/requests/authenticate";
 import useHandleAuth from "@/hooks/auth/useHandleAuth";
 
 const LoginForm = () => {
-    const navigate = useNavigate();
     const {
         authState,
         setLoginData,
-        setUserData
     } = useAuth();
 
     const { loginData } = authState;
