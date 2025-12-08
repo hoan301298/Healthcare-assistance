@@ -13,12 +13,12 @@ export function Toaster() {
 
         return (
           <Toast key={id} {...props}>
-            <div className="grid gap-1">
-              <div className="flex gap-2 items-center">
-                <Icon className={`${variant === "destructive" ? 'text-red-600' : 'text-blue-700'} h-5 w-5 mt-1`} />
+            <div className="flex gap-2">
+              <Icon className={`${variant === "destructive" ? 'text-red-600' : 'text-blue-700'} h-5 w-5 mt-1`} />
+              <div className="gap-2 mt-1">
                 {title && <ToastTitle className={`${variant === "destructive" ? 'text-red-600' : 'text-blue-700'}`}>{title}</ToastTitle>}
+                {description && <ToastDescription>{description}</ToastDescription>}
               </div>
-              {description && <ToastDescription>{description}</ToastDescription>}
             </div>
             {action}
             <ToastClose />
