@@ -20,17 +20,25 @@ const useHandleAuth = () => {
 
         try {
             const response = await loginSubmit(loginData);
-
-            // toast({
-            //     title: 'Login Successful',
-            //     description: 'Welcome back to HealthCare+',
-            // });
-            // setLoginData({
-            //     email: '',
-            //     password: ''
-            // });
-            // setIsSuccess(true);
-            // setTimeout(() => navigate('/'), 1500);
+            console.log(response);
+            if (response.success) {
+                toast({
+                    title: response.message,
+                    description: 'Welcome back to HealthCare+',
+                });
+                setLoginData({
+                    email: '',
+                    password: ''
+                });
+                setUserData(response.user);
+                setTimeout(() => navigate('/'), 1500);
+            } else {
+                toast({
+                    title: response.message,
+                    description: 'Please try again!',
+                    variant: 'destructive'
+                })
+            }
         } catch (error) {
             toast({
                 title: 'Login failed',
@@ -55,23 +63,31 @@ const useHandleAuth = () => {
         try {
             const response = await signUpSubmit(signUpData);
 
-            toast({
-                title: 'Account Created',
-                description: 'Your account has been successfully created!',
-            });
+            if (response.success) {
+                toast({
+                    title: response.message,
+                    description: 'Your account has been successfully created!',
+                });
 
-            setSignUpData({
-                email: '',
-                name: '',
-                password: '',
-                confirmPassword: ''
-            })
-            setIsSuccess(true);
-            setTimeout(() => navigate('/'), 1500);    
+                setSignUpData({
+                    email: '',
+                    name: '',
+                    password: '',
+                    confirmPassword: ''
+                })
+                setUserData(response.user);
+                setTimeout(() => navigate('/'), 1500);
+            } else {
+                toast({
+                    title: response.message,
+                    description: 'Please try again!',
+                    variant: 'destructive'
+                })
+            }
         } catch (error) {
             toast({
                 title: 'Sign up failed',
-                description: 'Your email already existed!',
+                description: 'Please try again!',
                 variant: 'destructive'
             })
         }
