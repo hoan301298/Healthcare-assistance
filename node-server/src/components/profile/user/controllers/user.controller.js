@@ -1,5 +1,5 @@
-import { COOKIE_OPTIONS } from "../../../middleware/cookies/cookie.config";
-import { loginService, registerService } from "../services/user.service";
+import { COOKIE_OPTIONS } from "../../../middleware/cookies/cookie.config.js";
+import { loginService, registerService } from "../services/user.service.js";
 
 const loginController = async (req, res) => {
   const { email, password } = req.body;

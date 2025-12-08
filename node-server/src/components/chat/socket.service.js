@@ -1,4 +1,4 @@
-import { encrypt } from '../helper/auth/cryptoFunctions.js';
+import { encrypt } from '../helper/cryptoFunctions.js';
 import Chat from '../../model/Chat.schema.js';
 
 const socketService = (io) => {

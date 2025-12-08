@@ -1,4 +1,4 @@
-import { decrypt, encrypt, hashEmailForLookup } from "../helper/auth/cryptoFunctions.js";
+import { decrypt, encrypt, hashEmailForLookup } from "../helper/cryptoFunctions.js";
 import Chat from "../../model/Chat.schema.js";
 
 const chatController = async (req, res) => {

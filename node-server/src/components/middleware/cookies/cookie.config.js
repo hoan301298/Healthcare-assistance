@@ -1,4 +1,4 @@
-import { constants } from "../../../constant";
+import { constants } from "../../../constant.js";
 
 export const COOKIE_OPTIONS = {
     httpOnly: true,

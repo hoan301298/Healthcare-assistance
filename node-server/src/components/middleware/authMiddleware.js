@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { constants } from '../../constant';
+import { constants } from '../../constant.js';
 
 export const authMiddleware = (req, res, next) => {
     const token = req.cookies.token;
