@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import bcrypt from 'bcrypt';
 import { constants } from '../../constant.js';
 
 const ALGO = 'aes-256-gcm';
@@ -6,7 +7,7 @@ const IV_LENGTH = 12;
 const KEY_LENGTH = 32;
 const ENCRYPT_KEY = constants.ENCRYPT_KEY;
 const EMAIL_HASH_SALT = constants.EMAIL_HASH_SALT;
-const PASSWORD_HASH_SALT = constants.PASSWORD_HASH_SALT;
+const BCRYPT_ROUNDS = 12;
 
 function prepareKey(key) {
     if (Buffer.isBuffer(key)) {
@@ -83,16 +84,10 @@ export function verifyEmail(inputEmail, storedHash) {
     )
 }
 
-export function hashPassword(password) {
-    return crypto
-        .pbkdf2Sync(password, PASSWORD_HASH_SALT, 100000, 32, 'sha256')
-        .toString('hex');
+export async function hashPassword(password) {
+    return await bcrypt.hash(password, BCRYPT_ROUNDS);
 }
 
-export function verifyPassword(inputPassword, storedHash) {
-    const inputHash = hashPassword(inputPassword);
-    return crypto.timingSafeEqual(
-        Buffer.from(inputHash),
-        Buffer.from(storedHash)
-    );
+export async function verifyPassword(inputPassword, storedHash) {
+    return await bcrypt.compare(inputPassword, storedHash);
 }

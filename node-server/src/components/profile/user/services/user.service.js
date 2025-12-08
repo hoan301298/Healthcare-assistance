@@ -14,7 +14,7 @@ const loginService = async (email, password) => {
         };
     }
 
-    const isMatch = verifyPassword(password, user.password);
+    const isMatch = await verifyPassword(password, user.password);
     if(!isMatch) {
         return {
             success: false,
@@ -55,7 +55,7 @@ const registerService = async (userRequest) => {
         name: userRequest.name,
         hashedEmail: hashedEmail,
         encryptedEmail: encrypt(userRequest.email),
-        password: hashPassword(userRequest.password)
+        password: await hashPassword(userRequest.password)
     })
 
     await newUser.save();
