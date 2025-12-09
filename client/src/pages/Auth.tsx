@@ -6,18 +6,20 @@ import LoginForm from '@/components/auth/LoginForm';
 import SignUpForm from '@/components/auth/SignUpForm';
 import useAuth from '@/hooks/auth/useAuth';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Auth = () => {
+  const navigate = useNavigate();
   const {
-    authState
+    user,
+    isAuthenticated
   } = useAuth();
-  const { user } = authState;
   
   // useEffect(() => {
-  //   if(user) {
-      
+  //   if(user && isAuthenticated) {
+  //     navigate("/", { replace: true })
   //   }
-  // })
+  // }, [user, isAuthenticated, navigate])
 
   return (
     <div className="min-h-screen bg-gradient-hero flex items-center justify-center p-4">

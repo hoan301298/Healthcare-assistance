@@ -4,6 +4,7 @@ import bookingReducer from './bookingSlice';
 import appointmentReducer from './appointmentSlice';
 import supportReducer from './supportSlice';
 import authReducer from './auth/authSlice';
+import authFormReducer from './auth/authFormSlice'
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     appointment: appointmentReducer,
     support: supportReducer,
     auth: authReducer,
+    authForm: authFormReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

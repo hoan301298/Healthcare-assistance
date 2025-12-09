@@ -3,26 +3,26 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import useHandleAuth from "@/hooks/auth/useHandleAuth";
+import useAuthForm from "@/hooks/auth/useAuthForm";
 
 const SignUpForm = () => {
     const {
-        authState,
-        setSignUpData
-    } = useAuth();
-    const { signUpData } = authState;
-    const { handleSignUp } = useHandleAuth();
+        registerForm,
+        setRegisterForm
+    } = useAuthForm();
+    const { handleRegister } = useHandleAuth();
 
     return (
-        <form onSubmit={handleSignUp} className="space-y-4">
+        <form onSubmit={handleRegister} className="space-y-4">
             <div className="space-y-2">
                 <Label htmlFor="signup-name">Full Name</Label>
                 <Input
                     id="signup-name"
                     type="text"
                     placeholder="John Doe"
-                    value={signUpData.name}
+                    value={registerForm.name}
                     onChange={(e) =>
-                        setSignUpData({ ...signUpData, name: e.target.value })
+                        setRegisterForm({ ...registerForm, name: e.target.value })
                     }
                     required
                 />
@@ -33,9 +33,9 @@ const SignUpForm = () => {
                     id="signup-email"
                     type="email"
                     placeholder="john@example.com"
-                    value={signUpData.email}
+                    value={registerForm.email}
                     onChange={(e) =>
-                        setSignUpData({ ...signUpData, email: e.target.value })
+                        setRegisterForm({ ...registerForm, email: e.target.value })
                     }
                     required
                 />
@@ -46,9 +46,9 @@ const SignUpForm = () => {
                     id="signup-password"
                     type="password"
                     placeholder="••••••••"
-                    value={signUpData.password}
+                    value={registerForm.password}
                     onChange={(e) =>
-                        setSignUpData({ ...signUpData, password: e.target.value })
+                        setRegisterForm({ ...registerForm, password: e.target.value })
                     }
                     required
                 />
@@ -59,10 +59,10 @@ const SignUpForm = () => {
                     id="signup-confirm"
                     type="password"
                     placeholder="••••••••"
-                    value={signUpData.confirmPassword}
+                    value={registerForm.confirmPassword}
                     onChange={(e) =>
-                        setSignUpData({
-                            ...signUpData,
+                        setRegisterForm({
+                            ...registerForm,
                             confirmPassword: e.target.value,
                         })
                     }

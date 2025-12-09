@@ -1,101 +1,40 @@
 import { useNavigate } from "react-router-dom";
-import { loginSubmit, signUpSubmit } from "../requests/authenticate";
-import { useToast } from "../use-toast";
 import useAuth from "./useAuth"
+import useAuthForm from "./useAuthForm";
 
 const useHandleAuth = () => {
-    const { toast } = useToast();
     const navigate = useNavigate();
     const {
-        authState,
-        setLoginData,
-        setSignUpData,
-        setIsSuccess,
-        setUserData
+        login,
+        register,
     } = useAuth();
-    const { loginData, signUpData, isSuccess } = authState;
+
+    const {
+        loginForm,
+        registerForm,
+    } = useAuthForm();
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (loginForm.email.trim() == '' || loginForm.password.trim() == '') return;
 
-        try {
-            const response = await loginSubmit(loginData);
-            console.log(response);
-            if (response.success) {
-                toast({
-                    title: response.message,
-                    description: 'Welcome back to HealthCare+',
-                });
-                setLoginData({
-                    email: '',
-                    password: ''
-                });
-                setUserData(response.user);
-                setTimeout(() => navigate('/'), 1500);
-            } else {
-                toast({
-                    title: response.message,
-                    description: 'Please try again!',
-                    variant: 'destructive'
-                })
-            }
-        } catch (error) {
-            toast({
-                title: 'Login failed',
-                description: 'Your credentail is wrong.',
-                variant: 'destructive'
-            })
-        }
+        await login(loginForm);
+        setTimeout(() => navigate('/'), 1000);
+
     };
 
-    const handleSignUp = async (e: React.FormEvent) => {
+    const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (signUpData.password !== signUpData.confirmPassword) {
-            toast({
-                title: 'Error',
-                description: 'Passwords do not match',
-                variant: 'destructive',
-            });
-            return;
-        }
+        if (registerForm.password !== registerForm.confirmPassword) return;
 
-        try {
-            const response = await signUpSubmit(signUpData);
-
-            if (response.success) {
-                toast({
-                    title: response.message,
-                    description: 'Your account has been successfully created!',
-                });
-
-                setSignUpData({
-                    email: '',
-                    name: '',
-                    password: '',
-                    confirmPassword: ''
-                })
-                setUserData(response.user);
-                setTimeout(() => navigate('/'), 1500);
-            } else {
-                toast({
-                    title: response.message,
-                    description: 'Please try again!',
-                    variant: 'destructive'
-                })
-            }
-        } catch (error) {
-            toast({
-                title: 'Sign up failed',
-                description: 'Please try again!',
-                variant: 'destructive'
-            })
-        }
-    };
+        await register(registerForm);
+        setTimeout(() => navigate('/'), 1000);
+    }
 
     return {
         handleLogin,
-        handleSignUp,
+        handleRegister,
     }
 }
 

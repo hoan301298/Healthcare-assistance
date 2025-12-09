@@ -1,54 +1,117 @@
 import { User } from "@/components/models/auth/User";
-import { LoginRequestDto } from "@/components/models/Dto/LoginRequestDto";
-import { SignUpRequestDto } from "@/components/models/Dto/SignUpRequestDto";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { checkAuth, login, logout, register } from "./authThunks";
+import { AuthResponseDto } from "@/components/models/Dto/AuthResponseDto";
 
 interface AuthState {
-    loginData: LoginRequestDto;
-    signUpData: SignUpRequestDto;
     user: User | null;
-    isSuccess: boolean;
+    isAuthenticated: boolean;
+    loading: boolean;
+    error: string | null;
+    success: boolean;
+    message: string;
 }
 
 const initialState: AuthState = {
-    loginData: {
-        email: '',
-        password: ''
-    },
-    signUpData: {
-        email: '',
-        password: '',
-        name: '',
-        confirmPassword: ''
-    },
     user: null,
-    isSuccess: false
+    isAuthenticated: false,
+    loading: false,
+    error: null,
+    success: false,
+    message: ''
 }
 
 const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        setLoginDataState: (state, action: PayloadAction<LoginRequestDto>) => {
-            state.loginData = action.payload;
-        },
-        setSignUpDataState: (state, action: PayloadAction<SignUpRequestDto>) => {
-            state.signUpData = action.payload;
-        },
-        setUserDataState: (state, action: PayloadAction<User>) => {
+        resetAuthState: (state) => {
+            state.error = null;
+            state.success = false;
+            state.loading = false;
+            state.message = '';
+        }
+    },
+    // Handle async thunks
+    extraReducers: (builder) => {
+        // -------------------------
+        // LOGIN
+        // -------------------------
+        builder.addCase(login.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+            state.success = false;
+            state.message = 'pending';
+        });
+
+        builder.addCase(login.fulfilled, (state, action: PayloadAction<AuthResponseDto>) => {
+            state.loading = false;
+            state.user = action.payload.user;
+            state.isAuthenticated = true;
+            state.success = action.payload.success;
+            state.message = action.payload.message;
+        });
+
+        builder.addCase(login.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
+            state.message = action.payload as string;
+            state.isAuthenticated = false;
+        });
+
+        // -------------------------
+        // REGISTER
+        // -------------------------
+        builder.addCase(register.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+            state.success = false;
+        });
+
+        builder.addCase(register.fulfilled, (state, action: PayloadAction<AuthResponseDto>) => {
+            state.loading = false;
+            state.user = action.payload.user;
+            state.isAuthenticated = true;
+            state.success = action.payload.success;
+        });
+
+        builder.addCase(register.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
+            state.message = action.payload as string;
+            state.isAuthenticated = false;
+        });
+
+        // -------------------------
+        // CHECK AUTH (auto-login on refresh)
+        // -------------------------
+        builder.addCase(checkAuth.pending, (state) => {
+            state.loading = true;
+        });
+
+        builder.addCase(checkAuth.fulfilled, (state, action: PayloadAction<User>) => {
+            state.loading = false;
             state.user = action.payload;
-        },
-        setIsSuccessState: (state, action: PayloadAction<boolean>) => {
-            state.isSuccess = action.payload;
-        },
-        clearAuthSlice: () => initialState,
+            state.isAuthenticated = true;
+        });
+
+        builder.addCase(checkAuth.rejected, (state) => {
+            state.loading = false;
+            state.user = null;
+            state.isAuthenticated = false;
+        });
+
+        // -------------------------
+        // LOGOUT
+        // -------------------------
+        builder.addCase(logout.fulfilled, (state) => {
+            state.user = null;
+            state.isAuthenticated = false;
+            state.success = false;
+            state.error = null;
+        });
     }
 })
 
-export const { 
-    setLoginDataState,
-    setSignUpDataState,
-    setUserDataState,
-    setIsSuccessState
-} = authSlice.actions ;
+export const { resetAuthState } = authSlice.actions;
 export default authSlice.reducer;

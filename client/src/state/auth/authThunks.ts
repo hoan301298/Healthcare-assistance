@@ -1,50 +1,38 @@
 import axiosClient_v1 from "@/api/axiosClient_v1";
 import { User } from "@/components/models/auth/User";
+import { AuthResponseDto } from "@/components/models/Dto/AuthResponseDto";
 import { LoginRequestDto } from "@/components/models/Dto/LoginRequestDto";
-import { SignUpRequestDto } from "@/components/models/Dto/SignUpRequestDto";
+import { RegisterRequestDto } from "@/components/models/Dto/RegisterRequestDto";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-interface AuthSuccessResponse {
-    success: boolean;
-    message: string;
-    user: User;
-}
-
-interface ErrorResponse {
-    success: false;
-    message: string;
-}
-
 export const login = createAsyncThunk<
-    User,
+    AuthResponseDto,
     LoginRequestDto,
     { rejectValue: string }
 >(
     "auth/login",
-    async (data, thunkAPI) => {
+    async (data, { rejectWithValue }) => {
         try {
-            const res = await axiosClient_v1.post<AuthSuccessResponse>("/auth/login", data);
-            return res.data.user;
-        } catch (error) {
-            const errData = error.response?.data as ErrorResponse;
-            return thunkAPI.rejectWithValue(errData.message);
+            const response = await axiosClient_v1.post<AuthResponseDto>('/auth/login', data);
+            return response.data;
+        } catch (error: any) {
+            return rejectWithValue(error.response?.data?.message || "Login failed");
         }
     }
 );
 
 export const register = createAsyncThunk<
-    User,
-    SignUpRequestDto,
+    AuthResponseDto,
+    RegisterRequestDto,
     { rejectValue: string }
 >(
     "auth/register",
-    async (data, thunkAPI) => {
+    async (data, { rejectWithValue }) => {
         try {
-            const res = await axiosClient_v1.post<AuthSuccessResponse>("/auth/register", data);
-            return res.data.user
-        } catch (error) {
-            const errData = error.response?.data as ErrorResponse;
-            return thunkAPI.rejectWithValue(errData.message);
+            const response = await axiosClient_v1.post<AuthResponseDto>("/auth/register", data);
+            return response.data;
+        } catch (error: any) {
+            return rejectWithValue(error.response?.data?.message || "Login failed");
         }
     }
 );
@@ -57,7 +45,7 @@ export const checkAuth = createAsyncThunk<
     "auth/checkAuth",
     async (_, thunkAPI) => {
         try {
-            const res = await axiosClient_v1.get<AuthSuccessResponse>("/auth/me");
+            const res = await axiosClient_v1.get<AuthResponseDto>("/auth/me");
             return res.data.user;
         } catch (error) {
             return thunkAPI.rejectWithValue(null);

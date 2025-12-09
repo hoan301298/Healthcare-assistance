@@ -56,7 +56,7 @@ const registerController = async (req, res) => {
     return res.status(200).json({
       success: true,
       user: response.user,
-      mesesage: response.message
+      message: response.message
     });
   } catch (error) {
     console.error({ message: error });

@@ -1,16 +1,15 @@
-import useAuth from "@/hooks/auth/useAuth";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import useHandleAuth from "@/hooks/auth/useHandleAuth";
+import useAuthForm from "@/hooks/auth/useAuthForm";
 
 const LoginForm = () => {
     const {
-        authState,
-        setLoginData,
-    } = useAuth();
+        loginForm,
+        setLoginForm
+    } = useAuthForm();
 
-    const { loginData } = authState;
     const { handleLogin } = useHandleAuth();
 
     return (
@@ -21,9 +20,9 @@ const LoginForm = () => {
                     id="login-email"
                     type="email"
                     placeholder="john@example.com"
-                    value={loginData.email}
+                    value={loginForm.email}
                     onChange={(e) =>
-                        setLoginData({ ...loginData, email: e.target.value })
+                        setLoginForm({ ...loginForm, email: e.target.value })
                     }
                     required
                 />
@@ -34,9 +33,9 @@ const LoginForm = () => {
                     id="login-password"
                     type="password"
                     placeholder="••••••••"
-                    value={loginData.password}
+                    value={loginForm.password}
                     onChange={(e) =>
-                        setLoginData({ ...loginData, password: e.target.value })
+                        setLoginForm({ ...loginForm, password: e.target.value })
                     }
                     required
                 />

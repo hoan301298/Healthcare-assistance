@@ -39,23 +39,28 @@ const loginService = async (email, password) => {
 
 const registerService = async (userRequest) => {
     const hashedEmail = hashEmailForLookup(userRequest.email);
-    let user = await User.findOne({ hashedEmail })
+    let user = await User.findOne({ hashedEmail });
 
     if(user) {
-        return {
-            success: false,
-            message: "Email has been used"
-        };
+        return { success: false, message: "Email has been used" };
     }
 
     const newUser = new User({
         name: userRequest.name,
-        hashedEmail: hashedEmail,
+        hashedEmail,
         encryptedEmail: encrypt(userRequest.email),
         password: await hashPassword(userRequest.password)
-    })
+    });
 
-    await newUser.save();
+    try {
+        await newUser.save();
+    } catch (error) {
+        if (error.code === 11000 && error.keyPattern?.hashedEmail) {
+            return { success: false, message: "Email has already been used" };
+        }
+        throw error;
+    }
+
     const token = createToken(newUser._id);
 
     return {
@@ -67,8 +72,8 @@ const registerService = async (userRequest) => {
             email: decrypt(newUser.encryptedEmail)
         },
         token,
-    }
-}
+    };
+};
 
 export {
     loginService,

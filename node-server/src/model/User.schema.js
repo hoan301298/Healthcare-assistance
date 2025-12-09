@@ -5,12 +5,7 @@ const userSchema = new Schema({
     password: { type: String, required: true },
     hashedEmail: { type: String, required: true, unique: true },
     encryptedEmail: { type: String, required: true, unique: true }
-}, {
-    timestamps: true,
-    indexes: [
-        { key: { hashedEmail: 1 }, unique: true },
-    ]
-});
+}, { timestamps: true });
 
 const User = model('users', userSchema);
 
