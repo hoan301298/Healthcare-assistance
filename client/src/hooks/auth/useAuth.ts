@@ -1,7 +1,7 @@
 import { User } from "@/components/models/auth/User";
 import { LoginRequestDto } from "@/components/models/Dto/LoginRequestDto";
 import { SignUpRequestDto } from "@/components/models/Dto/SignUpRequestDto";
-import { setIsSuccessState, setLoginDataState, setSignUpDataState, setUserDataState } from "@/state/authSlice";
+import { setIsSuccessState, setLoginDataState, setSignUpDataState, setUserDataState } from "@/state/auth/authSlice";
 import { RootState } from "@/state/store"
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux"

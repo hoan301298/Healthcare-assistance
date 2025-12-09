@@ -3,7 +3,7 @@ import searchReducer from './searchSlice';
 import bookingReducer from './bookingSlice';
 import appointmentReducer from './appointmentSlice';
 import supportReducer from './supportSlice';
-import authReducer from './authSlice';
+import authReducer from './auth/authSlice';
 
 export const store = configureStore({
   reducer: {

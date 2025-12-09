@@ -4,8 +4,21 @@ import { Heart } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import LoginForm from '@/components/auth/LoginForm';
 import SignUpForm from '@/components/auth/SignUpForm';
+import useAuth from '@/hooks/auth/useAuth';
+import { useEffect } from 'react';
 
 const Auth = () => {
+  const {
+    authState
+  } = useAuth();
+  const { user } = authState;
+  
+  // useEffect(() => {
+  //   if(user) {
+      
+  //   }
+  // })
+
   return (
     <div className="min-h-screen bg-gradient-hero flex items-center justify-center p-4">
       <Navbar />

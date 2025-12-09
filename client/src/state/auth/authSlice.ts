@@ -6,7 +6,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface AuthState {
     loginData: LoginRequestDto;
     signUpData: SignUpRequestDto;
-    userData: User;
+    user: User | null;
     isSuccess: boolean;
 }
 
@@ -21,7 +21,7 @@ const initialState: AuthState = {
         name: '',
         confirmPassword: ''
     },
-    userData: null,
+    user: null,
     isSuccess: false
 }
 
@@ -36,7 +36,7 @@ const authSlice = createSlice({
             state.signUpData = action.payload;
         },
         setUserDataState: (state, action: PayloadAction<User>) => {
-            state.userData = action.payload;
+            state.user = action.payload;
         },
         setIsSuccessState: (state, action: PayloadAction<boolean>) => {
             state.isSuccess = action.payload;
