@@ -5,7 +5,6 @@ import { AuthResponseDto } from "@/components/models/Dto/AuthResponseDto";
 import { LoginRequestDto } from "@/components/models/Dto/LoginRequestDto";
 import { RegisterRequestDto } from "@/components/models/Dto/RegisterRequestDto";
 import { resetAuthState } from "@/state/auth/authSlice";
-import { useEffect } from "react";
 import useAuthForm from "./useAuthForm";
 import { toast } from "@/components/ui/use-toast";
 
@@ -45,7 +44,7 @@ const useAuth = () => {
     const checkUserAuth = async () => {
         const result = await dispatch(checkAuth());
         if (checkAuth.fulfilled.match(result)) {
-            toast({ title: "Welcome back!" });
+            toast({ title: `Welcome back, ${result.payload.user.name?? ''}!` });
             return { success: true, data: result.payload as AuthResponseDto };
         } else {
             return { success: false, error: result.payload as string };
