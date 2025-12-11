@@ -3,6 +3,7 @@ import socketService from './components/chat/socket.service.js';
 import { mongoConnect } from './db/mongo/db_connect.js';
 import { constants } from './constant.js';
 import { Server } from 'socket.io';
+import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import cors from 'cors';
@@ -13,6 +14,7 @@ const app = express();
 const server = http.createServer(app);
 
 app.use(json());
+app.use(cookieParser());
 app.use(cors({
   origin: constants.ORIGIN_URL,
   methods: ["GET", "POST", "PUT", "DELETE"],
