@@ -1,4 +1,4 @@
-import placesService from '../services/places.service.js';
+import placesService from '../service/places.service.js';
 
 const placesController = async (req, res) => {
     const { location, radius, primaryType } = req.body;

@@ -1,5 +1,5 @@
-import User from "../../../../model/User.schema";
-import { decrypt } from "../../../helper/cryptoFunctions";
+import User from "../../../../model/User.schema.js";
+import { decrypt } from "../../../helper/cryptoFunctions.js";
 
 const checkAuthService = async (id) => {
     try {

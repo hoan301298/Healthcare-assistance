@@ -1,5 +1,5 @@
 import { Router } from "express";
-import placesController from "./controllers/places.controller.js";
+import placesController from "./controller/places.controller.js";
 
 const placesRouter = Router();
 

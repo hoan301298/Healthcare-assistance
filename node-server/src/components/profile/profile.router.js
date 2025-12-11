@@ -1,11 +1,11 @@
 import { Router } from "express";
 import { authMiddleware } from '../middleware/authMiddleware.js';
-import { loginController, registerController } from "./user/controllers/user.controller.js";
+import { loginController, registerController } from "./user/controller/user.controller.js";
 import {
     getUser,
     updateUser,
     resetPassword
-} from "./auth/auth.controller.js";
+} from "./auth/controller/auth.controller.js";
 import checkAuthController from "./auth/controller/checkAuth.controller.js";
 
 const profileRouter = Router();
