@@ -13,7 +13,7 @@ export const login = createAsyncThunk<
     "auth/login",
     async (data, { rejectWithValue }) => {
         try {
-            const response = await axiosClient_v1.post<AuthResponseDto>('/auth/login', data);
+            const response = await axiosClient_v1.post<AuthResponseDto>('/profile/auth/login', data);
             return response.data;
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.message || "Login failed");
@@ -29,7 +29,7 @@ export const register = createAsyncThunk<
     "auth/register",
     async (data, { rejectWithValue }) => {
         try {
-            const response = await axiosClient_v1.post<AuthResponseDto>("/auth/register", data);
+            const response = await axiosClient_v1.post<AuthResponseDto>("/profile/auth/register", data);
             return response.data;
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.message || "Login failed");
@@ -45,7 +45,7 @@ export const checkAuth = createAsyncThunk<
     "auth/checkAuth",
     async (_, thunkAPI) => {
         try {
-            const res = await axiosClient_v1.get<AuthResponseDto>("/auth/check");
+            const res = await axiosClient_v1.get<AuthResponseDto>("/profile/auth/check");
             return res.data;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(null);
@@ -54,15 +54,15 @@ export const checkAuth = createAsyncThunk<
 );
 
 export const logout = createAsyncThunk<
-    boolean,
+    AuthResponseDto,
     void,
     { rejectValue: string }
 >(
     "auth/logout",
     async (_, thunkAPI) => {
         try {
-            await axiosClient_v1.post("/auth/logout");
-            return true;
+            const res = await axiosClient_v1.get("/profile/auth/logout");
+            return res.data;
         } catch (error: any) {
             return thunkAPI.rejectWithValue("Logout failed");
         }

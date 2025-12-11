@@ -86,19 +86,22 @@ const authSlice = createSlice({
             state.loading = false;
             state.user = action.payload.user;
             state.isAuthenticated = true;
+            state.success = action.payload.success;
+            state.message = action.payload.message;
         });
 
         builder.addCase(checkAuth.rejected, (state) => {
             state.loading = false;
             state.user = null;
             state.isAuthenticated = false;
+            state.success = false;
         });
 
         // logout
-        builder.addCase(logout.fulfilled, (state) => {
+        builder.addCase(logout.fulfilled, (state, action: PayloadAction<AuthResponseDto>) => {
             state.user = null;
             state.isAuthenticated = false;
-            state.success = false;
+            state.success = action.payload.success;
             state.error = null;
         });
     }
