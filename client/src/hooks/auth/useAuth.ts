@@ -52,7 +52,13 @@ const useAuth = () => {
     };
 
     const logoutUser = async () => {
-        await dispatch(logout());
+        const result = await dispatch(logout());
+        if (logout.fulfilled.match(result)) {
+            toast({ title: "Logout successful"});
+            return { success: true, data: result.payload as AuthResponseDto };
+        } else {
+            return { success: false, error: result.payload as string };
+        }
     };
 
     const clearAuthStatus = () => dispatch(resetAuthState());

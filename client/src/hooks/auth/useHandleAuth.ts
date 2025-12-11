@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import useAuth from "./useAuth"
 import useAuthForm from "./useAuthForm";
+import { useEffect } from "react";
+import { log } from "console";
 
 const useHandleAuth = () => {
     const navigate = useNavigate();
@@ -18,8 +20,8 @@ const useHandleAuth = () => {
         e.preventDefault();
         if (loginForm.email.trim() == '' || loginForm.password.trim() == '') return;
 
-        await login(loginForm);
-        navigate('/');
+        const res = await login(loginForm);
+        if(res.success) navigate('/');
     };
 
     const handleRegister = async (e: React.FormEvent) => {
@@ -27,8 +29,8 @@ const useHandleAuth = () => {
 
         if (registerForm.password !== registerForm.confirmPassword) return;
 
-        await register(registerForm);
-        navigate('/');
+        const res = await register(registerForm);
+        if(res.success) navigate('/');
     }
 
     return {
