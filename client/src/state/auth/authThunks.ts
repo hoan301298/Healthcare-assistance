@@ -38,7 +38,7 @@ export const register = createAsyncThunk<
 );
 
 export const checkAuth = createAsyncThunk<
-    User,
+    AuthResponseDto,
     void,
     { rejectValue: null }
 >(
@@ -46,7 +46,7 @@ export const checkAuth = createAsyncThunk<
     async (_, thunkAPI) => {
         try {
             const res = await axiosClient_v1.get<AuthResponseDto>("/auth/check");
-            return res.data.user;
+            return res.data;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(null);
         }

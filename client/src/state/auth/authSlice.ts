@@ -89,9 +89,9 @@ const authSlice = createSlice({
             state.loading = true;
         });
 
-        builder.addCase(checkAuth.fulfilled, (state, action: PayloadAction<User>) => {
+        builder.addCase(checkAuth.fulfilled, (state, action: PayloadAction<AuthResponseDto>) => {
             state.loading = false;
-            state.user = action.payload;
+            state.user = action.payload.user;
             state.isAuthenticated = true;
         });
 

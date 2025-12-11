@@ -20,7 +20,6 @@ const useHandleAuth = () => {
 
         await login(loginForm);
         setTimeout(() => navigate('/'), 1000);
-
     };
 
     const handleRegister = async (e: React.FormEvent) => {

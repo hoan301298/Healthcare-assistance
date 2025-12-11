@@ -45,9 +45,10 @@ const useAuth = () => {
     const checkUserAuth = async () => {
         const result = await dispatch(checkAuth());
         if (checkAuth.fulfilled.match(result)) {
-            return { success: true, user: result.payload };
+            toast({ title: "Welcome back!" });
+            return { success: true, data: result.payload as AuthResponseDto };
         } else {
-            return { success: false };
+            return { success: false, error: result.payload as string };
         }
     };
 
@@ -56,10 +57,6 @@ const useAuth = () => {
     };
 
     const clearAuthStatus = () => dispatch(resetAuthState());
-
-    useEffect(() => {
-
-    })
 
     return {
         user: auth.user,
