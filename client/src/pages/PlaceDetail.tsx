@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import Navbar from '@/components/Navbar';
+import Navbar from '@/components/navbar/Navbar';
 import { Place } from '@/components/models/search/Place';
 import useSearch from '@/hooks/search/useSearch';
 import BookingSection from '@/components/place_detail/BookingSection';

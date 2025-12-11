@@ -1,4 +1,4 @@
-import Navbar from '@/components/Navbar';
+import Navbar from '@/components/navbar/Navbar';
 import MapView from '@/components/search/MapView';
 import PlaceList from '@/components/search/PlaceList';
 import usePlaces from '@/hooks/search/usePlaces';

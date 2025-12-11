@@ -1,16 +1,20 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import Navbar from '@/components/Navbar';
+import Navbar from '@/components/navbar/Navbar';
 import heroImage from '@/assets/hero-healthcare.jpg';
 import { features } from '@/content/features';
+import useAuth from '@/hooks/auth/useAuth';
 
 const Home = () => {
+  const {
+    isAuthenticated
+  } = useAuth();
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
       
-      {/* Hero Section */}
       <section className="relative pt-32 pb-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-hero opacity-10"></div>
         <div className="container mx-auto px-4 relative z-10">
@@ -93,11 +97,11 @@ const Home = () => {
                 Ready to Get Started?
               </h2>
               <p className="text-xl mb-8 text-white/90">
-                Join thousands of users who trust HealthCare+ for their medical needs
+                {isAuthenticated? "Let's start to experience our services" : 'Join thousands of users who trust HealthCare+ for their medical needs'}
               </p>
-              <Link to="/auth">
+              <Link to={isAuthenticated? "/search" : "/auth"}>
                 <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90">
-                  Create Free Account
+                  {isAuthenticated? "Find medical facilities" : "Create Free Account"}
                 </Button>
               </Link>
             </CardContent>

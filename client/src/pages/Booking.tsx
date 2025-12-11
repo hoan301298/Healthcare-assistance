@@ -1,7 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import Navbar from '@/components/Navbar';
+import Navbar from '@/components/navbar/Navbar';
 import Form from '@/components/booking/Form';
 import SideBar from '@/components/place_detail/SideBar';
 import useSearch from '@/hooks/search/useSearch';

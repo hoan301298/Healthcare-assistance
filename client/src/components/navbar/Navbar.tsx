@@ -2,9 +2,14 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Heart, Menu, X } from 'lucide-react';
+import useAuth from '@/hooks/auth/useAuth';
+import UserMenu from './UserMenu';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const {
+    user
+  } = useAuth();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
@@ -31,11 +36,17 @@ const Navbar = () => {
             <Link to="/chat" className="text-foreground hover:text-primary transition-colors">
               Chat Support
             </Link>
-            <Link to="/auth">
-              <Button variant="default" className="bg-primary hover:bg-primary-dark">
-                Login
-              </Button>
-            </Link>
+            {user ?
+              (
+                <UserMenu user={user} />
+              ) : (
+                <Link to="/auth">
+                  <Button variant="default" className="bg-primary hover:bg-primary-dark">
+                    Login
+                  </Button>
+                </Link>
+              )
+            }
           </div>
 
           {/* Mobile Menu Button */}
@@ -71,11 +82,13 @@ const Navbar = () => {
             >
               Chat Support
             </Link>
-            <Link to="/auth" onClick={() => setIsOpen(false)}>
-              <Button variant="default" className="w-full bg-primary hover:bg-primary-dark">
-                Login
-              </Button>
-            </Link>
+            {!user &&
+              <Link to="/auth" onClick={() => setIsOpen(false)}>
+                <Button variant="default" className="w-full bg-primary hover:bg-primary-dark">
+                  Login
+                </Button>
+              </Link>
+            }
           </div>
         )}
       </div>
