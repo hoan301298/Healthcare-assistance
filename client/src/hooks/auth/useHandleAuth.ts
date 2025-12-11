@@ -19,7 +19,7 @@ const useHandleAuth = () => {
         if (loginForm.email.trim() == '' || loginForm.password.trim() == '') return;
 
         await login(loginForm);
-        setTimeout(() => navigate('/'));
+        navigate('/');
     };
 
     const handleRegister = async (e: React.FormEvent) => {
@@ -28,7 +28,7 @@ const useHandleAuth = () => {
         if (registerForm.password !== registerForm.confirmPassword) return;
 
         await register(registerForm);
-        setTimeout(() => navigate('/'));
+        navigate('/');
     }
 
     return {
