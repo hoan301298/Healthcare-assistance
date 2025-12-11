@@ -47,7 +47,7 @@ export const checkAuth = createAsyncThunk<
         try {
             const res = await axiosClient_v1.get<AuthResponseDto>("/auth/me");
             return res.data.user;
-        } catch (error) {
+        } catch (error: any) {
             return thunkAPI.rejectWithValue(null);
         }
     }
@@ -63,7 +63,7 @@ export const logout = createAsyncThunk<
         try {
             await axiosClient_v1.post("/auth/logout");
             return true;
-        } catch (err: any) {
+        } catch (error: any) {
             return thunkAPI.rejectWithValue("Logout failed");
         }
     }
