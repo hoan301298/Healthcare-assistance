@@ -45,7 +45,7 @@ export const checkAuth = createAsyncThunk<
     "auth/checkAuth",
     async (_, thunkAPI) => {
         try {
-            const res = await axiosClient_v1.get<AuthResponseDto>("/auth/me");
+            const res = await axiosClient_v1.get<AuthResponseDto>("/auth/check");
             return res.data.user;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(null);
