@@ -1,4 +1,4 @@
-import checkAuthService from "../service/checkAuth.service.js";
+import checkAuthService from "../../auth/service/checkAuth.service.js";
 
 const checkAuthController = async (req, res) => {
     const userId = req.user?.id;

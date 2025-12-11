@@ -1,73 +1,60 @@
-import { COOKIE_OPTIONS } from "../../../middleware/cookies/cookie.config.js";
-import { loginService, registerService } from "../service/user.service.js";
+import User from '../../../../model/User.schema.js';
+import { compare, hash } from 'bcrypt';
 
-const loginController = async (req, res) => {
-  const { email, password } = req.body;
+const getUser = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const userDetails = await User.findOne({ id: id });
 
-  if (!email || !password) {
-    return res.status(400).json({
-      success: false,
-      message: "Fields are missing"
-    })
-  }
-
-  try {
-    const response = await loginService(email, password);
-
-    if (!response.success) {
-      return res.status(401).json(response);
+        if (!userDetails) {
+            return res.status(401).json({ error: 'Error Fetching User' });
+        }
+        return res.json({userDetails});
+    } catch (error) {
+        res.status(500).json({error: "Internal server error"});
     }
-
-    res.cookie("token", response.token, COOKIE_OPTIONS)
-
-    return res.status(200).json({
-      success: true,
-      user: response.user,
-      message: response.message
-    });
-  } catch (error) {
-    console.error({ message: error })
-    return res.status(500).json({
-      success: false,
-      message: "Internal Server Error"
-    })
-  }
 }
 
-const registerController = async (req, res) => {
-  const userRequest = req.body;
-
-  if (!userRequest || !userRequest.name || !userRequest.email || !userRequest.password) {
-    return res.status(400).json({
-      success: false,
-      message: "Fields are missing"
-    })
-  }
-
-  try {
-    const response = await registerService(userRequest);
-
-    if (!response.success) {
-      return res.status(401).json(response);
+const updateUser = async (req, res) => {
+    const { updateUser } = req.body;
+    try {
+        const user = await User.findOne({ username: updateUser.username});
+        compare(updateUser.password, user.password, async (err, result) => {
+            if (err || !result) {
+                return res.status(401).json({ error: 'Invalid password!' });
+            } else {
+                updateUser.password = user.password;
+                const result = await User.updateOne(user, updateUser);
+                return res.json(`${result.modifiedCount} document(s) updated!`);
+            }
+        })
+    } catch (error) {
+        res.status(500).json({error: "Internal server error"});
     }
-
-    res.cookie("token", response.token, COOKIE_OPTIONS);
-
-    return res.status(200).json({
-      success: true,
-      user: response.user,
-      message: response.message
-    });
-  } catch (error) {
-    console.error({ message: error });
-    return res.status(500).json({
-      success: false,
-      message: "Internal Server Error"
-    })
-  }
 }
 
-export {
-  loginController,
-  registerController
+const resetPassword = async (req, res) => {
+    const { username, oldPassword, newPassword } = req.body;
+    try {
+        const user = await User.findOne({ username: username });
+        if(user) {
+            compare(oldPassword, user.password, async (err, result) => {
+                if(err || !result) {
+                    return res.status(401).json({error: 'Your current password is wrong!'})
+                } else {
+                    const hashedPassword = await hash(newPassword, 12);
+                    const result = await User.updateOne({username: username}, {password: hashedPassword});
+                    return res.json(`${result.modifiedCount} updated!`);
+                }
+            })
+        }
+    } catch (e) {
+        res.status(500).json({e: "Internal server error"});
+    }
+}
+
+export { 
+    getUser, 
+    updateUser, 
+    resetPassword 
 };

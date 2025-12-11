@@ -32,11 +32,8 @@ const authSlice = createSlice({
             state.message = '';
         }
     },
-    // Handle async thunks
     extraReducers: (builder) => {
-        // -------------------------
-        // LOGIN
-        // -------------------------
+        // login
         builder.addCase(login.pending, (state) => {
             state.loading = true;
             state.error = null;
@@ -59,9 +56,7 @@ const authSlice = createSlice({
             state.isAuthenticated = false;
         });
 
-        // -------------------------
-        // REGISTER
-        // -------------------------
+        // register
         builder.addCase(register.pending, (state) => {
             state.loading = true;
             state.error = null;
@@ -81,10 +76,8 @@ const authSlice = createSlice({
             state.message = action.payload as string;
             state.isAuthenticated = false;
         });
-
-        // -------------------------
-        // CHECK AUTH (auto-login on refresh)
-        // -------------------------
+        
+        // check auth
         builder.addCase(checkAuth.pending, (state) => {
             state.loading = true;
         });
@@ -101,9 +94,7 @@ const authSlice = createSlice({
             state.isAuthenticated = false;
         });
 
-        // -------------------------
-        // LOGOUT
-        // -------------------------
+        // logout
         builder.addCase(logout.fulfilled, (state) => {
             state.user = null;
             state.isAuthenticated = false;

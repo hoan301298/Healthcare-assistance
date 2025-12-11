@@ -7,6 +7,6 @@ const api = express();
 
 api.use('/chat', chatRouter);
 api.use('/places', placesRouter);
-api.use('/auth', profileRouter);
+api.use('/profile', profileRouter);
 
 export default api;
