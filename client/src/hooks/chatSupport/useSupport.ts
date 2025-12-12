@@ -1,29 +1,19 @@
 import { Message } from "@/components/models/chat/Message";
-import { RootState } from "@/state/store"
+import { AppDispatch, RootState } from "@/state/store"
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux"
-import { ChatDetail } from "@/components/models/chat/ChatDetail";
-import { ChatInfoRequestDTO } from "@/components/models/Dto/ChatInfoRequestDTO";
 import { 
     clearSupportState, 
-    setIsVerified, 
-    setChatDetailState, 
     setMessageState, 
     setInputValueState, 
-    setChatRequest 
 } from "@/state/supportSlice";
+import { getChatDetail } from "@/state/thunks/chatThunks";
+import { toast } from "@/components/ui/use-toast";
+import { ChatDetailResponseDto } from "@/components/models/Dto/ChatDetailResponseDto";
 
 const useSupport = () => {
     const supportState = useSelector((state: RootState) => state.support);
-    const dispatch = useDispatch();
-
-    const setChatDetail = (chatDetail: ChatDetail) => {
-        dispatch(setChatDetailState(chatDetail));
-    }
-
-    const setVerified = (value: boolean) => {
-        dispatch(setIsVerified(value));
-    }
+    const dispatch: AppDispatch = useDispatch();
 
     const setMessages = (update: Message[] | ((prev: Message[]) => Message[])) => {
         dispatch(setMessageState(update));
@@ -33,21 +23,33 @@ const useSupport = () => {
         dispatch(setInputValueState(value));
     };
 
-    const setInfoRequest = (request: ChatInfoRequestDTO) => {
-        dispatch(setChatRequest(request));
-    }
-
     const clearData = () => {
         dispatch(clearSupportState());
     }
 
+    const fetchChatDetail = async () :Promise<ChatDetailResponseDto>=> {
+        const result = await dispatch(getChatDetail());
+
+        if (getChatDetail.fulfilled.match(result)) {
+            toast({ title: result.payload.message });
+            return result.payload as ChatDetailResponseDto
+        } else {
+            toast({ title: "Fetch data failed!", description: result.payload, variant: "destructive" });
+            return {
+                success: false,
+                chatDetail: null,
+                message: "Failed to fetch Chat_Detail"
+            };
+        }
+    }
+    
     return {
-        supportState,
-        setChatDetail,
-        setVerified,
+        chatDetail: supportState.chatDetail,
+        inputValue: supportState.inputValue,
+
+        fetchChatDetail,
         setMessages,
         setInputValue,
-        setInfoRequest,
         clearData
     }
 }

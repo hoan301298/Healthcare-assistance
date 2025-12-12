@@ -1,6 +1,6 @@
 import type { RootState, AppDispatch } from "@/state/store";
 import { useSelector, useDispatch } from "react-redux";
-import { login, register, checkAuth, logout } from "@/state/auth/authThunks";
+import { login, register, checkAuth, logout } from "@/state/thunks/authThunks";
 import { AuthResponseDto } from "@/components/models/Dto/AuthResponseDto";
 import { LoginRequestDto } from "@/components/models/Dto/LoginRequestDto";
 import { RegisterRequestDto } from "@/components/models/Dto/RegisterRequestDto";

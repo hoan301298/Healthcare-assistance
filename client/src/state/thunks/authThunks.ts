@@ -1,5 +1,4 @@
 import axiosClient_v1 from "@/api/axiosClient_v1";
-import { User } from "@/components/models/auth/User";
 import { AuthResponseDto } from "@/components/models/Dto/AuthResponseDto";
 import { LoginRequestDto } from "@/components/models/Dto/LoginRequestDto";
 import { RegisterRequestDto } from "@/components/models/Dto/RegisterRequestDto";
@@ -32,7 +31,7 @@ export const register = createAsyncThunk<
             const response = await axiosClient_v1.post<AuthResponseDto>("/profile/auth/register", data);
             return response.data;
         } catch (error: any) {
-            return rejectWithValue(error.response?.data?.message || "Login failed");
+            return rejectWithValue(error.response?.data?.message || "Register failed");
         }
     }
 );

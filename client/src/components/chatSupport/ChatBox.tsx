@@ -8,7 +8,7 @@ import useHandleSocket from '@/hooks/chatSupport/useHandleSocket';
 
 const ChatBox = () => {
     const {
-        isVerified,
+        isAuthenticated,
         isConnected,
         inputValue,
         messagesEndRef,
@@ -111,26 +111,26 @@ const ChatBox = () => {
                         }}
                         onKeyDown={handleKeyPress}
                         placeholder={
-                            !isVerified 
+                            !isAuthenticated 
                                 ? "Please verify to chat..." 
                                 : !isConnected 
                                 ? "Connecting..." 
                                 : "Type your message..."
                         }
                         className="flex-1"
-                        disabled={!isVerified || !isConnected}
+                        disabled={!isAuthenticated || !isConnected}
                     />
                     <Button
                         onClick={handleSend}
                         size="icon"
                         className="bg-primary hover:bg-primary/90"
-                        disabled={!isVerified || !isConnected || !inputValue.trim()}
+                        disabled={!isAuthenticated || !isConnected || !inputValue.trim()}
                         title="Send message"
                     >
                         <Send className="h-4 w-4" />
                     </Button>
                 </div>
-                {!isVerified && (
+                {!isAuthenticated && (
                     <p className="text-xs text-muted-foreground mt-2">
                         Please verify your email to start chatting
                     </p>

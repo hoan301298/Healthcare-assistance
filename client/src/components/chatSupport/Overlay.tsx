@@ -1,37 +1,21 @@
-import useSupport from "@/hooks/chatSupport/useSupport";
 import { Input } from "../ui/input";
-import { useState } from "react";
-import { getChatInfo } from "@/hooks/requests/chatInfo";
+import useAuthForm from "@/hooks/auth/useAuthForm";
+import useAuth from "@/hooks/auth/useAuth";
+import useHandleSupport from "@/hooks/chatSupport/useHandleSupport";
 
 const Overlay = () => {
-    const [loading, setLoading] = useState<boolean>(false);
-    const { 
-        supportState,
-        setChatDetail,
-        setInfoRequest,
-        setVerified
-    } = useSupport();
+    const {
+        isAuthenticated
+    } = useAuth();
+    const {
+        loginForm,
+        setLoginForm
+    } = useAuthForm();
+    const {
+        handleStartChat
+    } = useHandleSupport();
 
-    if (supportState.isVerified) return null;
-
-    const handleStartChat = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        try {
-            setLoading(true);
-            const response = await getChatInfo(supportState.chatRequest);
-            if (response) {
-                setChatDetail(response);
-                setVerified(true);
-            }
-        } catch (error) {
-            console.error("Fail fetch data:", error);
-        } finally {
-            setLoading(false);
-        }
-    }
-
-    return !supportState.isVerified && (
+    return !isAuthenticated && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/40 z-20">
             <form 
                 onSubmit={handleStartChat} 
@@ -43,25 +27,25 @@ const Overlay = () => {
                 </p>
 
                 <Input
-                    type="text"
-                    placeholder="Your Name"
+                    type="email"
+                    placeholder="Email"
                     className="w-full p-2 border rounded-md"
-                    value={supportState.chatRequest.username}
-                    onChange={e => setInfoRequest({
-                        ...supportState.chatRequest,
-                        username: e.target.value
+                    value={loginForm.email}
+                    onChange={e => setLoginForm({
+                        ...loginForm,
+                        email: e.target.value
                     })}
                     required
                 />
 
                 <Input
-                    type="email"
-                    placeholder="Your Email"
+                    type="password"
+                    placeholder="Password"
                     className="w-full p-2 border rounded-md"
-                    value={supportState.chatRequest.email}
-                    onChange={e => setInfoRequest({
-                        ...supportState.chatRequest,
-                        email: e.target.value
+                    value={loginForm.password}
+                    onChange={e => setLoginForm({
+                        ...loginForm,
+                        password: e.target.value
                     })}
                     required
                 />
@@ -70,7 +54,7 @@ const Overlay = () => {
                     type="submit"
                     className="w-full bg-primary text-white py-2 rounded-md"
                 >
-                    {loading ? "Starting..." : "Start Chat"}
+                    Start Chat
                 </button>
             </form>
         </div>

@@ -1,6 +1,6 @@
 import { User } from "@/components/models/auth/User";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { checkAuth, login, logout, register } from "./authThunks";
+import { checkAuth, login, logout, register } from "../thunks/authThunks";
 import { AuthResponseDto } from "@/components/models/Dto/AuthResponseDto";
 
 interface AuthState {
@@ -54,13 +54,13 @@ const authSlice = createSlice({
             state.error = action.payload as string;
             state.message = action.payload as string;
             state.isAuthenticated = false;
+            state.success = false;
         });
 
         // register
         builder.addCase(register.pending, (state) => {
             state.loading = true;
             state.error = null;
-            state.success = false;
         });
 
         builder.addCase(register.fulfilled, (state, action: PayloadAction<AuthResponseDto>) => {
@@ -75,6 +75,7 @@ const authSlice = createSlice({
             state.error = action.payload as string;
             state.message = action.payload as string;
             state.isAuthenticated = false;
+            state.success = false;
         });
         
         // check auth

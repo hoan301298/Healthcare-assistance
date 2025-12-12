@@ -4,6 +4,7 @@ import { API_V1_URL } from "@/constant";
 import { Message } from "@/components/models/chat/Message";
 import { botResponses } from "@/components/models/chat/BotResponses";
 import useSupport from "./useSupport";
+import useAuth from "../auth/useAuth";
 
 let socket: Socket | null = null;
 
@@ -11,13 +12,16 @@ const useHandleSocket = () => {
     const [isConnected, setIsConnected] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const {
-        supportState,
+        chatDetail,
+        inputValue,
         setMessages,
         setInputValue
     } = useSupport();
-    const { isVerified, chatDetail, inputValue } = supportState;
+    const {
+        isAuthenticated,
+    } = useAuth();
 
-    const messages = supportState?.chatDetail?.messages ?? [{
+    const messages = chatDetail?.messages ?? [{
         id: (Date.now() + Math.random()).toString(),
         sender: 'bot',
         text: 'Hi, I\'m here to support you. What do you need?',
@@ -25,7 +29,7 @@ const useHandleSocket = () => {
     }];
 
     useEffect(() => {
-        if (!isVerified) return;
+        if (!isAuthenticated) return;
 
         if (!socket) {
             socket = io(API_V1_URL, {
@@ -63,7 +67,7 @@ const useHandleSocket = () => {
                 console.error('Socket error:', error.message);
             });
         }
-    }, [isVerified])
+    }, [isAuthenticated])
 
     const sendUserMessage = (text: string) => {
         if (!socket || !isConnected) {
@@ -111,7 +115,7 @@ const useHandleSocket = () => {
     };
 
     const handleSend = () => {
-        if (!isVerified || !isConnected) {
+        if (!isAuthenticated || !isConnected) {
             console.warn('Cannot send message: not verified or not connected');
             return;
         }
@@ -137,7 +141,7 @@ const useHandleSocket = () => {
     };
 
     return {
-        isVerified,
+        isAuthenticated,
         isConnected,
         inputValue,
         messagesEndRef,
