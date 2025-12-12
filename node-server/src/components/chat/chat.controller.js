@@ -1,48 +1,23 @@
-import { decrypt, encrypt, hashEmailForLookup } from "../helper/cryptoFunctions.js";
-import Chat from "../../model/Chat.schema.js";
+import chatService from "./chat.service.js";
 
 const chatController = async (req, res) => {
-    const { username, email } = req.body;
+    const user = req.user;
 
-    if (!username || !email) {
-        return res.status(404).json({message: "Request body missing"});
-    }
-    
     try {
-        const hashedEmail = hashEmailForLookup(email);
+        const response = await chatService(user._id);
 
-        let chat = await Chat.findOne({ hashedEmail });
-        
-        if (!chat) {
-            chat = new Chat({ 
-                username,
-                hashedEmail,
-                encryptedEmail: encrypt(email),
-                messages: []
-            });
-            await chat.save();
+        if (!response.success) {
+            return res.status(400).json(response);
         }
-        
-        res.json({
-            success: true,
-            chatDetail: {
-                id: chat.id,
-                username: chat.username,
-                email: decrypt(chat.encryptedEmail),
-                messages: chat.messages.map(m => {
-                    const msg = m.toObject();
-                    return {
-                        ...msg,
-                        text: decrypt(msg.text)
-                    };
-                }),
-                createdAt: chat.createdAt
-            }
-        });
+
+        return res.status(200).json(response);
     } catch (err) {
-        console.error(err);
-        return res.status(500).json({ success: false, message: "Server error" });
+        console.error("ChatController Error:", err);
+        return res.status(500).json({
+            success: false,
+            message: "Server error"
+        });
     }
-}
+};
 
 export default chatController;

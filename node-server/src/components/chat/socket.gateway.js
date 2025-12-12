@@ -1,7 +1,7 @@
 import { encrypt } from '../helper/cryptoFunctions.js';
 import Chat from '../../model/Chat.schema.js';
 
-const socketService = (io) => {
+const socketGateway = (io) => {
 
     io.on('connection', (socket) => {
         console.log(`⚡: User connected - ${socket.id}`);
@@ -116,4 +116,4 @@ const socketService = (io) => {
     });
 };
 
-export default socketService;
+export default socketGateway;

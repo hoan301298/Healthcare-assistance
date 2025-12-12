@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken';
 import { constants } from '../../constant.js';
+import User from '../../model/User.schema.js';
 
-export const authMiddleware = (req, res, next) => {
+export const authMiddleware = async (req, res, next) => {
     const token = req.cookies.token;
 
     if(!token) {
@@ -10,7 +11,13 @@ export const authMiddleware = (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, constants.SECRET_KEY);
-        req.user = decoded; // attach user id to request
+
+        const user = await User.findById(decoded.id).select("_id email name");
+        if (!user) {
+            return res.status(401).json({ success: false, message: "User not found" });
+        }
+
+        req.user = user;
         next();
     } catch (err) {
         return res.status(401).json({ success: false, message: "Invalid token" });

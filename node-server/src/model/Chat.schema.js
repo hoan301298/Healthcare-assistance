@@ -2,18 +2,19 @@ import { Schema, model } from "mongoose";
 import { messageDetailSchema } from "./Message.schema.js";
 
 const chatDetailSchema = new Schema({
-    username: { type: String, required: true },
-    hashedEmail: { type: String, required: true },
-    encryptedEmail: { type: String, required: true },
+    user_id: { 
+        type: Schema.Types.ObjectId, 
+        ref: "User", 
+        required: true 
+    },
     messages: { type: [messageDetailSchema], default: [] },
 }, { 
     timestamps: true,
     indexs: [
-        { key: { hashedEmail: 1 }, unique: true },
-        { key: { username: 1 } }
+        { key: { user_id: 1 } }
     ]
 });
 
-const ChatDetail = model('chat_detail', chatDetailSchema);
+const ChatDetail = model('chat', chatDetailSchema);
 
 export default ChatDetail;

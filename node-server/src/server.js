@@ -1,5 +1,5 @@
 import express, { json } from 'express';
-import socketService from './components/chat/socket.service.js';
+import socketGateway from './components/chat/socket.gateway.js';
 import { mongoConnect } from './db/mongo/db_connect.js';
 import { constants } from './constant.js';
 import { Server } from 'socket.io';
@@ -32,7 +32,7 @@ const io = new Server(server, {
   },
   path: "/v1/socket.io"
 });
-socketService(io);
+socketGateway(io);
 mongoConnect();
 
 server.listen(constants.PORT, () => {
