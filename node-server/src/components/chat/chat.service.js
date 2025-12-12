@@ -14,7 +14,11 @@ const chatService = async (user_id) => {
         return {
             success: true,
             message: "fetch successfully",
-            chatDetail
+            chatDetail: {
+                id: chatDetail._id,
+                user_id: chatDetail.user_id,
+                messages: chatDetail.messages,
+            }
         };
     } catch (err) {
         console.error("ChatService error:", err);
