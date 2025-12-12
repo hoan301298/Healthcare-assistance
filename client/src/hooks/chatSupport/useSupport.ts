@@ -27,21 +27,32 @@ const useSupport = () => {
         dispatch(clearSupportState());
     }
 
-    const fetchChatDetail = async () :Promise<ChatDetailResponseDto>=> {
+    const fetchChatDetail = async (): Promise<ChatDetailResponseDto> => {
         const result = await dispatch(getChatDetail());
-
+    
         if (getChatDetail.fulfilled.match(result)) {
             toast({ title: result.payload.message });
-            return result.payload as ChatDetailResponseDto
-        } else {
-            toast({ title: "Fetch data failed!", description: result.payload, variant: "destructive" });
-            return {
-                success: false,
-                chatDetail: null,
-                message: "Failed to fetch Chat_Detail"
-            };
+            return result.payload as ChatDetailResponseDto;
         }
-    }
+    
+        // rejected case — check payload vs error
+        const errorMessage = 
+            (result.payload as string) ||
+            result.error?.message ||
+            "Failed to fetch Chat_Detail";
+    
+        toast({
+            title: "Fetch data failed!",
+            description: errorMessage,
+            variant: "destructive"
+        });
+    
+        return {
+            success: false,
+            chatDetail: null,
+            message: errorMessage
+        };
+    };
     
     return {
         chatDetail: supportState.chatDetail,

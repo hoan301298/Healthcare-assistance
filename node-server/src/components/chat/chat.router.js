@@ -4,6 +4,6 @@ import { authMiddleware } from "../middleware/authMiddleware.js";
 
 const chatRouter = Router();
 
-chatRouter.post('', authMiddleware, chatController);
+chatRouter.get('', authMiddleware, chatController);
 
 export default chatRouter;
