@@ -1,113 +1,96 @@
 import { encrypt } from '../helper/cryptoFunctions.js';
 import Chat from '../../model/Chat.schema.js';
 
+const ALLOWED_SENDERS = ["user", "bot"];
+
 const socketGateway = (io) => {
 
     io.on('connection', (socket) => {
         console.log(`⚡: User connected - ${socket.id}`);
 
-        socket.on('join-chat', async (data) => {
+        socket.on('join-chat', async ({ chat_id, user_id }) => {
             try {
-                if (!data?.id) {
-                    return socket.emit('error', { message: 'Chat ID is required' });
+                if (!chat_id) {
+                    return socket.emit('error', { message: 'ChatID is required' });
                 }
 
-                const chat = await Chat.findById(data.id);
-
+                const chat = await Chat.findById(chat_id);
                 if (!chat) {
-                    console.log(`Chat not found: ${data.id}`);
-                    socket.emit('error', { message: 'Chat not found' });
-                    return socket.disconnect(true);
+                    return socket.emit("error", { message: "Chat not found" });
                 }
 
-                socket.data.chatId = chat.id;
-                socket.join(chat.id);
+                socket.data.chatId = chat_id;
+                socket.data.userId = user_id;
 
-                console.log(`User ${socket.id} joined chat ${chat.id}`);
-                
-                socket.emit('joined-chat', {
-                    chatId: chat.id,
-                    username: chat.username
-                });
+                socket.join(chat_id);
 
+                console.log(
+                    `👤 User ${user_id} joined chat ${chat_id} (socket ${socket.id})`
+                );
             } catch (error) {
-                console.error('Error in join-chat:', error);
-                socket.emit('error', { message: 'Failed to join chat' });
+                console.error("join-chat error:", error);
+                socket.emit("error", { message: "Failed to join chat" });
             }
         });
 
-        socket.on('send-message', async (data) => {
+        socket.on('send-message', async ({ id, sender, text, timestamp }) => {
             try {
-                if (!socket.data.chatId) {
-                    return socket.emit('error', { message: 'Join a chat first' });
+                const chatId = socket.data.chatId;
+
+                if (!chatId) {
+                    return socket.emit("error", { message: "Join a chat first" });
                 }
 
-                if (!data?.text || typeof data.text !== 'string') {
-                    return socket.emit('error', { message: 'Invalid message text' });
+                if (!text || typeof text !== "string") {
+                    return socket.emit("error", { message: "Invalid message" });
                 }
 
-                if (!data?.sender || typeof data.sender !== 'string') {
-                    return socket.emit('error', { message: 'Invalid sender' });
+                if (!ALLOWED_SENDERS.includes(sender)) {
+                    return socket.emit("error", {
+                        message: "Invalid sender",
+                    });
                 }
 
-                const text = data.text.trim();
-                if (text.length === 0) {
-                    return socket.emit('error', { message: 'Message cannot be empty' });
-                }
-                if (text.length > 5000) {
-                    return socket.emit('error', { message: 'Message too long (max 5000 chars)' });
-                }
-
-                const chat = await Chat.findById(socket.data.chatId);
-                if (!chat) {
-                    return socket.emit('error', { message: 'Chat not found' });
-                }
-
-                const encryptedText = encrypt(text);
-
-                const newMessage = {
-                    id: data.id || Date.now().toString(), // Generate ID if not provided
-                    sender: data.sender,
+                const trimmed = text.trim();
+                if (!trimmed) return;
+                if (trimmed.length > 5000) {
+                    return socket.emit("error", { message: "Message too long" });
+                };
+                const encryptedText = encrypt(trimmed);
+                
+                const message = {
+                    id: id ?? Date.now().toString(),
+                    sender,
                     text: encryptedText,
-                    timestamp: data.timestamp || new Date()
+                    timestamp: timestamp ?? new Date(),
                 };
 
-                chat.messages.push(newMessage);
-                await chat.save();
-
-                io.to(socket.data.chatId).emit('message-response', {
-                    id: newMessage.id,
-                    sender: newMessage.sender,
-                    text: text, // Send unencrypted to clients
-                    timestamp: newMessage.timestamp
+                await Chat.findByIdAndUpdate(chatId, {
+                    $push: { messages: message },
                 });
 
-                console.log(`Message sent in chat ${socket.data.chatId} by ${data.sender}`);
+                io.to(chatId).emit("message-response", {
+                    id: message.id,
+                    sender,
+                    text: trimmed,
+                    timestamp: message.timestamp,
+                });
 
+                console.log(`Message sent in chat ${chatId} by ${sender}`);
             } catch (error) {
-                console.error('Error in send-message:', error);
+                console.error('send-message error:', error);
                 socket.emit('error', { message: 'Failed to send message' });
             }
         });
 
-        socket.on('typing', (data) => {
-            try {
-                if (!socket.data.chatId) {
-                    return;
-                }
+        socket.on('typing', ({ sender, isTyping }) => {
+            const chatId = socket.data.chatId;
+            if (!chatId) return;
 
-                if (!data?.sender) {
-                    return;
-                }
-
-                socket.to(socket.data.chatId).emit('typing-response', {
-                    sender: data.sender,
-                    isTyping: data.isTyping || true
-                });
-
-            } catch (error) {
-                console.error('Error in typing:', error);
-            }
+            socket.to(chatId).emit("typing-response", {
+                sender,
+                isTyping: Boolean(isTyping),
+            });
         });
 
         socket.on('disconnect', () => {

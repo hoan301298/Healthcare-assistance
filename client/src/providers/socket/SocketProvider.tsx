@@ -41,7 +41,10 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         }
 
         if (joinedChatRef.current !== chatDetail.id) {
-            socketRef.current.emit("join-chat", { id: chatDetail.id });
+            socketRef.current.emit("join-chat", { 
+                chat_id: chatDetail.id,
+                user_id: chatDetail.user_id
+            });
             joinedChatRef.current = chatDetail.id;
         }
     }, [chatDetail?.id]);
