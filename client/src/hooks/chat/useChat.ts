@@ -3,15 +3,16 @@ import { AppDispatch, RootState } from "@/state/store"
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux"
 import { 
-    clearSupportState, 
+    clearChatState,
+    setIsConnectedState,
     setMessageState, 
     setInputValueState, 
-} from "@/state/supportSlice";
+} from "@/state/chatSlice";
 import { getChatDetail } from "@/state/thunks/chatThunks";
 import { ChatDetailResponseDto } from "@/components/models/Dto/ChatDetailResponseDto";
 
-const useSupport = () => {
-    const supportState = useSelector((state: RootState) => state.support);
+const useChat = () => {
+    const chatState = useSelector((state: RootState) => state.chat);
     const dispatch: AppDispatch = useDispatch();
 
     const setMessages = (update: Message[] | ((prev: Message[]) => Message[])) => {
@@ -22,8 +23,12 @@ const useSupport = () => {
         dispatch(setInputValueState(value));
     };
 
+    const setIsConnected = (value: boolean) => {
+        dispatch(setIsConnectedState(value));
+    }
+
     const clearData = () => {
-        dispatch(clearSupportState());
+        dispatch(clearChatState());
     }
 
     const fetchChatDetail = async (): Promise<ChatDetailResponseDto> => {
@@ -46,14 +51,16 @@ const useSupport = () => {
     };
     
     return {
-        chatDetail: supportState.chatDetail,
-        inputValue: supportState.inputValue,
+        chatDetail: chatState.chatDetail,
+        inputValue: chatState.inputValue,
+        isConnected: chatState.isConnected,
 
         fetchChatDetail,
         setMessages,
         setInputValue,
+        setIsConnected,
         clearData
     }
 }
 
-export default useSupport;
+export default useChat;

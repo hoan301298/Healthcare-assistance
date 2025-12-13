@@ -4,10 +4,7 @@ import Overlay from '@/components/chatSupport/Overlay';
 import useAuth from '@/hooks/auth/useAuth';
 
 const Chat = () => {
-  const {
-    isAuthenticated
-  } = useAuth();
-
+  const { isAuthenticated } = useAuth();
   return (
     <div className="min-h-screen bg-background">
       <Navbar />

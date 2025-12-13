@@ -4,8 +4,9 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getChatDetail } from "./thunks/chatThunks";
 import { ChatDetailResponseDto } from "@/components/models/Dto/ChatDetailResponseDto";
 
-interface SupportState {
+interface ChatState {
     chatDetail: ChatDetail | null;
+    isConnected: boolean;
     success: boolean;
     loading: boolean;
     message: string;
@@ -13,8 +14,9 @@ interface SupportState {
     inputValue: string;
 }
 
-const initialState: SupportState = {
+const initialState: ChatState = {
     chatDetail: null,
+    isConnected: false,
     inputValue: '',
     loading: false,
     success: false,
@@ -22,8 +24,8 @@ const initialState: SupportState = {
     error: null,
 }
 
-const supportSlice = createSlice({
-    name: "support",
+const chatSlice = createSlice({
+    name: "chat",
     initialState,
     reducers: {
         setMessageState: (state, action: PayloadAction<Message[] | ((prev: Message[]) => Message[])>) => {
@@ -33,10 +35,13 @@ const supportSlice = createSlice({
                 state.chatDetail.messages = action.payload;
             }
         },
+        setIsConnectedState: (state, action: PayloadAction<boolean>) => {
+            state.isConnected = action.payload;
+        },
         setInputValueState: (state, action: PayloadAction<string>) => {
             state.inputValue = action.payload;
         },
-        clearSupportState: () => initialState,
+        clearChatState: () => initialState,
     },
     extraReducers: (builder) => {
         builder.addCase(getChatDetail.pending, (state) => {
@@ -63,5 +68,5 @@ const supportSlice = createSlice({
     }
 })
 
-export const { setMessageState, setInputValueState, clearSupportState } = supportSlice.actions;
-export default supportSlice.reducer;
+export const { setMessageState, setInputValueState, setIsConnectedState, clearChatState } = chatSlice.actions;
+export default chatSlice.reducer;

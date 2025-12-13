@@ -1,20 +1,12 @@
 import { toast } from "@/components/ui/use-toast";
 import useAuth from "../auth/useAuth";
 import useAuthForm from "../auth/useAuthForm";
-import useSupport from "./useSupport";
+import useChat from "./useChat";
 
-const useHandleSupport = () => {
-    const {
-        fetchChatDetail
-    } = useSupport();
-    const {
-        login,
-        isAuthenticated
-    } = useAuth();
-    const {
-        loginForm,
-        clearForms
-    } = useAuthForm();
+const useHandleChat = () => {
+    const { fetchChatDetail } = useChat();
+    const { login, isAuthenticated } = useAuth();
+    const { loginForm, clearForms } = useAuthForm();
 
     const handleStartChat = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -25,9 +17,8 @@ const useHandleSupport = () => {
             const loginResponse = await login(loginForm);
             if (loginResponse.success) {
                 clearForms();
-                await fetchChatDetail();
+                // await fetchChatDetail();
                 toast({ title: loginResponse.data.message });
-
             } else {
                 toast({ title: loginResponse.data.message, variant: "destructive" });
             }
@@ -42,4 +33,4 @@ const useHandleSupport = () => {
     }
 }
 
-export default useHandleSupport;
+export default useHandleChat;

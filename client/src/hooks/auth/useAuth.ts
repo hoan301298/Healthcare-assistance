@@ -7,19 +7,23 @@ import { RegisterRequestDto } from "@/components/models/Dto/RegisterRequestDto";
 import { resetAuthState } from "@/state/auth/authSlice";
 import useAuthForm from "./useAuthForm";
 import { toast } from "@/components/ui/use-toast";
+import { useSocket } from "@/providers/socket/socket.context";
+import useChat from "../chat/useChat";
+import { clearChatState } from "@/state/chatSlice";
 
 const useAuth = () => {
     const dispatch: AppDispatch = useDispatch();
     const auth = useSelector((state: RootState) => state.auth);
-    const {
-        clearForms
-    } = useAuthForm();
+    const { fetchChatDetail } = useChat();
+    const { clearForms } = useAuthForm();
+    const { disconnectSocket } = useSocket();
 
     const loginUser = async (data: LoginRequestDto) => {
         const result = await dispatch(login(data));
 
         if (login.fulfilled.match(result)) {
             clearForms();
+            await fetchChatDetail();
             toast({ title: result.payload.message });
             return { success: true, data: result.payload as AuthResponseDto };
         } else {
@@ -43,6 +47,7 @@ const useAuth = () => {
 
     const checkUserAuth = async () => {
         const result = await dispatch(checkAuth());
+
         if (checkAuth.fulfilled.match(result)) {
             toast({ title: `Welcome back, ${result.payload.user.name?? ''}!` });
             return { success: true, data: result.payload as AuthResponseDto };
@@ -52,12 +57,32 @@ const useAuth = () => {
     };
 
     const logoutUser = async () => {
-        const result = await dispatch(logout());
-        if (logout.fulfilled.match(result)) {
-            toast({ title: "Logout successful"});
-            return { success: true, data: result.payload as AuthResponseDto };
-        } else {
-            return { success: false, error: result.payload as string };
+        try {
+            const result = await dispatch(logout());
+    
+            if (!logout.fulfilled.match(result)) {
+                return {
+                    success: false,
+                    error: result.payload as string,
+                };
+            }
+    
+            disconnectSocket();
+            dispatch(clearChatState());
+            dispatch(resetAuthState());
+    
+            toast({ title: "Logout successful" });
+    
+            return {
+                success: true,
+                data: result.payload as AuthResponseDto,
+            };
+        } catch (error) {
+            console.error("Logout error:", error);
+            return {
+                success: false,
+                error: "Unexpected logout error",
+            };
         }
     };
 

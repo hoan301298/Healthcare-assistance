@@ -1,16 +1,11 @@
 import { Input } from "../ui/input";
 import useAuthForm from "@/hooks/auth/useAuthForm";
-import useHandleSupport from "@/hooks/chatSupport/useHandleSupport";
+import useHandleChat from "@/hooks/chat/useHandleChat";
 import { Button } from "../ui/button";
 
 const Overlay = () => {
-    const {
-        loginForm,
-        setLoginForm
-    } = useAuthForm();
-    const {
-        handleStartChat
-    } = useHandleSupport();
+    const { loginForm, setLoginForm } = useAuthForm();
+    const { handleStartChat } = useHandleChat();
 
     return (
         <div className="absolute inset-0 flex items-center justify-center bg-black/40 z-20">

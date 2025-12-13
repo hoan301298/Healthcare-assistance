@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import searchReducer from './searchSlice';
 import bookingReducer from './bookingSlice';
 import appointmentReducer from './appointmentSlice';
-import supportReducer from './supportSlice';
+import chatReducer from './chatSlice';
 import authReducer from './auth/authSlice';
 import authFormReducer from './auth/authFormSlice'
 
@@ -11,7 +11,7 @@ export const store = configureStore({
     search: searchReducer,
     booking: bookingReducer,
     appointment: appointmentReducer,
-    support: supportReducer,
+    chat: chatReducer,
     auth: authReducer,
     authForm: authFormReducer,
   },

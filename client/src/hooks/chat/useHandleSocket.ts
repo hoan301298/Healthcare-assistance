@@ -1,24 +1,21 @@
-import { useEffect, useRef, useState } from "react";
-import { io, Socket } from "socket.io-client"
-import { API_V1_URL } from "@/constant";
+import { useEffect, useRef } from "react";
 import { Message } from "@/components/models/chat/Message";
 import { botResponses } from "@/components/models/chat/BotResponses";
-import useSupport from "./useSupport";
+import useChat from "./useChat";
 import useAuth from "../auth/useAuth";
+import { useSocket } from "@/providers/socket/socket.context";
 
 const useHandleSocket = () => {
-    const socketRef = useRef<Socket | null>(null);
-    const [isConnected, setIsConnected] = useState(socketRef.current?.connected ?? false);
+    const { socket } = useSocket();
+    const { isAuthenticated } = useAuth();
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const {
         chatDetail,
+        isConnected,
         inputValue,
         setMessages,
-        setInputValue
-    } = useSupport();
-    const {
-        isAuthenticated,
-    } = useAuth();
+        setInputValue,
+    } = useChat();
 
     const messages = chatDetail?.messages ?? [
         {
@@ -30,41 +27,21 @@ const useHandleSocket = () => {
     ];
 
     useEffect(() => {
-        if (!isAuthenticated || !chatDetail?.id) return;
+        if (!socket || !chatDetail?.id) return;
 
-        if (!socketRef.current) {
-            const socket = io(API_V1_URL, {
-                path: '/v1/socket.io',
-                transports: ['websocket', 'polling'],
-                autoConnect: true,
-                reconnection: true,
-            });
+        const onMessage = (message: Message) => {
+            setMessages((prev) => [...prev, message]);
+        };
 
-            socketRef.current = socket;
+        socket.on("message-response", onMessage);
 
-            socket.on('connect', () => {
-                setIsConnected(true);
-                socket?.emit('join-chat', { id: chatDetail.id });
-            });
+        return () => {
+            socket.off("message-response", onMessage);
+        };
 
-            socket.on('disconnect', () => setIsConnected(false));
-
-            socket.on('connect_error', (error) => {
-                console.error('Connection error:', error.message);
-                setIsConnected(false);
-            });
-
-            socket.on("message-response", (message: Message) => {
-                setMessages((prev) => [...prev, message]);
-            });
-
-            socket.on('error', (error) => console.error('Socket error:', error.message));
-        }
-        
-    }, [isAuthenticated, chatDetail?.id])
+    }, [socket, chatDetail?.id])
 
     const sendUserMessage = (text: string) => {
-        const socket = socketRef.current
         if (!socket || !isConnected) return;
 
         setInputValue('');
@@ -87,7 +64,6 @@ const useHandleSocket = () => {
     };
 
     const sendBotMessage = () => {
-        const socket = socketRef.current;
         if (!socket || !isConnected) return;
 
         const botMessage: Message = {
@@ -118,9 +94,8 @@ const useHandleSocket = () => {
     };
 
     const handleTyping = () => {
-        const socket = socketRef.current;
         if (!socket || !isConnected) return;
-        
+
         socket.emit('typing', {
             sender: 'user',
             isTyping: true
