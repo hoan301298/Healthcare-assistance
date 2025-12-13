@@ -6,10 +6,9 @@ import { botResponses } from "@/components/models/chat/BotResponses";
 import useSupport from "./useSupport";
 import useAuth from "../auth/useAuth";
 
-let socket: Socket | null = null;
-
 const useHandleSocket = () => {
-    const [isConnected, setIsConnected] = useState(false);
+    const socketRef = useRef<Socket | null>(null);
+    const [isConnected, setIsConnected] = useState(socketRef.current?.connected ?? false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const {
         chatDetail,
@@ -21,59 +20,53 @@ const useHandleSocket = () => {
         isAuthenticated,
     } = useAuth();
 
-    const messages = chatDetail?.messages ?? [{
-        id: (Date.now() + Math.random()).toString(),
-        sender: 'bot',
-        text: 'Hi, I\'m here to support you. What do you need?',
-        timestamp: new Date()
-    }];
+    const messages = chatDetail?.messages ?? [
+        {
+            id: (Date.now() + Math.random()).toString(),
+            sender: "bot",
+            text: "Hi, I’m here to support you. What do you need?",
+            timestamp: new Date(),
+        },
+    ];
 
     useEffect(() => {
-        if (!isAuthenticated) return;
+        if (!isAuthenticated || !chatDetail?.id) return;
 
-        if (!socket) {
-            socket = io(API_V1_URL, {
+        if (!socketRef.current) {
+            const socket = io(API_V1_URL, {
                 path: '/v1/socket.io',
                 transports: ['websocket', 'polling'],
                 autoConnect: true,
                 reconnection: true,
             });
 
+            socketRef.current = socket;
+
             socket.on('connect', () => {
                 setIsConnected(true);
-
                 socket?.emit('join-chat', { id: chatDetail.id });
             });
 
-            socket.on('disconnect', (reason) => {
-                setIsConnected(false);
-            });
+            socket.on('disconnect', () => setIsConnected(false));
 
             socket.on('connect_error', (error) => {
                 console.error('Connection error:', error.message);
                 setIsConnected(false);
             });
 
-            socket.on('message-response', (message: Message) => {
-                setMessages(prev => [...prev, {
-                    id: message.id,
-                    text: message.text,
-                    sender: message.sender,
-                    timestamp: new Date(message.timestamp)
-                }]);
+            socket.on("message-response", (message: Message) => {
+                setMessages((prev) => [...prev, message]);
             });
 
-            socket.on('error', (error) => {
-                console.error('Socket error:', error.message);
-            });
+            socket.on('error', (error) => console.error('Socket error:', error.message));
         }
-    }, [isAuthenticated])
+        
+    }, [isAuthenticated, chatDetail?.id])
 
     const sendUserMessage = (text: string) => {
-        if (!socket || !isConnected) {
-            console.error('Socket not connected');
-            return;
-        }
+        const socket = socketRef.current
+        if (!socket || !isConnected) return;
+
         setInputValue('');
 
         const userMessage: Message = {
@@ -94,10 +87,8 @@ const useHandleSocket = () => {
     };
 
     const sendBotMessage = () => {
-        if (!socket || !isConnected) {
-            console.error('Socket not connected');
-            return;
-        }
+        const socket = socketRef.current;
+        if (!socket || !isConnected) return;
 
         const botMessage: Message = {
             id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
@@ -115,12 +106,7 @@ const useHandleSocket = () => {
     };
 
     const handleSend = () => {
-        if (!isAuthenticated || !isConnected) {
-            console.warn('Cannot send message: not verified or not connected');
-            return;
-        }
-        if (!inputValue.trim()) return;
-        
+        if (!isAuthenticated || !isConnected || !inputValue.trim()) return;
         sendUserMessage(inputValue);
     };
 
@@ -132,6 +118,7 @@ const useHandleSocket = () => {
     };
 
     const handleTyping = () => {
+        const socket = socketRef.current;
         if (!socket || !isConnected) return;
         
         socket.emit('typing', {

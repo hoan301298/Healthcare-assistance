@@ -3,8 +3,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Send, Bot, User } from 'lucide-react';
-import { useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import useHandleSocket from '@/hooks/chatSupport/useHandleSocket';
+import useSupport from '@/hooks/chatSupport/useSupport';
 
 const ChatBox = () => {
     const {
@@ -12,16 +13,26 @@ const ChatBox = () => {
         isConnected,
         inputValue,
         messagesEndRef,
-        messages,
         handleSend,
         handleKeyPress,
+        messages,
         handleTyping,
         setInputValue,
     } = useHandleSocket();
 
+    const {
+        fetchChatDetail,
+    } = useSupport();
+
     useLayoutEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
+
+    useEffect(() => {
+        if (isAuthenticated && !isConnected) {
+            fetchChatDetail();
+        }
+    }, [isAuthenticated, isConnected])
 
     return (
         <Card className="h-[calc(100vh-200px)] flex flex-col border-border">

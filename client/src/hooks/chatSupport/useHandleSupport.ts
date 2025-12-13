@@ -1,3 +1,4 @@
+import { toast } from "@/components/ui/use-toast";
 import useAuth from "../auth/useAuth";
 import useAuthForm from "../auth/useAuthForm";
 import useSupport from "./useSupport";
@@ -17,12 +18,22 @@ const useHandleSupport = () => {
 
     const handleStartChat = async (e: React.FormEvent) => {
         e.preventDefault();
+    
+        try {
+            if (isAuthenticated) return;
+    
+            const loginResponse = await login(loginForm);
+            if (loginResponse.success) {
+                clearForms();
+                await fetchChatDetail();
+                toast({ title: loginResponse.data.message });
 
-        if (isAuthenticated) return;
-        const loginResponse = await login(loginForm);
-        if (loginResponse.success) {
-            clearForms()
-            await fetchChatDetail();
+            } else {
+                toast({ title: loginResponse.data.message, variant: "destructive" });
+            }
+        } catch (err) {
+            console.error("handleStartChat error:", err);
+            toast({ title: "Unexpected error occurred", variant: "destructive" });
         }
     }
 

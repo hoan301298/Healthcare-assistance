@@ -1,4 +1,5 @@
 import ChatDetail from "../../model/Chat.schema.js";
+import { decrypt } from "../helper/cryptoFunctions.js";
 
 const chatService = async (user_id) => {
     try {
@@ -17,7 +18,10 @@ const chatService = async (user_id) => {
             chatDetail: {
                 id: chatDetail._id,
                 user_id: chatDetail.user_id,
-                messages: chatDetail.messages,
+                messages: chatDetail.messages.map(message => ({
+                    ...message.toObject(),
+                    text: decrypt(message.text)
+                }))
             }
         };
     } catch (err) {

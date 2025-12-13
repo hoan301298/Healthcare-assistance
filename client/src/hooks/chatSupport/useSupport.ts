@@ -8,7 +8,6 @@ import {
     setInputValueState, 
 } from "@/state/supportSlice";
 import { getChatDetail } from "@/state/thunks/chatThunks";
-import { toast } from "@/components/ui/use-toast";
 import { ChatDetailResponseDto } from "@/components/models/Dto/ChatDetailResponseDto";
 
 const useSupport = () => {
@@ -31,21 +30,13 @@ const useSupport = () => {
         const result = await dispatch(getChatDetail());
     
         if (getChatDetail.fulfilled.match(result)) {
-            toast({ title: result.payload.message });
             return result.payload as ChatDetailResponseDto;
         }
     
-        // rejected case — check payload vs error
         const errorMessage = 
             (result.payload as string) ||
             result.error?.message ||
             "Failed to fetch Chat_Detail";
-    
-        toast({
-            title: "Fetch data failed!",
-            description: errorMessage,
-            variant: "destructive"
-        });
     
         return {
             success: false,
