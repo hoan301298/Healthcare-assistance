@@ -63,7 +63,7 @@ const Appointment = () => {
                             </div>
                         </form>
                     </CardHeader>
-                    <AppointmentDetail appointment={appointment.fetchedAppointment} />
+                    <AppointmentDetail appointment={appointment.singleAppointment} />
                 </Card>
             </div>
         </div>

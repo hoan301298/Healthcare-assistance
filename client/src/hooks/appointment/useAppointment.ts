@@ -1,12 +1,14 @@
 import { Appointment } from "@/components/models/appointment/Appointment";
+import { AppointmentsResponseDto } from "@/components/models/appointment/AppointmentsResponseDto";
 import { setFilters } from "@/state/appointmentSlice";
-import { RootState } from "@/state/store"
+import { AppDispatch, RootState } from "@/state/store"
+import { getAllAppointmentByAuth } from "@/state/thunks/appointmentThunks";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux"
 
 const useAppointment = () => {
-    const appointment = useSelector((state: RootState) => state.appointment);
-    const dispatch = useDispatch();
+    const appointmentState = useSelector((state: RootState) => state.appointment);
+    const dispatch: AppDispatch = useDispatch<AppDispatch>();
 
     const setReferenceId = (id: string) => {
         dispatch(setFilters({ referenceId: id }));
@@ -17,11 +19,26 @@ const useAppointment = () => {
     }
 
     const setAppointment = (appointment: Appointment) => {
-        dispatch(setFilters({ fetchedAppointment: appointment }));
+        dispatch(setFilters({ singleAppointment: appointment }));
+    }
+
+    const getAllAppointments = async (): Promise<AppointmentsResponseDto> => {
+        const result = await dispatch(getAllAppointmentByAuth());
+
+        if (getAllAppointmentByAuth.fulfilled.match(result)) {
+            return result.payload;
+        } else {
+            return {
+                success: false,
+                message: result.payload
+            };
+        }
     }
 
     return {
-        appointment,
+        appointment: appointmentState,
+
+        getAllAppointments,
         setReferenceId,
         setEmail,
         setAppointment

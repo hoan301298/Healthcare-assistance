@@ -6,9 +6,7 @@ import SideBar from "../place_detail/SideBar";
 import { getAppointmentStatus, statusColors } from "./appointmentStatus";
 import AppointmentContent from "./AppointmentContent";
 
-const AppointmentDetail: React.FC<{ appointment: Appointment | null }> = ({
-    appointment,
-}) => {
+const AppointmentDetail: React.FC<{ appointment: Appointment | null }> = ({ appointment }) => {
     if (!appointment) {
         return (
             <div className="pb-[2rem]">

@@ -44,8 +44,8 @@ export const checkAuth = createAsyncThunk<
     "auth/checkAuth",
     async (_, thunkAPI) => {
         try {
-            const res = await axiosClient_v1.get<AuthResponseDto>("/profile/auth/check");
-            return res.data;
+            const response = await axiosClient_v1.get<AuthResponseDto>("/profile/auth/check");
+            return response.data;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(null);
         }
@@ -60,8 +60,8 @@ export const logout = createAsyncThunk<
     "auth/logout",
     async (_, thunkAPI) => {
         try {
-            const res = await axiosClient_v1.get<AuthResponseDto>("/profile/auth/logout");
-            return res.data;
+            const response = await axiosClient_v1.get<AuthResponseDto>("/profile/auth/logout");
+            return response.data;
         } catch (error: any) {
             return thunkAPI.rejectWithValue("Logout failed");
         }
