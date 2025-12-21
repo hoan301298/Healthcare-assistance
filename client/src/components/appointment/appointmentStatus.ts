@@ -2,12 +2,28 @@ export const getAppointmentStatus = (appointment: { date: string; time: string }
     if (!appointment.date || !appointment.time) return "unknown";
 
     const now = new Date();
-    const appointmentDateTime = new Date(`${appointment.date}T${appointment.time}`);
+
+    const date = new Date(appointment.date);
+
+    const [time, modifier] = appointment.time.split(" ");
+    let [hours, minutes] = time.split(":").map(Number);
+
+    if (modifier === "PM" && hours < 12) hours += 12;
+    if (modifier === "AM" && hours === 12) hours = 0;
+
+    date.setHours(hours, minutes, 0, 0);
+
+    const appointmentDateTime = date;
 
     if (appointmentDateTime > now) return "upcoming";
-    if (appointmentDateTime <= now && appointmentDateTime > new Date(now.getTime() - 60 * 60 * 1000)) return "ongoing";
+
+    const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
+    if (appointmentDateTime <= now && appointmentDateTime > oneHourAgo) {
+        return "ongoing";
+    }
+
     return "completed";
-}
+};
 
 export const statusColors: Record<string, string> = {
     upcoming: "bg-blue-100 text-blue-800",
