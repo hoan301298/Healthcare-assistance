@@ -1,5 +1,6 @@
 package e2000575.vamk.fi.server.helper;
 
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.Base64;
 
@@ -11,54 +12,63 @@ import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
 public class EncryptionUtil {
-    private static final String AES = "AES";
-    private static final String AES_GCM_NO_PADDING = "AES/GCM/NoPadding";
+
+    private static final String AES_GCM = "AES/GCM/NoPadding";
     private static final int GCM_TAG_LENGTH = 128;
     private static final int IV_LENGTH = 12;
-    private static final int KEY_LENGTH = 256;
-    private static final int PBKDF2_ITERATIONS = 65536;
 
     private EncryptionUtil() {}
 
-    public static SecretKey deriveKeyFromSecret(String secret) throws Exception {
-        byte[] salt = "fixed-or-env-salt".getBytes();
-        PBEKeySpec spec = new PBEKeySpec(secret.toCharArray(), salt, PBKDF2_ITERATIONS, KEY_LENGTH);
-        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-        byte[] keyBytes = skf.generateSecret(spec).getEncoded();
-        return new SecretKeySpec(keyBytes, AES);
+    public static SecretKey keyFromHex(String hexKey) {
+        byte[] keyBytes = hexToBytes(hexKey);
+        if (keyBytes.length != 32) {
+            throw new IllegalArgumentException("AES-256 key must be 32 bytes");
+        }
+        return new SecretKeySpec(keyBytes, "AES");
     }
 
-    public static String encrypt(String input, SecretKey key) throws Exception {
+    public static String encrypt(String plainText, SecretKey key) throws Exception {
         byte[] iv = new byte[IV_LENGTH];
-        SecureRandom sr = new SecureRandom();
-        sr.nextBytes(iv);
+        new SecureRandom().nextBytes(iv);
 
-        Cipher cipher = Cipher.getInstance(AES_GCM_NO_PADDING);
-        GCMParameterSpec spec = new GCMParameterSpec(GCM_TAG_LENGTH, iv);
-        cipher.init(Cipher.ENCRYPT_MODE, key, spec);
+        Cipher cipher = Cipher.getInstance(AES_GCM);
+        cipher.init(Cipher.ENCRYPT_MODE, key, new GCMParameterSpec(GCM_TAG_LENGTH, iv));
 
-        byte[] ciphertext = cipher.doFinal(input.getBytes("UTF-8"));
+        byte[] cipherTextWithTag = cipher.doFinal(
+                plainText.getBytes(StandardCharsets.UTF_8)
+        );
 
-        byte[] combined = new byte[iv.length + ciphertext.length];
+        byte[] combined = new byte[iv.length + cipherTextWithTag.length];
         System.arraycopy(iv, 0, combined, 0, iv.length);
-        System.arraycopy(ciphertext, 0, combined, iv.length, ciphertext.length);
+        System.arraycopy(cipherTextWithTag, 0, combined, iv.length, cipherTextWithTag.length);
 
         return Base64.getEncoder().encodeToString(combined);
     }
 
-    public static String decrypt(String b64Combined, SecretKey key) throws Exception {
-        byte[] combined = Base64.getDecoder().decode(b64Combined);
+    public static String decrypt(String base64Combined, SecretKey key) throws Exception {
+        byte[] combined = Base64.getDecoder().decode(base64Combined);
+
         byte[] iv = new byte[IV_LENGTH];
+        byte[] cipherTextWithTag = new byte[combined.length - IV_LENGTH];
+
         System.arraycopy(combined, 0, iv, 0, IV_LENGTH);
-        byte[] ciphertext = new byte[combined.length - IV_LENGTH];
-        System.arraycopy(combined, IV_LENGTH, ciphertext, 0, ciphertext.length);
+        System.arraycopy(combined, IV_LENGTH, cipherTextWithTag, 0, cipherTextWithTag.length);
 
-        Cipher cipher = Cipher.getInstance(AES_GCM_NO_PADDING);
-        GCMParameterSpec spec = new GCMParameterSpec(GCM_TAG_LENGTH, iv);
-        cipher.init(Cipher.DECRYPT_MODE, key, spec);
+        Cipher cipher = Cipher.getInstance(AES_GCM);
+        cipher.init(Cipher.DECRYPT_MODE, key, new GCMParameterSpec(GCM_TAG_LENGTH, iv));
 
-        byte[] plain = cipher.doFinal(ciphertext);
+        byte[] plain = cipher.doFinal(cipherTextWithTag);
+        return new String(plain, StandardCharsets.UTF_8);
+    }
 
-        return new String(plain, "UTF-8");
+    private static byte[] hexToBytes(String hex) {
+        int len = hex.length();
+        byte[] data = new byte[len / 2];
+        for (int i = 0; i < len; i += 2) {
+            data[i / 2] = (byte)
+                    ((Character.digit(hex.charAt(i), 16) << 4)
+                    + Character.digit(hex.charAt(i + 1), 16));
+        }
+        return data;
     }
 }

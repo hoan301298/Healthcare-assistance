@@ -12,6 +12,11 @@ public class SecretConfig {
         if (secretKey == null || secretKey.isEmpty()) {
             throw new IllegalStateException("SECRET_KEY not defined");
         }
+
+        if (secretKey.length() != 64) {
+            throw new IllegalStateException("SECRET_KEY must be 64 hex characters (32 bytes)");
+        }
+
         this.secretKey = secretKey;
     }
 
