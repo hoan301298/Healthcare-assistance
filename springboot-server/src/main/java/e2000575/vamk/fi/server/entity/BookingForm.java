@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 
 @Data
-@Document(collection = "appointment")
+@Document(collection = "appointments")
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
