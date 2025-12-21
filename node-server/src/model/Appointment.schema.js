@@ -1,7 +1,7 @@
 import { model, Schema } from "mongoose";
-import { Hospital } from "./Hospital.schema.js";
+import { Hospital } from "./Hospital.model.js";
 
-const appointmentSchema = new Schema({
+const AppointmentSchema = new Schema({
     name: { type: String, required: true },
     hashedEmail: { type: String, required: true},
     encryptedEmail: { type: String, required: true},
@@ -13,6 +13,6 @@ const appointmentSchema = new Schema({
     notes: { type: String, required: true},
 }, { timestamps: true });
 
-const AppointmentSchema = new model('appointments', appointmentSchema);
+const AppointmentModel = new model('appointments', AppointmentSchema);
 
-export default AppointmentSchema;
+export default AppointmentModel;

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { authMiddleware } from '../../middleware/authMiddleware.js';
+import { AuthMiddleware } from '../../middleware/AuthMiddleware.js';
 import {
     getUser,
     updateUser,
@@ -8,8 +8,8 @@ import {
 
 const userRouter = Router();
 
-userRouter.get('/:id', authMiddleware, getUser);
-userRouter.put('/', authMiddleware, updateUser);
-userRouter.post('/reset-password', authMiddleware, resetPassword);
+userRouter.get('/:id', AuthMiddleware, getUser);
+userRouter.put('/', AuthMiddleware, updateUser);
+userRouter.post('/reset-password', AuthMiddleware, resetPassword);
 
 export default userRouter;

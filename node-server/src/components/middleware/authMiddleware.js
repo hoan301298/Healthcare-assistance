@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { constants } from '../../constant.js';
 import User from '../../model/User.schema.js';
 
-export const authMiddleware = async (req, res, next) => {
+export const AuthMiddleware = async (req, res, next) => {
     const token = req.cookies.token;
 
     if(!token) {
