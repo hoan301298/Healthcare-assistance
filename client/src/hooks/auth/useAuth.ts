@@ -10,11 +10,13 @@ import { toast } from "@/components/ui/use-toast";
 import { useSocket } from "@/providers/socket/socket.context";
 import useChat from "../chat/useChat";
 import { clearChatState } from "@/state/chatSlice";
+import useAppointment from "../appointment/useAppointment";
 
 const useAuth = () => {
     const dispatch: AppDispatch = useDispatch();
     const auth = useSelector((state: RootState) => state.auth);
     const { fetchChatDetail } = useChat();
+    const { getAllAppointments } = useAppointment();
     const { clearForms } = useAuthForm();
     const { disconnectSocket } = useSocket();
 
@@ -24,6 +26,7 @@ const useAuth = () => {
         if (login.fulfilled.match(result)) {
             clearForms();
             await fetchChatDetail();
+            await getAllAppointments();
             toast({ title: result.payload.message });
             return { success: true, data: result.payload as AuthResponseDto };
         } else {

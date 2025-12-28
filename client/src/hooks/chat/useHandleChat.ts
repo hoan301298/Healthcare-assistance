@@ -1,10 +1,8 @@
 import { toast } from "@/components/ui/use-toast";
 import useAuth from "../auth/useAuth";
 import useAuthForm from "../auth/useAuthForm";
-import useChat from "./useChat";
 
 const useHandleChat = () => {
-    const { fetchChatDetail } = useChat();
     const { login, isAuthenticated } = useAuth();
     const { loginForm, clearForms } = useAuthForm();
 
@@ -17,7 +15,6 @@ const useHandleChat = () => {
             const loginResponse = await login(loginForm);
             if (loginResponse.success) {
                 clearForms();
-                // await fetchChatDetail();
                 toast({ title: loginResponse.data.message });
             } else {
                 toast({ title: loginResponse.data.message, variant: "destructive" });

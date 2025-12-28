@@ -6,7 +6,7 @@ import { AppointmentsResponseDto } from "@/components/models/appointment/Appoint
 interface AppointmentState {
     referenceId: string;
     email: string;
-    singleAppointment: Appointment;
+    singleAppointment: Appointment | null;
     success: boolean;
     message: string;
     authAppointments: Appointment[] | null;
