@@ -17,17 +17,28 @@ export class AppointmentService {
         const appointments = await this.AppointmentModel
             .find({ hashedEmail: user.hashedEmail });
 
-        if (!appointments) {
+        if (!appointments || appointments.length === 0) {
             return {
                 success: false,
-                message: "NOT FOUND"
-            }
-        };
+                message: "No appointments found",
+                data: []
+            };
+        }
 
-        const result = appointments.map(app => ({
-            ...app,
-            email: decrypt(app.encryptedEmail),
-        }));
+        const result = appointments.map(app => {
+            const plainApp = app.toObject();
+            delete plainApp._class;
+            delete plainApp.$__;
+            delete plainApp.$isNew;
+            try {
+                plainApp.email = decrypt(plainApp.encryptedEmail);
+            } catch (err) {
+                plainApp.email = null;
+            }
+            delete plainApp.hashedEmail;
+            delete plainApp.encryptedEmail;
+            return plainApp;
+        });
 
         return {
             success: true,
