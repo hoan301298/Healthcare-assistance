@@ -20,9 +20,9 @@ export class AppointmentController {
         const response = await this.appointmentService.getAppointments(user);
 
         if(!response.success) {
-            return res.status(400).json({response});
+            return res.status(400).json(response);
         };
 
-        return res.status(200).json({response});
+        return res.status(200).json(response);
     }
 }

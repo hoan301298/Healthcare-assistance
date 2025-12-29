@@ -8,5 +8,5 @@ import { Appointment } from "./Appointment";
 export interface AppointmentsResponseDto {
     success: boolean;
     message: string;
-    appointments?: Appointment[];
+    data?: Appointment[];
 }

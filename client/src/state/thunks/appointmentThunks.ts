@@ -7,11 +7,11 @@ export const getAllAppointmentByAuth = createAsyncThunk<
     void,
     { rejectValue: string }
 >(
-    "/appointment",
+    "appointment",
     async (_, { rejectWithValue }) => {
         try {
             const response = await axiosClient_v1.get<AppointmentsResponseDto>("/appointments");
-            return response.data;
+            return response.data as AppointmentsResponseDto;
         } catch (error) {
             console.error("Something went wrong", error);
             return rejectWithValue(error.response?.data?.message || "Fail to fetch appointmnets");

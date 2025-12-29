@@ -53,6 +53,7 @@ const useAuth = () => {
 
         if (checkAuth.fulfilled.match(result)) {
             await fetchChatDetail();
+            await getAllAppointments();
             toast({ title: `Welcome back, ${result.payload.user.name?? ''}!` });
             return { success: true, data: result.payload as AuthResponseDto };
         } else {

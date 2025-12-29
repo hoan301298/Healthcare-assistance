@@ -24,7 +24,7 @@ const useAppointment = () => {
 
     const getAllAppointments = async (): Promise<AppointmentsResponseDto> => {
         const result = await dispatch(getAllAppointmentByAuth());
-        console.log(result);
+
         if (getAllAppointmentByAuth.fulfilled.match(result)) {
             return result.payload;
         } else {
@@ -34,7 +34,7 @@ const useAppointment = () => {
             };
         }
     }
-
+    
     return {
         appointment: appointmentState,
 

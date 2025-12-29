@@ -32,7 +32,7 @@ const appointmentSlice = createSlice({
     },
     extraReducers: (builder => {
         builder.addCase(getAllAppointmentByAuth.fulfilled, (state, action: PayloadAction<AppointmentsResponseDto>) => {
-            state.authAppointments = action.payload.appointments;
+            state.authAppointments = action.payload.data;
             state.success = action.payload.success;
             state.message = action.payload.message;
         });
