@@ -1,9 +1,10 @@
+import { AppointmentService } from "./appointment.service.js";
+
 export class AppointmentController {
-    constructor(AppointmentService) {
-        if(!AppointmentService) {
-            throw new Error("AppointmentService is required");
-        }
-        this.AppointmentService = AppointmentService;
+    constructor() {
+        this.appointmentService = new AppointmentService();
+
+        this.getAppointmentsByAuth = this.getAppointmentsByAuth.bind(this);
     };
 
     async getAppointmentsByAuth(req, res) {
@@ -16,7 +17,7 @@ export class AppointmentController {
             });
         }
 
-        const response = await this.AppointmentService.getAppointments(user);
+        const response = await this.appointmentService.getAppointments(user);
 
         if(!response.success) {
             return res.status(400).json({response});

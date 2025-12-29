@@ -1,11 +1,14 @@
 import { model, Schema } from "mongoose";
-import { Hospital } from "./Hospital.model.js";
+import { HospitalSchema } from "./Hospital.schema.js";
 
 const AppointmentSchema = new Schema({
     name: { type: String, required: true },
     hashedEmail: { type: String, required: true},
     encryptedEmail: { type: String, required: true},
-    hospital: { type: Hospital, required: true},
+    hospital: { 
+        type: HospitalSchema,
+        required: true
+    },
     phone: { type: String, required: true},
     date: { type: String, required: true},
     time: { type: String, required: true},
