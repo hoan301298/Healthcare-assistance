@@ -26,7 +26,7 @@ public class BookingService {
     public BookingService(BookingRepository bookingRepository, SecretConfig secretConfig) throws Exception {
         this.bookingRepository = bookingRepository;
         this.secretConfig = secretConfig;
-        this.aesKey = EncryptionUtil.keyFromHex(secretConfig.getSecretKey());
+        this.aesKey = EncryptionUtil.keyFromHex(secretConfig.getEncryptKey());
     }
 
     public List<BookingResponseDTO> getAppointmentByEmail(String email) {

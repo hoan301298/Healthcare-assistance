@@ -15,8 +15,7 @@ export class AppointmentService {
         };
 
         const appointments = await this.AppointmentModel
-            .find({ hashedEmail: user.hashedEmail })
-            .lean();
+            .find({ hashedEmail: user.hashedEmail });
 
         if (!appointments) {
             return {

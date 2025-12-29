@@ -4,7 +4,6 @@ import axios from "axios";
 
 export const createBooking = async (createBooking: CreateBookingDTO) : Promise<Appointment | null> => {
     if(!createBooking) return null;
-    console.log(createBooking);
     try {
         const response = await axios.post('/v2/create', createBooking);
         return response.data;
