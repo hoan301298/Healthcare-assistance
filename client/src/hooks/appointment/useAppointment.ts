@@ -36,7 +36,10 @@ const useAppointment = () => {
     }
     
     return {
-        appointment: appointmentState,
+        singleAppointment: appointmentState.singleAppointment,
+        authAppointments: appointmentState.authAppointments,
+        email: appointmentState.email,
+        referenceId: appointmentState.referenceId,
 
         getAllAppointments,
         setReferenceId,

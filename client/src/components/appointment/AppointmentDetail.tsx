@@ -1,13 +1,18 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { FileText } from "lucide-react";
-import { Appointment } from "../models/appointment/Appointment";
 import SideBar from "../place_detail/SideBar";
 import { getAppointmentStatus, statusColors } from "./appointmentStatus";
 import AppointmentContent from "./AppointmentContent";
+import useAppointment from "@/hooks/appointment/useAppointment";
 
-const AppointmentDetail: React.FC<{ appointment: Appointment | null }> = ({ appointment }) => {
-    if (!appointment) {
+const AppointmentDetail = () => {
+    const {
+        singleAppointment,
+        authAppointments
+    } = useAppointment();
+
+    if (!singleAppointment) {
         return (
             <div className="pb-[2rem]">
                 <Card className="w-full max-w-3xl mx-auto">
@@ -22,7 +27,7 @@ const AppointmentDetail: React.FC<{ appointment: Appointment | null }> = ({ appo
         );
     }
 
-    const status = getAppointmentStatus(appointment);
+    const status = getAppointmentStatus(singleAppointment);
 
     return (
         <div className="w-full h-full shadow-lg flex justify-between px-6 pb-8">
@@ -42,9 +47,9 @@ const AppointmentDetail: React.FC<{ appointment: Appointment | null }> = ({ appo
                         </Badge>
                     </div>
                 </CardHeader>
-                <AppointmentContent appointment={appointment}/>
+                <AppointmentContent appointment={singleAppointment}/>
             </Card>
-            <SideBar place={appointment.place} />
+            <SideBar place={singleAppointment.place} />
         </div>
     );
 };

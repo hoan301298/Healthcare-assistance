@@ -12,7 +12,8 @@ import useAppointment from "@/hooks/appointment/useAppointment";
 const Appointment = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const {
-        appointment,
+        email,
+        referenceId,
         setReferenceId,
         setEmail,
     } = useAppointment();
@@ -35,7 +36,7 @@ const Appointment = () => {
                                     <Input
                                         className="h-[3rem] mt-2"
                                         id="referenceId"
-                                        value={appointment.referenceId}
+                                        value={referenceId}
                                         onChange={(e) => setReferenceId(e.target.value)}
                                         placeholder="24-characters"
                                         required
@@ -46,7 +47,7 @@ const Appointment = () => {
                                     <Input
                                         className="h-[3rem] mt-2"
                                         id="email"
-                                        value={appointment.email}
+                                        value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         placeholder="your-email@gmail.com"
                                         required
@@ -63,7 +64,7 @@ const Appointment = () => {
                             </div>
                         </form>
                     </CardHeader>
-                    <AppointmentDetail appointment={appointment.singleAppointment} />
+                    <AppointmentDetail/>
                 </Card>
             </div>
         </div>

@@ -4,18 +4,19 @@ import useAppointment from "@/hooks/appointment/useAppointment";
 
 const useHandleAction = () => {
     const { 
-        appointment,
+        email,
+        referenceId,
         setAppointment,
     } = useAppointment();
 
     const handleSearchBooking = async (e: React.FormEvent, setIsLoading: (state: boolean) => void) => {
         e.preventDefault();
         
-        if(!appointment.email || !appointment.referenceId) return;
+        if(!email || !referenceId) return;
 
         try {
             setIsLoading(true);
-            const response = await getBookingById(appointment.referenceId, appointment.email);
+            const response = await getBookingById(referenceId, email);
             
             if (response) {
                 setAppointment(response);
