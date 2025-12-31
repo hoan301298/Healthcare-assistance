@@ -27,6 +27,9 @@ export class AppointmentService {
 
         const result = appointments.map(app => {
             const plainApp = app.toObject();
+            plainApp.id = plainApp._id;
+
+            delete plainApp._id;
             delete plainApp._class;
             delete plainApp.$__;
             delete plainApp.$isNew;
