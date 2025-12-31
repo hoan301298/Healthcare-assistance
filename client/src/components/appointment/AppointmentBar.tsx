@@ -55,7 +55,7 @@ const AppointmentBar = ({ appointment, onDelete }: AppointmentBarProps) => {
               </p>
             </div>
 
-            <Badge variant="outline" className={`${statusColors[status]} shrink-0`}>
+            <Badge variant="outline" className={`${statusColors[status]} px-4 py-2 text-base font-medium rounded-full`}>
               {status}
             </Badge>
           </div>

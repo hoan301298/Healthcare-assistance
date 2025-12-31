@@ -14,7 +14,7 @@ interface AppointmentContentProps {
 
 const AppointmentContent = ({ appointment, status }: AppointmentContentProps) => {
     return (
-        <div className="shadow-lg flex justify-between px-6 py-8">
+        <div className="shadow-lg flex justify-between px-3 py-3">
             <Card className="w-full flex-[0.97] shadow-lg">
                 <CardHeader className="space-y-4 bg-gradient-to-br from-primary/5 to-accent/5">
                     <div className="flex items-start justify-between">
@@ -26,7 +26,7 @@ const AppointmentContent = ({ appointment, status }: AppointmentContentProps) =>
                                 View information about your scheduled appointment
                             </p>
                         </div>
-                        <Badge className={`${statusColors[status]} px-4 py-1.5 text-sm font-medium capitalize`}>
+                        <Badge variant="outline" className={`${statusColors[status]}`}>
                             {status}
                         </Badge>
                     </div>
