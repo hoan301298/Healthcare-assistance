@@ -1,4 +1,4 @@
-import AppointmentDetail from "@/components/appointment/AppointmentDetail";
+import AppointmentList from "@/components/appointment/AppointmentList";
 import Navbar from "@/components/navbar/Navbar";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -64,7 +64,7 @@ const Appointment = () => {
                             </div>
                         </form>
                     </CardHeader>
-                    <AppointmentDetail/>
+                    <AppointmentList/>
                 </Card>
             </div>
         </div>

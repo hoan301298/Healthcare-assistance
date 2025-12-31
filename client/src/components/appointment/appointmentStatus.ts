@@ -1,4 +1,4 @@
-export const getAppointmentStatus = (appointment: { date: string; time: string }) => {
+export const getAppointmentStatus = (appointment: { date: string; time: string }) : string => {
     if (!appointment.date || !appointment.time) return "unknown";
 
     const now = new Date();
@@ -26,8 +26,8 @@ export const getAppointmentStatus = (appointment: { date: string; time: string }
 };
 
 export const statusColors: Record<string, string> = {
-    upcoming: "bg-blue-100 text-blue-800",
-    ongoing: "bg-yellow-100 text-yellow-800",
-    completed: "bg-gray-100 text-gray-800",
-    unknown: "bg-gray-200 text-gray-500",
+    upcoming: "bg-success/10 text-success border-success/20",
+    ongoing: "bg-warning/10 text-warning border-warning/20",
+    completed: "bg-muted text-muted-foreground border-muted",
+    unknown: "bg-destructive/10 text-destructive border-destructive/20",
 };

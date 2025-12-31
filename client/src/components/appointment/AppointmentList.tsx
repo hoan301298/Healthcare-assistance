@@ -1,0 +1,45 @@
+import { CalendarX } from "lucide-react";
+import useAppointment from "@/hooks/appointment/useAppointment";
+import AppointmentBar from "./AppointmentBar";
+
+const AppointmentList = () => {
+    const {
+        singleAppointment,
+        authAppointments
+    } = useAppointment();
+
+    if (!singleAppointment && !authAppointments) {
+        return (
+            <div className="flex flex-col items-center justify-center py-16 text-center">
+                <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
+                    <CalendarX className="w-8 h-8 text-muted-foreground" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-2">No Appointments</h3>
+                <p className="text-muted-foreground">
+                    You don't have any scheduled appointments. Book one to get started!
+                </p>
+            </div>
+        );
+    }
+
+    return (
+        <div className="space-y-3">
+            {singleAppointment && 
+                <AppointmentBar 
+                    key={singleAppointment.id} 
+                    appointment={singleAppointment}
+                />
+            }
+
+            {authAppointments && authAppointments.map((appointment) => (
+                <AppointmentBar
+                    key={appointment.id}
+                    appointment={appointment}
+                    // onDelete={handleDelete}
+                />
+            ))}
+        </div>
+    );
+};
+
+export default AppointmentList;
