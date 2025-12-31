@@ -22,5 +22,5 @@ public class BookingResponseDTO {
     private String date;
     private String reason;
     private String notes;
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
 }

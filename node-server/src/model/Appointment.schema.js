@@ -14,6 +14,7 @@ const AppointmentSchema = new Schema({
     time: { type: String, required: true},
     reason: { type: String, required: true},
     notes: { type: String, required: true},
+    createdAt: { type: Date, required: true},
 }, { timestamps: true });
 
 const AppointmentModel = new model('appointments', AppointmentSchema);

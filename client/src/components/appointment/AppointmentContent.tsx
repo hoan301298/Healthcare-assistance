@@ -129,7 +129,7 @@ const AppointmentContent = ({ appointment, status }: AppointmentContentProps) =>
                             </div>
                             <div className="flex-1">
                                 <p className="text-sm font-medium text-muted-foreground mb-1">Created At</p>
-                                <p className="text-base text-foreground">{getFormatDate(appointment.createAt)}</p>
+                                <p className="text-base text-foreground">{getFormatDate(appointment.createdAt)}</p>
                             </div>
                         </div>
                     </div>

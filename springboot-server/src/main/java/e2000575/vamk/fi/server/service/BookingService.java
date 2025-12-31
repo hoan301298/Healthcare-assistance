@@ -119,7 +119,7 @@ public class BookingService {
             .setDate(form.getDate())
             .setReason(form.getReason())
             .setNotes(form.getNotes())
-            .setCreateAt(form.getCreatedAt())
+            .setCreatedAt(form.getCreatedAt())
         ;
         return response;
     }
