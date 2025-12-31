@@ -7,7 +7,7 @@ interface BookingState {
 
 const initialState: BookingState = {
     formData: {
-        place: null,
+        hospital: null,
         name: '',
         email: '',
         date: '',

@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class BookingResponseDTO {
     private String id;
-    private Hospital place;
+    private Hospital hospital;
     private String name;
     private String email;
     private String phone;

@@ -21,7 +21,7 @@ const Booking = () => {
   useEffect(() => {
     setFormData({
       ...formData,
-      place: place
+      hospital: place
     })
   }, [place])
 

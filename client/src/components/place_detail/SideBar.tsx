@@ -3,18 +3,23 @@ import { Place } from "../models/search/Place";
 import ContactInfo from "./content/ContactInfo";
 import ServiceInfo from "./content/ServiceInfo";
 
-const SideBar: React.FC<{ place: Place }> = ({ place }) => {
+interface SideBarProps {
+    place: Place;
+    modal?: boolean;
+}
+
+const SideBar: React.FC<SideBarProps> = ({ place, modal = false }) => {
     return (
-        <Card className="border-border">
+        <Card className={`flex flex-col border-border ${modal ? "h-full max-h-[90vh] overflow-y-auto" : ""}`}>
             <CardHeader>
                 <CardTitle>Contact Information</CardTitle>
             </CardHeader>
-            <ContactInfo place={place}/>
+            <ContactInfo place={place} />
 
             <CardHeader>
                 <CardTitle>Services</CardTitle>
             </CardHeader>
-            <ServiceInfo place={place}/>
+            <ServiceInfo place={place} />
         </Card>
     );
 };

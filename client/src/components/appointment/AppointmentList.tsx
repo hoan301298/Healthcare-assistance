@@ -1,6 +1,7 @@
 import { CalendarX } from "lucide-react";
 import useAppointment from "@/hooks/appointment/useAppointment";
 import AppointmentBar from "./AppointmentBar";
+import { sortAppointmentDateTime } from "./appointmentStatus";
 
 const AppointmentList = () => {
     const {
@@ -26,12 +27,12 @@ const AppointmentList = () => {
         <div className="space-y-3">
             {singleAppointment && 
                 <AppointmentBar 
-                    key={singleAppointment.id} 
+                    key={`${singleAppointment.id}-search`} 
                     appointment={singleAppointment}
                 />
             }
 
-            {authAppointments && authAppointments.map((appointment) => (
+            {authAppointments && authAppointments.length > 0 && sortAppointmentDateTime(authAppointments).map((appointment) => (
                 <AppointmentBar
                     key={appointment.id}
                     appointment={appointment}

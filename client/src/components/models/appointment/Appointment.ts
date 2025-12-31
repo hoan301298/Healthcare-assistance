@@ -9,6 +9,6 @@ export interface Appointment {
     date: string;
     reason: string;
     notes: string;
-    place: Place;
+    hospital: Place;
     createAt: string;
 }

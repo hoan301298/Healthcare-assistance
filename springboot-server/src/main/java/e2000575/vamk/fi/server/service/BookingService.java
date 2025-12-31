@@ -53,7 +53,7 @@ public class BookingService {
             String hashedEmail = hashEmail(requestBody.getEmail());
 
             BookingForm appointment = new BookingForm()
-                    .setHospital(requestBody.getPlace())
+                    .setHospital(requestBody.getHospital())
                     .setName(requestBody.getName())
                     .setPhone(requestBody.getPhone())
                     .setTime(requestBody.getTime())
@@ -111,7 +111,7 @@ public class BookingService {
         BookingResponseDTO response = new BookingResponseDTO();
         response
             .setId(form.getId())
-            .setPlace(form.getHospital())
+            .setHospital(form.getHospital())
             .setName(form.getName())
             .setEmail(decryptEmailSafely(form.getEncryptedEmail()))
             .setPhone(form.getPhone())

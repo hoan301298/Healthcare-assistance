@@ -11,7 +11,7 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @Accessors(chain = true)
 public class BookingRequestDTO {
-    private Hospital place;
+    private Hospital hospital;
     private String name;
     private String email;
     private String phone;

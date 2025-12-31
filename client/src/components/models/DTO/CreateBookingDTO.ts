@@ -1,7 +1,7 @@
 import { Place } from "../search/Place";
 
 export interface CreateBookingDTO {
-    place: Place;
+    hospital: Place;
     name: string;
     email: string;
     phone: string;

@@ -14,8 +14,8 @@ interface AppointmentContentProps {
 
 const AppointmentContent = ({ appointment, status }: AppointmentContentProps) => {
     return (
-        <div className="shadow-lg flex justify-between px-3 py-3">
-            <Card className="w-full flex-[0.97] shadow-lg">
+        <div className="flex flex-col lg:flex-row gap-4 px-4 py-4 overflow-y-auto">
+            <Card className="flex-[0.98] h-full shadow-lg">
                 <CardHeader className="space-y-4 bg-gradient-to-br from-primary/5 to-accent/5">
                     <div className="flex items-start justify-between">
                         <div>
@@ -135,7 +135,7 @@ const AppointmentContent = ({ appointment, status }: AppointmentContentProps) =>
                     </div>
                 </CardContent>
             </Card>
-            <SideBar place={appointment.place} />
+            <SideBar place={appointment.hospital} modal/>
         </div>
     )
 }
