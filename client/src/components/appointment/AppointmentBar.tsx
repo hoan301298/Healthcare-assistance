@@ -33,7 +33,7 @@ const AppointmentBar = ({ appointment, onDelete }: AppointmentBarProps) => {
             border border-border/60 bg-background
             shadow-sm transition-all duration-200 ease-out
             hover:shadow-xl hover:border-primary/40
-            hover:-translate-y-1 mx-6">
+            hover:-translate-y-1 hover:bg-indigo-800 mx-6">
         {/* Header Bar */}
         <div
           className="flex items-center justify-between p-4 cursor-pointer transition-colors duration-200 bg-card hover:bg-card-hover"

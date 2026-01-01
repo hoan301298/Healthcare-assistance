@@ -25,20 +25,29 @@ const AppointmentList = () => {
 
     return (
         <div className="space-y-3">
-            {singleAppointment && 
-                <AppointmentBar 
-                    key={`${singleAppointment.id}-search`} 
-                    appointment={singleAppointment}
-                />
+            {singleAppointment &&
+                <div>
+                    <h3 className="text-lg font-semibold text-foreground mb-3 mx-6">Your Search:</h3>
+                    <AppointmentBar
+                        key={`${singleAppointment.id}-search`}
+                        appointment={singleAppointment}
+                    />
+                </div>
             }
 
-            {authAppointments && authAppointments.length > 0 && sortAppointmentDateTime(authAppointments).map((appointment) => (
-                <AppointmentBar
-                    key={appointment.id}
-                    appointment={appointment}
-                    // onDelete={handleDelete}
-                />
-            ))}
+            {authAppointments && authAppointments.length > 0 &&
+                <div>
+                    <h3 className="text-lg font-semibold text-foreground mb-3 mx-6">History appointments:</h3>
+                    {sortAppointmentDateTime(authAppointments).map((appointment) => (
+                        <AppointmentBar
+                            key={appointment.id}
+                            appointment={appointment}
+                        // onDelete={handleDelete}
+                        />
+                    ))}
+                </div>
+            }
+
         </div>
     );
 };

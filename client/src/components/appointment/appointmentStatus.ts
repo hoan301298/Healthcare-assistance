@@ -76,7 +76,7 @@ const getAppointmentDateTime = (appointment: Appointment): Date | null => {
 };
 
 export const statusColors: Record<string, string> = {
-    upcoming: "bg-success/10 text-success border-success/20",
+    upcoming: "bg-success/20 text-primary border-success/20",
     ongoing: "bg-warning/10 text-warning border-warning/20",
     completed: "bg-muted text-muted-foreground border-muted",
     unknown: "bg-destructive/10 text-destructive border-destructive/20",
