@@ -18,6 +18,7 @@ app.use(cookieParser());
 app.use(cors({
   origin: constants.ORIGIN_URL,
   methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
 }));
 app.use('/v1', api);
 app.use(morgan('dev'));
