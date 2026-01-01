@@ -1,8 +1,7 @@
-import { API_V1_URL } from "@/constant";
 import axios from "axios";
 
 const axiosClient_v1 = axios.create({
-    baseURL: `${API_V1_URL}/v1`,
+    baseURL: import.meta.env.VITE_NODE_SERVER_API,
     withCredentials: true
 });
 
