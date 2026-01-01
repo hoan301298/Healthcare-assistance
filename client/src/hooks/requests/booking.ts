@@ -1,11 +1,11 @@
+import axiosClient_v2 from "@/api/axiosClient_v2";
 import { Appointment } from "@/components/models/appointment/Appointment";
 import { CreateBookingDTO } from "@/components/models/Dto/CreateBookingDTO";
-import axios from "axios";
 
 export const createBooking = async (createBooking: CreateBookingDTO) : Promise<Appointment | null> => {
     if(!createBooking) return null;
     try {
-        const response = await axios.post('/v2/create', createBooking);
+        const response = await axiosClient_v2.post('/create', createBooking);
         return response.data;
     } catch (error) {
         console.error("Failed to create appointment:", error);
@@ -17,7 +17,7 @@ export const getBookingById = async (id: string, email: string) : Promise<Appoin
     if (!id || !email) return null;
 
     try {
-        const response = await axios.get(`/v2/get-appointment/${email}/${id}`);
+        const response = await axiosClient_v2.get(`/get-appointment/${email}/${id}`);
         return response.data;
     } catch (error) {
         console.error("Fail to fetch appointment:", error);
@@ -29,7 +29,7 @@ export const getBookingByEmail = async (email: string) : Promise<Appointment[] |
     if (!email) return null;
     
     try {
-        const response = await axios.get(`/v2/`)
+        // const response = await axios.get(`/v2/`)
     } catch (error) {
         
     }
