@@ -7,6 +7,6 @@ export const COOKIE_OPTIONS = {
     secure: isProd, // set false only on localhost http
     sameSite: isProd ? "none" : "strict",
     path: "/",
-    domain: isProd ? ".vercel.app" : undefined, // domain register
+    domain: undefined, // domain register
     maxAge: 24 * 60 * 60 * 1000 // 1 day
 };

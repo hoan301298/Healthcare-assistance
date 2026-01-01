@@ -10,7 +10,7 @@ export const getChatDetail = createAsyncThunk<
     "chat",
     async (_, { rejectWithValue }) => {
         try {
-            const res = await axiosClient_v1<ChatDetailResponseDto>('/chat');
+            const res = await axiosClient_v1.get<ChatDetailResponseDto>('/chat');
             return res.data as ChatDetailResponseDto;
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.message || "Fetch ChatDetail failed");
