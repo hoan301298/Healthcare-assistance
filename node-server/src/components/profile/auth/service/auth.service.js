@@ -1,7 +1,5 @@
-import jwt from "jsonwebtoken";
 import User from "../../../../model/User.schema.js"
 import { decrypt, encrypt, hashEmailForLookup, hashPassword, verifyPassword } from "../../../helper/cryptoFunctions.js"
-import { constants } from "../../../../constant.js";
 import { createToken } from "../../../helper/createToken.js";
 
 const loginService = async (email, password) => {

@@ -21,6 +21,7 @@ app.use(cors({
   credentials: true
 }));
 app.use('/v1', api);
+app.set("trust proxy", 1);
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
