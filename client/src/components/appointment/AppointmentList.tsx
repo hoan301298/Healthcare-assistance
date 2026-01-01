@@ -11,7 +11,7 @@ const AppointmentList = () => {
 
     if (!singleAppointment && !authAppointments) {
         return (
-            <div className="flex flex-col items-center justify-center py-16 text-center">
+            <div className="flex flex-col items-center justify-center py-8 text-center">
                 <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
                     <CalendarX className="w-8 h-8 text-muted-foreground" />
                 </div>
@@ -34,7 +34,6 @@ const AppointmentList = () => {
                     />
                 </div>
             }
-
             {authAppointments && authAppointments.length > 0 &&
                 <div>
                     <h3 className="text-lg font-semibold text-foreground mb-3 mx-6">History appointments:</h3>
@@ -47,7 +46,6 @@ const AppointmentList = () => {
                     ))}
                 </div>
             }
-
         </div>
     );
 };
