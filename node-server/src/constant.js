@@ -13,5 +13,5 @@ export const constants = {
     ENCRYPT_KEY: process.env.ENCRYPT_KEY,
     EMAIL_HASH_SALT: process.env.EMAIL_HASH_SALT,
     PASSWORD_HASH_SALT: process.env.PASSWORD_HASH_SALT,
-    PRODUCTION: process.env.PRODUCTION,
+    NODE_ENV: process.env.NODE_ENV,
 };

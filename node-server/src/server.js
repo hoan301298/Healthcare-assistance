@@ -1,42 +1,32 @@
-import express, { json } from 'express';
-import socketGateway from './components/chat/socket.gateway.js';
 import { mongoConnect } from './db/mongo/db_connect.js';
 import { constants } from './constant.js';
 import { Server } from 'socket.io';
-import cookieParser from 'cookie-parser';
-import bodyParser from 'body-parser';
-import morgan from 'morgan';
-import cors from 'cors';
+import socketGateway from '../src/components/chat/socket.gateway.js';
 import http from 'http';
-import api from './routes/api.js';
+import app from './app.js';
 
-const app = express();
 const server = http.createServer(app);
+const PORT = constants.PORT || 5000;
 
-app.use(json());
-app.use(cookieParser());
-app.set("trust proxy", 1);
-app.use(cors({
-  origin: constants.ORIGIN_URL,
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
-}));
-app.use('/v1', api);
-app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+async function startServer() {
+  await mongoConnect();
 
-const io = new Server(server, {
-  cors: {
-    origin: constants.ORIGIN_URL,
-    methods: ['GET', 'POST'],
-    credentials: true
-  },
-  path: "/v1/socket.io"
-});
-socketGateway(io);
-mongoConnect();
+  const io = new Server(server, {
+    cors: {
+      origin: constants.ORIGIN_URL,
+      methods: ['GET', 'POST'],
+      credentials: true
+    },
+    path: "/v1/socket.io"
+  });
+  
+  socketGateway(io);
+}
 
-server.listen(constants.PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server is running on port ${constants.PORT}`);
 });
+
+startServer();
+
+export default server;

@@ -11,12 +11,10 @@ export default defineConfig(({ mode }) => {
         "/v1": {
           target: env.VITE_NODE_SERVER_API,
           changeOrigin: true,
-          secure: false,
         },
         "/v2": {
           target: env.VITE_SPRINGBOOT_SERVER_API,
           changeOrigin: true,
-          secure: false,
         },
       },
     },
@@ -25,6 +23,11 @@ export default defineConfig(({ mode }) => {
       alias: {
         "@": path.resolve(__dirname, "./src"),
       },
+    },
+    build: {
+      outDir: 'dist',
+      sourcemap: false,
+      minify: 'esbuild'
     },
   }
 });

@@ -1,4 +1,15 @@
 /client/node_modules
+/dist
+
 /node-server/node_modules
-.env
+/node-server/public
+
 /springboot-server/target
+
+.env
+.env*.local
+
+node_modules
+
+.vercel
+vercel.json

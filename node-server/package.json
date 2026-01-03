@@ -6,7 +6,10 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/server.js"
+    "start:dev": "nodemon src/server.js",
+    "start:prod": "node src/server.js",
+    "build:frontend": "cd ../client && npm install && npm run build && npm run copy",
+    "deploy": "npm run build:frontend && npm start:prod"
   },
   "keywords": [],
   "author": "",
