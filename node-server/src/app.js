@@ -22,7 +22,7 @@ app.use(cookieParser());
 app.set("trust proxy", 1);
 
 app.use(cors({
-  origin: constants.ORIGIN_URL,
+  origin: constants.NODE_ENV === "prod" ? true : constants.ORIGIN_URL,
   credentials: true
 }));
 
