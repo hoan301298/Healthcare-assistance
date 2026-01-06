@@ -4,11 +4,12 @@
   "description": "A full-stack web application providing healthcare assistance, appointment booking, and patient-doctor interaction using **React.js**, **Node.js**, and **Spring Boot**.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev:client": "cd client && npm run dev",
-    "dev:server": "cd node-server && npm run dev",
-    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
-    "build": "cd client && npm run build"
+    "build": "npm run build:client",
+    "build:client": "cd client && npm install && npm run build",
+    "dev": "vercel dev"
+  },
+  "engines": {
+    "node": ">=18.x"
   },
   "repository": {
     "type": "git",
@@ -25,5 +26,8 @@
     "concurrently": "^8.2.2",
     "dotenv": "^17.2.3"
   },
-  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
+  "dependencies": {
+    "serverless-http": "^4.0.0"
+  }
 }

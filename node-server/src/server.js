@@ -9,24 +9,32 @@ const server = http.createServer(app);
 const PORT = constants.PORT || 5000;
 
 async function startServer() {
-  await mongoConnect();
+  try {
+    await mongoConnect();
 
-  const io = new Server(server, {
-    cors: {
-      origin: constants.ORIGIN_URL,
-      methods: ['GET', 'POST'],
-      credentials: true
-    },
-    path: "/v1/socket.io"
-  });
-  
-  socketGateway(io);
+    const io = new Server(server, {
+      cors: {
+        origin: constants.ORIGIN_URL,
+        methods: ['GET', 'POST'],
+        credentials: true
+      },
+      path: "/v1/socket.io"
+    });
+
+    socketGateway(io);
+
+    server.listen(PORT, () => {
+      console.log(`Server is running on port ${constants.PORT}`);
+    });
+
+  } catch (error) {
+    console.error('❌ Failed to start server:', error);
+    process.exit(1);
+  }
 }
 
-server.listen(PORT, () => {
-  console.log(`Server is running on port ${constants.PORT}`);
-});
+if (constants.NODE_ENV !== 'prod') {
+  startServer();
+}
 
-startServer();
-
-export default server;
+export default app;

@@ -6,15 +6,11 @@ import morgan from 'morgan';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
-
 import api from './routes/api.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const app = express();
 
-app.use(morgan('combined'));
+app.use(morgan('dev'));
 app.use(json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -26,13 +22,21 @@ app.use(cors({
   credentials: true
 }));
 
-app.use('/v1', api);
+app.use('/', api);
 
-if (constants.NODE_ENV === 'prod') {
-  const buildPath = path.join(__dirname, '..', 'public');
-  app.use(express.static(buildPath));
+if (constants.NODE_ENV === 'dev'){
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  const publicPath = path.join(__dirname, '..', 'public');
+  app.use(express.static(publicPath));
+
   app.get('*', (req, res) => {
-    res.sendFile(path.join(buildPath, 'index.html'));
+    if (req.path.startsWith('/v1')) {
+      return res.status(404).json({ error: 'API endpoint not found' });
+    }
+
+    // Send index.html for all frontend routes
+    res.sendFile(path.join(publicPath, 'index.html'));
   });
 }
 

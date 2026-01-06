@@ -5,11 +5,11 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
     "start:dev": "nodemon src/server.js",
-    "start:prod": "node src/server.js",
-    "build:frontend": "cd ../client && npm install && npm run build && npm run copy",
-    "deploy": "npm run build:frontend && npm start:prod"
+    "build:client": "cd ../client && npm run build:deploy",
+    "start:prod": "npm run build:client && node src/app.js"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +31,7 @@
     "node-fetch": "^2.7.0",
     "nodemailer": "^6.9.13",
     "nodemon": "^3.1.0",
+    "serverless-http": "^4.0.0",
     "socket.io": "^4.7.5"
   }
 }

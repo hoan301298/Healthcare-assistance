@@ -1,29 +1,37 @@
 import mongoose from 'mongoose';
 import { constants } from '../../constant.js';
-const MONGO_URL = constants.MONGO_URL;
 
-mongoose.connection.once('open', () => {
-    console.log('MongoDB connection ready!');
-});
+let isConnected = false;
 
-mongoose.connection.on('error', (err) => {
-    console.error(err);
-});
+let cached = global.mongo;
 
-async function mongoConnect() {
-    await mongoose.connect(MONGO_URL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    });
-};
+if (!cached) {
+  cached = global.mongo = { conn: null, promise: null };
+}
 
-async function mongoDisconnect() {
+export async function mongoConnect() {
+  if (cached.conn) return cached.conn;
+
+  if (!constants.MONGO_URL) {
+    throw new Error("MONGO_URL not defined in environment variables!");
+  }
+
+  if (!cached.promise) {
+    cached.promise = mongoose
+      .connect(constants.MONGO_URL)
+      .then((mongoose) => mongoose);
+  }
+
+  isConnected = true;
+  cached.conn = await cached.promise;
+  return cached.conn;
+}
+
+export async function mongoDisconnect() {
+  if (isConnected) {
     await mongoose.disconnect();
-};
-
-export {
-    mongoConnect,
-    mongoDisconnect
-};
-
+    isConnected = false;
+    console.log('🔌 MongoDB disconnected');
+  }
+}
 

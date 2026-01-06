@@ -5,12 +5,16 @@ import User from '../../model/User.schema.js';
 export const AuthMiddleware = async (req, res, next) => {
     const token = req.cookies.token;
 
-    if(!token) {
+    if (!token) {
         return res.status(401).json({ success: false, message: "Unauthorized" });
     }
 
     try {
         const decoded = jwt.verify(token, constants.SECRET_KEY);
+
+        if (!decoded || !decoded.id || !decoded.exp) {
+            return res.status(401).json({ success: false, message: "Unauthorized" });
+        }
 
         const user = await User.findById(decoded.id).select("_id hashedEmail name");
         if (!user) {

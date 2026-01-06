@@ -28,7 +28,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         if (!chatDetail?.id) return;
 
         if (!socketRef.current) {
-            const socket = io(API_V1_URL, {
+            const socket = io('http://localhost:3000', {
                 path: "/v1/socket.io",
                 transports: ["websocket"],
                 reconnection: true,
