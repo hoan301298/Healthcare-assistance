@@ -1,6 +1,6 @@
 [build]
   command = "npm run build"
-  publish = "client/build"
+  publish = "client/dist"
   functions = "netlify/functions"
 
 # Redirect all API calls to the Netlify function
