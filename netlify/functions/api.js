@@ -1,6 +1,6 @@
-import app from '../node-server/src/app.js';
+import app from '../../node-server/src/app.js';
 import serverless from 'serverless-http';
-import { mongoConnect } from '../node-server/src/db/mongo/db_connect.js';
+import { mongoConnect } from '../../node-server/src/db/mongo/db_connect.js';
 
 let isDbInitialized = false;
 let initPromise = null;
