@@ -16,7 +16,10 @@ export const AuthMiddleware = async (req, res, next) => {
             return res.status(401).json({ success: false, message: "Unauthorized" });
         }
 
-        const user = await User.findById(decoded.id).select("_id hashedEmail name");
+        const user = await User
+            .findById(decoded.id).select("_id hashedEmail encryptedEmail name")
+            .lean();
+            
         if (!user) {
             return res.status(401).json({ success: false, message: "User not found" });
         }

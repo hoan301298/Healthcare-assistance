@@ -1,7 +1,7 @@
-import { mongoConnect } from './db/mongo/db_connect.js';
-import { constants } from './constant.js';
+import { mongoConnect } from './src/db/mongo/db_connect.js';
+import { constants } from './src/constant.js';
 import { Server } from 'socket.io';
-import socketGateway from '../src/components/chat/socket.gateway.js';
+import socketGateway from './src/components/chat/socket.gateway.js';
 import http from 'http';
 import app from './app.js';
 

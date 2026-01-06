@@ -1,22 +1,24 @@
-import checkAuthService from "../../auth/service/checkAuth.service.js";
+import { decrypt } from "../../../helper/cryptoFunctions.js";
 
-const checkAuthController = async (req, res) => {
-    const userId = req.user?.id;
+const checkAuthController = (req, res) => {
+    const user = req.user;
 
-    if (!userId) {
+    if (!user) {
         return res.status(401).json({
             success: false,
             message: "Unauthorized"
         });
     }
 
-    const result = await checkAuthService(userId);
-
-    if (!result.success) {
-        return res.status(401).json(result);
-    }
-
-    return res.status(200).json(result);
+    return res.status(200).json({
+        success: true,
+        message: "Authenticated",
+        user: {
+            id: user._id,
+            name: user.name,
+            email: decrypt(user.encryptedEmail)
+        }
+    });
 }
 
 export default checkAuthController;
