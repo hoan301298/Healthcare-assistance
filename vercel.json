@@ -2,6 +2,7 @@
   "version": 2,
   "buildCommand": "npm run build",
   "installCommand": "npm install",
+  "outputDirectory": "node-server/public",
   "functions": {
     "api/index.js": {
       "maxDuration": 30,

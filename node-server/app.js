@@ -7,6 +7,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import api from './src/routes/api.js';
 import { mongoConnect } from './src/db/mongo/db_connect.js';
+import { constants } from './src/constant.js';
 
 const app = express();
 

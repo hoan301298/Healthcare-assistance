@@ -6,6 +6,7 @@
   "scripts": {
     "build": "npm run build:client",
     "build:client": "cd client && npm install && npm run build:deploy",
+    "install": "cd api && npm install",
     "dev": "vercel dev"
   },
   "engines": {
@@ -23,13 +24,11 @@
   },
   "homepage": "https://github.com/hoan301298/Healthcare-Assistance#readme",
   "devDependencies": {
-    "@vercel/build-utils": "^13.2.4",
     "concurrently": "^8.2.2",
     "dotenv": "^17.2.3"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
   "dependencies": {
-    "@vercel/config": "^0.0.25",
-    "serverless-http": "^4.0.0"
+    "@vercel/config": "^0.0.25"
   }
 }
