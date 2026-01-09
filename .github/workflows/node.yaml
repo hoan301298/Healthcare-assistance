@@ -49,6 +49,7 @@ jobs:
             - name: Build & Test Spring Boot
               run: |
                 cd springboot-server
+                chmod +x mvnw
                 ./mvnw clean test
 
             - name: Build Client
