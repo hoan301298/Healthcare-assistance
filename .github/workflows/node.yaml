@@ -14,32 +14,44 @@ jobs:
         strategy:
             matrix:
                 node-version: [20.x]
+                java-version: ['17']
                 mongodb-version: ["7.0"]
 
         steps:
             - uses: actions/checkout@v4
 
-            - name: Setup Node version ${{ matrix.node-version }}
+            - name: Setup Node
               uses: actions/setup-node@v4
               with:
                 node-version: ${{ matrix.node-version }}
+            
+            - name: Setup Java
+              uses: actions/setup-java@v4
+              with:
+                distribution: temurin
+                java-version: ${{ matrix.java-version }}
             
             - name: Start MongoDB from GitHub actions
               uses: supercharge/mongodb-github-action@1.11.0
               with:
                 mongodb-version: ${{ matrix.mongodb-version }}
             
-            - name: Install Serverless backend dependencies
+            - name: Install Serverless dependencies
               run: |
                 cd api
                 npm install
             
-            - name: Install Node Server backend dependencies
+            - name: Install Node Server dependencies
               run: |
                 cd node-server
                 npm install
+            
+            - name: Build & Test Spring Boot
+              run: |
+                cd springboot-server
+                ./mvnw clean test
 
-            - name: Build Frontend
+            - name: Build Client
               run: |
                 cd client
                 npm install
