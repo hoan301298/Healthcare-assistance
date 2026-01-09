@@ -98,6 +98,7 @@ mvn spring-boot:run
 After starting the project, access the application at: http://localhost:5000
 
 Frontend + Express: port 5000
+
 Spring Boot: port 5001
 
 ## 🤝 Contributing
