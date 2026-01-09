@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "npm run build:client",
-    "build:client": "cd client && npm install && npm run build:deploy",
+    "build:client": "cd client && npm install && npm run build",
     "install": "npm run install:api && npm run install:node-server",
     "install:api":"cd api && npm install",
     "install:node-server":"cd node-server && npm install",

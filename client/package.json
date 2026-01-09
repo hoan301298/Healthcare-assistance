@@ -8,8 +8,7 @@
     "build": "vite build && npm run copy",
     "copy:clean": "rimraf ../node-server/public && mkdirp ../node-server/public",
     "copy:files": "cpx \"dist/**/*\" ../node-server/public",
-    "copy": "npm run copy:clean && npm run copy:files",
-    "build:deploy": "npm run build && npm run copy"
+    "copy": "npm run copy:clean && npm run copy:files"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
