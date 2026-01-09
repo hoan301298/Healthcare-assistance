@@ -8,10 +8,6 @@ export default defineConfig(({ mode }) => {
   return {
     server: {
       proxy: {
-        "/v1": {
-          target: env.VITE_NODE_SERVER_API,
-          changeOrigin: true,
-        },
         "/v2": {
           target: env.VITE_SPRINGBOOT_SERVER_API,
           changeOrigin: true,

@@ -33,8 +33,4 @@ async function startServer() {
   }
 }
 
-if (constants.NODE_ENV !== 'prod') {
-  startServer();
-}
-
-export default app;
+startServer();

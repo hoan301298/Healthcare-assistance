@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && npm run copy",
     "copy:clean": "rimraf ../node-server/public && mkdirp ../node-server/public",
     "copy:files": "cpx \"dist/**/*\" ../node-server/public",
     "copy": "npm run copy:clean && npm run copy:files",

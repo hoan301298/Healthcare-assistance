@@ -1,7 +1,7 @@
 {
   "name": "healthcare-asisstance",
   "version": "1.0.0",
-  "description": "A full-stack web application providing healthcare assistance, appointment booking, and patient-doctor interaction using **React.js**, **Node.js**, and **Spring Boot**.",
+  "description": "A full-stack web application providing healthcare assistance, appointment booking, and patient-doctor interaction using **MERN stack** and **Spring Boot**.",
   "main": "index.js",
   "scripts": {
     "build": "npm run build:client",

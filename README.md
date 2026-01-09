@@ -1,25 +1,24 @@
 # Healthcare Assistance Website
 
-A full-stack web application providing healthcare assistance, appointment booking, and patient-doctor interaction using **React.js**, **Node.js**, and **Spring Boot**.
+A full-stack web application providing healthcare assistance, search medical facilities on physical map (**Google Map API**), real-time chat, authentication (**JWT & Cookie**), appointment booking using **MERN stack**, and **Spring Boot**.
 
-[Theseus Link](https://www.theseus.fi/handle/10024/861496)
+[Theseus Link](https://www.theseus.fi/handle/10024/861496) [Deploy](https://healthcare-assistance.vercel.app/)
 
 ## 📸 Overview
 ![Overview](./Overview.png)
 
 ## 🚀 Features
-- User authentication (patients & doctors)
-- Searching medical facilities
+- User authentication
+- Searching medical facilities (max 20 - Google API restriction)
 - Appointment booking system
-- Real-time chat with doctors/agency (**encrypted content**)
+- Real-time chat with doctors/agency (**encrypted content**, **Socket.IO**)
 - Health record management
-- Admin dashboard
 
 ## 🛠️ Tech Stack
-- **Frontend**: React.js, NextUI CSS
-- **Backend**: Node.js (for searching, chat services), Spring Boot (for appointment and management.)
+- **Frontend**: React TypeScript, Redux-Toolkit, TanStack Query, Tailwind CSS, Socket.IO 
+- **Backend**: Express (for searching, chat services, authentication), Spring Boot (for appointment)
 - **Database**: MongoDB
-- **Authentication**: JWT-based authentication
+- **Authentication**: JWT-based authentication (Cookie)
 
 ## 🎯 Installation & Setup
 
@@ -34,60 +33,73 @@ Ensure you have the following installed:
 - Java & Spring Boot
 - MongoDB
 
-### Backend Setup (Spring Boot + Node.js)
-```sh
-# Navigate to server directory
-cd server
+### Environment Variables (.env Setup)
 
-# Install dependencies (Node.js part)
+Replace your_google_maps_api_key with your actual Google Maps API key.
+
+**If you do not have your Google Maps API key, please access & create yours at (select options Geocoding API, Places API (New), Maps JavaScript API): https://console.cloud.google.com/apis**
+
+Create a .env file in each frontend and backend directories and add the following:
+
+```sh
+# Client
+VITE_MAP_API_KEY=??
+VITE_GEOCODE_URL=https://maps.googleapis.com/maps/api/geocode/json
+VITE_NODE_SERVER_API=http://localhost:5000
+VITE_SPRINGBOOT_SERVER_API=http://localhost:5001
+```
+
+```sh
+# Node-server
+MONGO_URL=??
+SECRET_KEY=secret_key
+PORT=5000
+ENCRYPT_KEY=??
+NODE_ENV=dev
+EMAIL_HASH_SALT=
+GOOGLE_MAP_API_KEY=??
+NODEMAILER_API_KEY=??
+PLACES_NEARBY_URL=https://places.googleapis.com/v1/places:searchNearby
+```
+
+```sh
+# SpringBoot-server
+SPRING_DATA_MONGODB_URI=??
+SERVER_PORT=5001
+SECRET_KEY=e4e38dbc26bd042d6805ee0b5f35f5a519ea23d5ae4b8d3bc7ee2be9524b9323
+ENCRYPT_KEY=0464c08f8e10905fb9f517bb9b02e4ff290d799a42a18e59ab7340da716f2228
+ORIGINS_URL=http://localhost:5000
+```
+
+### Frontend Setup (React)
+```sh
+cd client
 npm install
 
-# Start Node.js API Gateway
-npm start
+# This step will build and copy dist into node-server.
+npm run build
+```
+
+### Backend Setup (Express + Spring Boot)
+```sh
+# Navigate to server directory
+cd node-server
+npm install
+
+# Node-server will serve the frontend and APIs (static)
+npm run start:dev
 
 # Navigate to booking-server directory from root
-cd booking-server
-
-# Install Spring Boot dependencies (Spring Boot part)
+cd springboot-server
 mvn clean install
-
-# Start Spring Boot Services
 mvn spring-boot:run
 ```
 
-### Frontend Setup (React.js)
-```sh
-# Navigate to frontend directory
-cd client
+After starting the project, access the application at: http://localhost:5000
 
-# Install dependencies
-npm install
-
-# Start React development server
-npm start
-```
-
-After starting the project, access the application at: http://localhost:3000
-
-### Environment Variables (.env Setup)
-
-Create a .env file in the frontend directory and add the following:
-```sh
-REACT_APP_GOOGLE_MAP_API_KEY =???
-REACT_APP_GEOCODE_URL =https://maps.googleapis.com/maps/api/geocode/json
-REACT_APP_MAILERSEND_API_KEY=???
-```
-Replace your_google_maps_api_key with your actual Google Maps API key.
-
-**If you do not have your Google Maps API key, please access & create yours at (select options Maps, Places API): https://console.cloud.google.com/apis**
-
-Create a .env file in the backend directory and add the following:
-```sh
-MONGO_URL=???
-GOOGLE_MAP_API_KEY=???
-```
+Frontend + Express: port 5000
+Spring Boot: port 5001
 
 ## 🤝 Contributing
 Contributions are welcome! Fork the repository and create a pull request.
 Feel free to modify and improve the project as needed. Happy coding! 🎉
-
