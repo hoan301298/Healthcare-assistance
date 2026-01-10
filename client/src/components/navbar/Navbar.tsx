@@ -30,7 +30,7 @@ const Navbar = () => {
             <Link to="/search" className="text-foreground hover:text-primary transition-colors">
               Find places
             </Link>
-            <Link to="/appointment-detail" className="text-foreground hover:text-primary transition-colors">
+            <Link to="/appointment" className="text-foreground hover:text-primary transition-colors">
               Track appointment
             </Link>
             <Link to="/chat" className="text-foreground hover:text-primary transition-colors">

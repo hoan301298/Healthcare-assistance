@@ -32,7 +32,7 @@ const App = () => {
             <Route path="/search" element={<Search />} />
             <Route path="/place/:id" element={<PlacesDetail />} />
             <Route path="/booking/:id" element={<Booking />} />
-            <Route path="/appointment-detail" element={<Appointment />} />
+            <Route path="/appointment" element={<Appointment />} />
             <Route path="/chat" element={<Chat />} />
             {!user && !isAuthenticated && <Route path="/auth" element={<Auth />} /> }
             <Route path="*" element={<NotFound href="/" label="Back to Home page" />} />

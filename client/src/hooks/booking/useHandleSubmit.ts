@@ -43,7 +43,7 @@ const useHandleSubmit = () => {
                 });
                 clearFormData();
 
-                setTimeout(() => navigate("/appointment-detail"), 1500);
+                setTimeout(() => navigate("/appointment"), 1500);
             }
         } catch (error) {
             console.error("Booking error:", error);
