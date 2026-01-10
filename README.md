@@ -46,7 +46,7 @@ Create a .env file in each frontend and backend directories and add the followin
 VITE_MAP_API_KEY=??
 VITE_GEOCODE_URL=https://maps.googleapis.com/maps/api/geocode/json
 VITE_NODE_SERVER_API=http://localhost:5000
-VITE_SPRINGBOOT_SERVER_API=http://localhost:5001
+VITE_SPRINGBOOT_SERVER_API=http://localhost:8080
 ```
 
 ```sh
