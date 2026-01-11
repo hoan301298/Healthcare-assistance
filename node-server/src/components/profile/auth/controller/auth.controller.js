@@ -69,21 +69,16 @@ const registerController = async (req, res) => {
 
 const logoutController = async (req, res) => {
   try {
-    const userId = req.user?.id; // set by authMiddleware
+    const userId = req.user?._id;
 
     if (!userId) {
-      
       return res.status(401).json({
         success: false,
         message: "Invalid token payload",
       });
     }
 
-    res.clearCookie("token", {
-      httpOnly: true,
-      secure: process.env.PRODUCTION === "true",
-      sameSite: "strict",
-    });
+    res.clearCookie("token", COOKIE_OPTIONS);
 
     return res.status(200).json({
       success: true,

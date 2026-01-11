@@ -4,9 +4,7 @@ const isProd = constants.NODE_ENV === "prod";
 
 export const COOKIE_OPTIONS = {
     httpOnly: true,
-    secure: isProd, // set false only on localhost http
+    secure: isProd,
     sameSite: isProd ? "lax" : "strict",
-    // path: "/",
-    // domain: undefined, // domain register
-    maxAge: 24 * 60 * 60 * 1000 // 1 day
+    maxAge: 24 * 60 * 60 * 1000
 };
