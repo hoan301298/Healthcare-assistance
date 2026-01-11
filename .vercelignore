@@ -1,5 +1,4 @@
 # Node
-public
 node_modules
 npm-debug.log
 yarn-error.log
@@ -10,28 +9,39 @@ yarn-error.log
 *.pem
 *.key
 
-# Builds
-dist
-build
-coverage
-
-# OS junk
-.DS_Store
-Thumbs.db
-
-# IDE
-.vscode
-.idea
-
 # Git
 .git
 .gitignore
+
+# OS / IDE
+.DS_Store
+.vscode
+.idea
+*.iml
+
+# Java / Spring Boot
+target
+*.class
+*.jar
+*.war
+*.log
+hs_err_pid*
+
+# Maven / Gradle
+.mvn
+mvnw
+mvnw.cmd
+.gradle
+gradlew
+gradlew.bat
+build
 
 # Tests
 __tests__
 *.spec.*
 *.test.*
+src/test
 
-# Local only files
+# Local configs
 docker-compose.yml
 Dockerfile
