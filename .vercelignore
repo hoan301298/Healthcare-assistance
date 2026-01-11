@@ -2,8 +2,8 @@
 node_modules
 npm-debug.log
 yarn-error.log
+node-server/public
 dist
-public
 
 # Env & secrets
 .env
