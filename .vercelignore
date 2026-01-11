@@ -1,0 +1,37 @@
+# Node
+public
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Env & secrets
+.env
+.env.*
+*.pem
+*.key
+
+# Builds
+dist
+build
+coverage
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode
+.idea
+
+# Git
+.git
+.gitignore
+
+# Tests
+__tests__
+*.spec.*
+*.test.*
+
+# Local only files
+docker-compose.yml
+Dockerfile
