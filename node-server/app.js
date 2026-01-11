@@ -32,6 +32,7 @@ const publicPath = path.join(__dirname, 'public');
 
 app.use(express.static(publicPath));
 app.get('*', (_req, res) => {
+  res.setHeader("Cache-Control", "no-store, must-revalidate");
   return res.sendFile(path.join(publicPath, 'index.html'));
 });
 
