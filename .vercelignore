@@ -1,0 +1,35 @@
+# Node
+node_modules
+npm-debug.log
+yarn-error.log
+dist
+public
+
+# Env & secrets
+.env
+.env.*
+*.pem
+*.key
+
+# Git
+.git
+.gitignore
+
+# OS / IDE
+.DS_Store
+.vscode
+.idea
+*.iml
+
+# Java / Spring Boot
+springboot-server
+
+# Tests
+__tests__
+*.spec.*
+*.test.*
+src/test
+
+# Local configs
+docker-compose.yml
+Dockerfile
