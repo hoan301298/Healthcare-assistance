@@ -2,6 +2,8 @@
 node_modules
 npm-debug.log
 yarn-error.log
+dist
+public
 
 # Env & secrets
 .env
@@ -20,21 +22,7 @@ yarn-error.log
 *.iml
 
 # Java / Spring Boot
-target
-*.class
-*.jar
-*.war
-*.log
-hs_err_pid*
-
-# Maven / Gradle
-.mvn
-mvnw
-mvnw.cmd
-.gradle
-gradlew
-gradlew.bat
-build
+springboot-server
 
 # Tests
 __tests__
