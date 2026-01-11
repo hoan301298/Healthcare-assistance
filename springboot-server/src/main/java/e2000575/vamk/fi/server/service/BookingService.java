@@ -1,10 +1,12 @@
 package e2000575.vamk.fi.server.service;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import e2000575.vamk.fi.server.entity.BookingForm;
@@ -45,9 +47,6 @@ public class BookingService {
     }
 
     public BookingResponseDTO createAppointment(BookingRequestDTO requestBody) {
-        if (requestBody == null)
-            throw new IllegalArgumentException("RequestBody missing!");
-
         try {
             String encryptedEmail = EncryptionUtil.encrypt(requestBody.getEmail(), aesKey);
             String hashedEmail = hashEmail(requestBody.getEmail());
@@ -63,7 +62,11 @@ public class BookingService {
                     .setEncryptedEmail(encryptedEmail)
                     .setHashedEmail(hashedEmail);
 
-            BookingForm saved = bookingRepository.save(appointment);
+            @SuppressWarnings("null")
+            BookingForm saved = Objects.requireNonNull(
+                bookingRepository.save(appointment),
+                "MongoDB failed to save appointment"
+            );
 
             return convertFormToResponseDTO(saved);
         } catch (Exception e) {
@@ -89,7 +92,7 @@ public class BookingService {
         return convertFormToResponseDTO(saved);
     }
 
-    public void deleteAppointment(String id, String email) {
+    public void deleteAppointment(@NonNull String id, @NonNull String email) {
         BookingForm appointment = getAppointmentByIdEntity(id, email);
 
         if (appointment == null) {

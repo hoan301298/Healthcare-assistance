@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +26,7 @@ public class BookingController {
     private BookingService bookingService;
 
     @GetMapping("/get-appointment/{email}")
-    public ResponseEntity<?> getAppointmentByEmail(@PathVariable String email) {
+    public ResponseEntity<?> getAppointmentByEmail(@NonNull @PathVariable String email) {
         List<BookingResponseDTO> appointments = bookingService.getAppointmentByEmail(email);
         if (appointments == null || appointments.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -34,16 +35,19 @@ public class BookingController {
     }
 
     @GetMapping("/get-appointment/{email}/{id}")
-    public ResponseEntity<?> getAppointmentById(@PathVariable String email, @PathVariable String id) {
+    public ResponseEntity<?> getAppointmentById(
+            @NonNull @PathVariable String email,
+            @NonNull @PathVariable String id) {
         BookingResponseDTO appointment = bookingService.getAppointmentById(id, email);
-        if(appointment == null) {
+        if (appointment == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(appointment);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createAppointment(@RequestBody BookingRequestDTO requestBody) {
+    public ResponseEntity<?> createAppointment(
+            @NonNull @RequestBody BookingRequestDTO requestBody) {
         try {
             BookingResponseDTO createdForm = bookingService.createAppointment(requestBody);
             return ResponseEntity.ok(createdForm);
@@ -53,7 +57,9 @@ public class BookingController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateAppointment(@PathVariable String id, @RequestBody BookingRequestDTO requestBody) {
+    public ResponseEntity<?> updateAppointment(
+            @NonNull @PathVariable String id,
+            @NonNull @RequestBody BookingRequestDTO requestBody) {
         try {
             BookingResponseDTO updatedForm = bookingService.updateAppointmentById(id, requestBody);
             return ResponseEntity.ok(updatedForm);
@@ -61,9 +67,11 @@ public class BookingController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-    
+
     @DeleteMapping("/delete/{username}/{id}")
-    public ResponseEntity<?> deleteAppointment(@PathVariable String id, @PathVariable String username) {
+    public ResponseEntity<?> deleteAppointment(
+            @NonNull @PathVariable String id,
+            @NonNull @PathVariable String username) {
         try {
             bookingService.deleteAppointment(id, username);
             return ResponseEntity.ok("Appointment deleted successfully.");
