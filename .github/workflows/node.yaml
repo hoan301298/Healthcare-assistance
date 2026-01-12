@@ -1,63 +1,63 @@
 name: healthcare-assistance
 on:
-    push:
-        branches: [main]
-    pull_request:
-        branches: [main]
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main, dev]
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        env:
-            CI: true
-            MONGO_URL: mongodb://localhost/healthcare-assistance
-            SPRING_DATA_MONGODB_URI: ${{ secrets.SPRING_DATA_MONGODB_URI }}
-            SPRING_ENCRYPT_KEY: ${{ secrets.SPRING_ENCRYPT_KEY }}
-            SPRING_ORIGINS_URL: ${{ secrets.SPRING_ORIGINS_URL }}
-            SPRING_SECRET_KEY: ${{ secrets.SPRING_SECRET_KEY }}
+  build:
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+      MONGO_URL: mongodb://localhost/healthcare-assistance
+      SPRING_DATA_MONGODB_URI: ${{ secrets.SPRING_DATA_MONGODB_URI }}
+      SPRING_ENCRYPT_KEY: ${{ secrets.SPRING_ENCRYPT_KEY }}
+      SPRING_ORIGINS_URL: ${{ secrets.SPRING_ORIGINS_URL }}
+      SPRING_SECRET_KEY: ${{ secrets.SPRING_SECRET_KEY }}
 
-        strategy:
-            matrix:
-                node-version: [20.x]
-                java-version: ['17']
-                mongodb-version: ["7.0"]
+    strategy:
+      matrix:
+        node-version: [20.x]
+        java-version: ["17"]
+        mongodb-version: ["7.0"]
 
-        steps:
-            - uses: actions/checkout@v4
+    steps:
+      - uses: actions/checkout@v4
 
-            - name: Setup Node
-              uses: actions/setup-node@v4
-              with:
-                node-version: ${{ matrix.node-version }}
-            
-            - name: Setup Java
-              uses: actions/setup-java@v4
-              with:
-                distribution: temurin
-                java-version: ${{ matrix.java-version }}
-            
-            - name: Start MongoDB from GitHub actions
-              uses: supercharge/mongodb-github-action@1.11.0
-              with:
-                mongodb-version: ${{ matrix.mongodb-version }}
-            
-            - name: Install Serverless dependencies
-              run: |
-                cd api
-                npm install
-            
-            - name: Install Node Server dependencies
-              run: |
-                cd node-server
-                npm install
-            
-            - name: Build & Test Spring Boot
-              run: |
-                cd springboot-server
-                chmod +x mvnw
-                ./mvnw clean test
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
 
-            - name: Build Client
-              run: |
-                cd client
-                npm install
-                npm run build
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java-version }}
+
+      - name: Start MongoDB from GitHub actions
+        uses: supercharge/mongodb-github-action@1.11.0
+        with:
+          mongodb-version: ${{ matrix.mongodb-version }}
+
+      - name: Install Serverless dependencies
+        run: |
+          cd api
+          npm install
+
+      - name: Install Node Server dependencies
+        run: |
+          cd node-server
+          npm install
+
+      - name: Build & Test Spring Boot
+        run: |
+          cd springboot-server
+          chmod +x mvnw
+          ./mvnw clean test
+
+      - name: Build Client
+        run: |
+          cd client
+          npm install
+          npm run build
