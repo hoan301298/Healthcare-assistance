@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { constants } from '../../constant.js';
 
 const ALGO = 'aes-256-gcm';
