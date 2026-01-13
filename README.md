@@ -65,19 +65,17 @@ PORT=5000
 ```sh
 # SpringBoot-server
 SPRING_DATA_MONGODB_URI=??
-SERVER_PORT=5001
+SERVER_PORT=8080
 SECRET_KEY=9f4b2c7d8e1a3b5c6d7e8f901234567890abcdef1234567890abcdef12345678
 ENCRYPT_KEY=f3a1c9d7b8e45f92a6b1c3e4d5f7a8901234567890abcdef1234567890abcdef
-ORIGINS_URL=http://localhost:5000
+ORIGINS_URL=http://localhost:5173
 ```
 
 ### Frontend Setup (React)
 ```sh
 cd client
-npm install
-
-# This step will build and copy dist into node-server.
-npm run build
+yarn install
+yarn dev
 ```
 
 ### Backend Setup (Express + Spring Boot)
@@ -86,7 +84,7 @@ npm run build
 cd node-server
 npm install
 
-# Node-server will serve the frontend and APIs (static)
+# Node-server
 npm run start:dev
 
 # Navigate to booking-server directory from root
@@ -95,11 +93,13 @@ mvn clean install
 mvn spring-boot:run
 ```
 
-After starting the project, access the application at: http://localhost:5000
+After starting the project, access the application at: http://localhost:5173
 
-Frontend + Express: port 5000
+Frontend: port 5173
 
-Spring Boot: port 5001
+Express: port 5000
+
+Spring Boot: port 8080
 
 ## 🤝 Contributing
 Contributions are welcome! Fork the repository and create a pull request.

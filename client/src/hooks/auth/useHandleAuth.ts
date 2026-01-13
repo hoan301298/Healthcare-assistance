@@ -1,8 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import useAuth from "./useAuth"
 import useAuthForm from "./useAuthForm";
-import { useEffect } from "react";
-import { log } from "console";
 
 const useHandleAuth = () => {
     const navigate = useNavigate();

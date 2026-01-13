@@ -16,7 +16,7 @@ const useAuth = () => {
     const dispatch: AppDispatch = useDispatch();
     const auth = useSelector((state: RootState) => state.auth);
     const { fetchChatDetail } = useChat();
-    const { getAllAppointments } = useAppointment();
+    const { getAllAppointments, clearAuthAppointments, authAppointments } = useAppointment();
     const { clearForms } = useAuthForm();
     const { disconnectSocket } = useSocket();
 
@@ -75,7 +75,8 @@ const useAuth = () => {
             disconnectSocket();
             dispatch(clearChatState());
             dispatch(resetAuthState());
-    
+            clearAuthAppointments();
+
             toast({ title: "Logout successful" });
     
             return {
