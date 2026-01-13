@@ -3,6 +3,7 @@ import { AppointmentsResponseDto } from "@/components/models/appointment/Appoint
 import { setFilters } from "@/state/appointmentSlice";
 import { AppDispatch, RootState } from "@/state/store"
 import { getAllAppointmentByAuth } from "@/state/thunks/appointmentThunks";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux"
 
@@ -22,6 +23,10 @@ const useAppointment = () => {
         dispatch(setFilters({ singleAppointment: appointment }));
     }
 
+    const clearAuthAppointments = () => {
+        dispatch(setFilters({ authAppointments: null }));
+    }
+
     const getAllAppointments = async (): Promise<AppointmentsResponseDto> => {
         const result = await dispatch(getAllAppointmentByAuth());
 
@@ -34,7 +39,7 @@ const useAppointment = () => {
             };
         }
     }
-    
+
     return {
         singleAppointment: appointmentState.singleAppointment,
         authAppointments: appointmentState.authAppointments,
@@ -44,7 +49,8 @@ const useAppointment = () => {
         getAllAppointments,
         setReferenceId,
         setEmail,
-        setAppointment
+        setAppointment,
+        clearAuthAppointments
     }
 }
 

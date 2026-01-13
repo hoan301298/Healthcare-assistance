@@ -18,22 +18,24 @@ app.use(cookieParser());
 app.set("trust proxy", 1);
 
 app.use(cors({
-  origin: true,
+  origin: constants.NODE_ENV === "prod" ? true : constants.ORIGIN_URL,
   credentials: true
 }));
 
 app.use('/v1', api);
 
-mongoConnect();
+if (constants.NODE_ENV === "prod") {
+  await mongoConnect();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const publicPath = path.join(__dirname, 'public');
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  const publicPath = path.join(__dirname, 'public');
 
-app.use(express.static(publicPath));
-app.get('*', (_req, res) => {
-  res.setHeader("Cache-Control", "no-store, must-revalidate");
-  return res.sendFile(path.join(publicPath, 'index.html'));
-});
+  app.use(express.static(publicPath));
+  app.get('*', (_req, res) => {
+    res.setHeader("Cache-Control", "no-store, must-revalidate");
+    return res.sendFile(path.join(publicPath, 'index.html'));
+  });
+}
 
 export default app;
