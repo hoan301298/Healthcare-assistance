@@ -1,5 +1,5 @@
 import User from '../../../../model/User.schema.js';
-import { compare, hash } from 'bcrypt';
+import { compare, hash } from 'bcryptjs';
 
 const getUser = async (req, res) => {
     const { id } = req.params;

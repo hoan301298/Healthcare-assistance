@@ -1,4 +1,3 @@
-import { API_V1_URL } from "@/constant";
 import { useEffect, useRef } from "react";
 import { io, Socket } from "socket.io-client";
 import { SocketContext } from "./socket.context";
@@ -28,7 +27,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         if (!chatDetail?.id) return;
 
         if (!socketRef.current) {
-            const socket = io('http://localhost:3000', {
+            const socket = io('', {
                 path: "/v1/socket.io",
                 transports: ["websocket"],
                 reconnection: true,

@@ -13,12 +13,12 @@ async function startServer() {
     await mongoConnect();
 
     const io = new Server(server, {
+      path: "/v1/socket.io",
       cors: {
-        origin: constants.ORIGIN_URL,
+        origin: constants.NODE_ENV === "prod" ? true : constants.ORIGIN_URL,
         methods: ['GET', 'POST'],
         credentials: true
       },
-      path: "/v1/socket.io"
     });
 
     socketGateway(io);
