@@ -2,7 +2,14 @@
 
 A full-stack web application providing healthcare assistance, search medical facilities on physical map (**Google Map API**), real-time chat, authentication (**JWT & Cookie**), appointment booking using **MERN stack**, and **Spring Boot**.
 
-[Theseus Link](https://www.theseus.fi/handle/10024/861496) [Deploy](https://healthcare-assistance.vercel.app/)
+[Theseus Link](https://www.theseus.fi/handle/10024/861496) 
+
+[Deploy](https://healthcare-assistance.vercel.app/)
+
+Test section:
+
+**Email: katarina.makinen@example.com**
+**Password: example123**
 
 ## 📸 Overview
 ![Overview](./Overview.png)
