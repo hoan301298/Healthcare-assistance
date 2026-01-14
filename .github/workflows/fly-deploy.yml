@@ -18,17 +18,25 @@ jobs:
     
     env:
       FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-      VITE_MAP_API_KEY: ${{ secrets.VITE_MAP_API_KEY }}
-      VITE_GEOCODE_URL: ${{ secrets.VITE_GEOCODE_URL }}
-      VITE_SPRINGBOOT_SERVER_API: ${{ secrets.VITE_SPRINGBOOT_SERVER_API }}
       
     concurrency:
       group: deploy-group
       cancel-in-progress: false
 
     steps:
+
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Create .env.production
+        run: |
+          echo "VITE_MAP_API_KEY=$VITE_MAP_API_KEY" > client/.env.production
+          echo "VITE_GEOCODE_URL=$VITE_GEOCODE_URL" >> client/.env.production
+          echo "VITE_SPRINGBOOT_SERVER_API=$VITE_SPRINGBOOT_SERVER_API" >> client/.env.production
+        env:
+          VITE_MAP_API_KEY: ${{ secrets.VITE_MAP_API_KEY }}
+          VITE_GEOCODE_URL: ${{ secrets.VITE_GEOCODE_URL }}
+          VITE_SPRINGBOOT_SERVER_API: ${{ secrets.VITE_SPRINGBOOT_SERVER_API }}
 
       - name: Setup Fly CLI
         uses: superfly/flyctl-actions/setup-flyctl@master
