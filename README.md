@@ -1,10 +1,10 @@
-# Healthcare Assistance Website
+# Healthcare Assistance
 
 A full-stack web application providing healthcare assistance, search medical facilities on physical map (**Google Map API**), real-time chat, authentication (**JWT & Cookie**), appointment booking using **MERN stack**, and **Spring Boot**.
 
 [Theseus Link](https://www.theseus.fi/handle/10024/861496) 
 
-[Deploy](https://healthcare-assistance.vercel.app/)
+[Deploy](https://healthcare-assistance.fly.dev/)
 
 Test section:
 
@@ -15,11 +15,10 @@ Test section:
 ![Overview](./Overview.png)
 
 ## 🚀 Features
-- User authentication
+- User authentication & management
 - Searching medical facilities (max 20 - Google API restriction)
 - Appointment booking system
 - Real-time chat with doctors/agency (**encrypted content**, **Socket.IO**)
-- Health record management
 
 ## 🛠️ Tech Stack
 - **Frontend**: React TypeScript, Redux-Toolkit, TanStack Query, Tailwind CSS, Socket.IO 
@@ -37,7 +36,7 @@ git clone https://github.com/hoan301298/Healthcare-Assistance.git
 ### Prerequisites
 Ensure you have the following installed:
 - Node.js & npm
-- Java & Spring Boot
+- Java & Maven mvn
 - MongoDB
 
 ### Environment Variables (.env Setup)
@@ -49,7 +48,7 @@ Replace your_google_maps_api_key with your actual Google Maps API key.
 Create a .env file in each frontend and backend directories and add the following:
 
 ```sh
-# Client
+# Client .env
 VITE_MAP_API_KEY=??
 VITE_GEOCODE_URL=https://maps.googleapis.com/maps/api/geocode/json
 VITE_NODE_SERVER_API=http://localhost:5000
@@ -57,25 +56,25 @@ VITE_SPRINGBOOT_SERVER_API=http://localhost:8080
 ```
 
 ```sh
-# Node-server
+# Node-server .env
 MONGO_URL=??
 SECRET_KEY=your_jwt_secret_here # example: secret-key
 ENCRYPT_KEY=f3a1c9d7b8e45f92a6b1c3e4d5f7a8901234567890abcdef1234567890abcdef
 EMAIL_HASH_SALT=9f4b2c7d8e1a3b5c6d7e8f901234567890abcdef1234567890abcdef12345678
 GOOGLE_MAP_API_KEY=??
-NODEMAILER_API_KEY=??
 PLACES_NEARBY_URL=https://places.googleapis.com/v1/places:searchNearby
 NODE_ENV=dev
 PORT=5000
 ```
 
 ```sh
-# SpringBoot-server
-SPRING_DATA_MONGODB_URI=??
-SERVER_PORT=8080
-SECRET_KEY=9f4b2c7d8e1a3b5c6d7e8f901234567890abcdef1234567890abcdef12345678
-ENCRYPT_KEY=f3a1c9d7b8e45f92a6b1c3e4d5f7a8901234567890abcdef1234567890abcdef
-ORIGINS_URL=http://localhost:5173
+# SpringBoot-server Environment Variables
+# Open PowerShell (Run as Administration) or Bash
+setx SPRING_DATA_MONGODB_URI "<Your Mongo Server URL>" /M
+setx SERVER_PORT "8080" /M
+setx SPRING_SECRET_KEY "9f4b2c7d8e1a3b5c6d7e8f901234567890abcdef1234567890abcdef12345678" /M
+setx SPRING_ENCRYPT_KEY "f3a1c9d7b8e45f92a6b1c3e4d5f7a8901234567890abcdef1234567890abcdef" /M
+setx SPRING_ORIGINS_URL "http://localhost:5173" /M
 ```
 
 ### Frontend Setup (React)
@@ -87,11 +86,9 @@ yarn dev
 
 ### Backend Setup (Express + Spring Boot)
 ```sh
-# Navigate to server directory
+# Navigate to node-server directory
 cd node-server
 npm install
-
-# Node-server
 npm run start:dev
 
 # Navigate to booking-server directory from root
