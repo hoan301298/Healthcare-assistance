@@ -7,6 +7,10 @@ app = 'healthcare-assistance'
 primary_region = 'arn'
 
 [build]
+  [build.args]
+    VITE_MAP_API_KEY = "dummy"
+    VITE_GEOCODE_URL = "dummy"
+    VITE_SPRINGBOOT_SERVER_API = "dummy"
 
 [http_service]
   internal_port = 8080
