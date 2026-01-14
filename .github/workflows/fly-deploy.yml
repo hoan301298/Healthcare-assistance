@@ -9,6 +9,7 @@ on:
       - "node-server/**"
       - "Dockerfile"
       - "fly.toml"
+      - ".github/workflows/**"
   workflow_dispatch:
 
 jobs:
