@@ -6,8 +6,7 @@
 
 /springboot-server/target
 
-.env
-.env*.local
+.env*
 
 node_modules
 
