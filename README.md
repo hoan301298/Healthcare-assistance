@@ -4,7 +4,8 @@ A full-stack web application providing healthcare assistance, search medical fac
 
 [Theseus Link](https://www.theseus.fi/handle/10024/861496) 
 
-[Deploy](https://healthcare-assistance.fly.dev/)
+[Deploy version-1](https://healthcare-assistance.vercel.app)
+[Deploy version-2](https://healthcare-assistance.fly.dev/) - New version (support Socket.IO)
 
 Test section:
 
