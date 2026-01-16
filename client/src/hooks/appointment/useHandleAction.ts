@@ -9,7 +9,7 @@ const useHandleAction = () => {
         setAppointment,
     } = useAppointment();
 
-    const handleSearchBooking = async (e: React.FormEvent, setIsLoading: (state: boolean) => void) => {
+    const handleSearch = async (e: React.FormEvent, setIsLoading: (state: boolean) => void) => {
         e.preventDefault();
         
         if(!email || !referenceId) return;
@@ -45,8 +45,12 @@ const useHandleAction = () => {
         }
     }
 
+    const handleDelete = () => {
+        
+    }
+
     return { 
-        handleSearchBooking
+        handleSearch
     };
 }
 

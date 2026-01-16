@@ -17,7 +17,7 @@ const Appointment = () => {
         setReferenceId,
         setEmail,
     } = useAppointment();
-    const { handleSearchBooking } = useHandleAction();
+    const { handleSearch } = useHandleAction();
 
     return (
         <div className="min-h-screen bg-background">
@@ -29,7 +29,7 @@ const Appointment = () => {
                         <CardDescription className="text-base py-4">
                             Fill in your booking reference and email registered
                         </CardDescription>
-                        <form onSubmit={(e) => handleSearchBooking(e, setIsLoading)}>
+                        <form onSubmit={(e) => handleSearch(e, setIsLoading)}>
                             <div className="flex gap-5">
                                 <div className="flex-1">
                                     <Label htmlFor="id" className="text-black pl-1">Reference Number *</Label>
