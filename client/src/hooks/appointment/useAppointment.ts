@@ -3,7 +3,7 @@ import { AppointmentsResponseDto } from "@/components/models/appointment/Appoint
 import { setFilters } from "@/state/appointmentSlice";
 import { AppDispatch, RootState } from "@/state/store"
 import { getAllAppointmentByAuth } from "@/state/thunks/appointmentThunks";
-import { useEffect } from "react";
+import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux"
 
@@ -22,6 +22,13 @@ const useAppointment = () => {
     const setAppointment = (appointment: Appointment) => {
         dispatch(setFilters({ singleAppointment: appointment }));
     }
+
+    const removeAppointmentById = useCallback((id: String) => {
+        dispatch(setFilters({ 
+            authAppointments: appointmentState
+                .authAppointments
+                .filter(app => app.id !== id)}))
+    }, [dispatch, appointmentState.authAppointments]);
 
     const clearAuthAppointments = () => {
         dispatch(setFilters({ authAppointments: null }));
@@ -50,6 +57,7 @@ const useAppointment = () => {
         setReferenceId,
         setEmail,
         setAppointment,
+        removeAppointmentById,
         clearAuthAppointments
     }
 }

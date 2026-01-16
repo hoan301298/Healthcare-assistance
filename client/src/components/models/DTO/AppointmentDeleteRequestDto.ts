@@ -1,4 +1,4 @@
-export type AppointmentRequestDto = {
-    id: String;
+export interface AppointmentRequestDto {
+    id: String
     email: String;
 }
