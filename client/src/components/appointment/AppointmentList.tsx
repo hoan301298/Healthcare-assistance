@@ -43,7 +43,6 @@ const AppointmentList = () => {
                             key={appointment.id}
                             appointment={appointment}
                             auth={true}
-                            // onDelete={handleDelete}
                         />
                     ))}
                 </div>

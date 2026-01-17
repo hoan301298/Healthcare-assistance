@@ -17,17 +17,23 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import useHandleAction from "@/hooks/appointment/useHandleAction";
+import { AppointmentRequestDto } from "../models/Dto/AppointmentDeleteRequestDto";
+import { appendOffsetOfLegend } from "recharts/types/util/ChartUtils";
 
 interface AppointmentBarProps {
   appointment: Appointment;
   auth: boolean;
-  onDelete?: (id: string) => void;
 }
 
-const AppointmentBar = ({ appointment, auth, onDelete }: AppointmentBarProps) => {
+const AppointmentBar = ({ appointment, auth }: AppointmentBarProps) => {
+  const { handleDelete } = useHandleAction();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const status = getAppointmentStatus(appointment);
-
+  const appointmentRequest: AppointmentRequestDto = {
+    email: appointment.email,
+    id: appointment.id
+  };
   return (
     <>
       <div className="appointment-bar rounded-xl overflow-hidden
@@ -97,7 +103,7 @@ const AppointmentBar = ({ appointment, auth, onDelete }: AppointmentBarProps) =>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
                     <AlertDialogAction
                       className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                      onClick={() => onDelete(appointment.id)}
+                      onClick={async () => await handleDelete(appointmentRequest)}
                     >
                       Delete
                     </AlertDialogAction>
