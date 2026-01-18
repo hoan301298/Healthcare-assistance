@@ -10,11 +10,7 @@ jobs:
     env:
       CI: true
       MONGO_URL: mongodb://localhost/healthcare-assistance
-      SPRING_DATA_MONGODB_URI: ${{ secrets.SPRING_DATA_MONGODB_URI }}
-      SPRING_ENCRYPT_KEY: ${{ secrets.SPRING_ENCRYPT_KEY }}
-      SPRING_ORIGINS_URL: ${{ secrets.SPRING_ORIGINS_URL }}
-      SPRING_SECRET_KEY: ${{ secrets.SPRING_SECRET_KEY }}
-
+    
     strategy:
       matrix:
         node-version: [20.x]

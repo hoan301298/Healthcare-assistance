@@ -7,8 +7,9 @@ on:
     paths:
       - "client/**"
       - "node-server/**"
+      - "springboot-server/**"
       - "Dockerfile"
-      - "fly.toml"
+      - "fly.prod.toml"
       - ".github/workflows/**"
   workflow_dispatch:
 
@@ -29,18 +30,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Create .env.production
-        run: |
-          echo "VITE_MAP_API_KEY=$VITE_MAP_API_KEY" > client/.env.production
-          echo "VITE_GEOCODE_URL=$VITE_GEOCODE_URL" >> client/.env.production
-          echo "VITE_SPRINGBOOT_SERVER_API=$VITE_SPRINGBOOT_SERVER_API" >> client/.env.production
-        env:
-          VITE_MAP_API_KEY: ${{ secrets.VITE_MAP_API_KEY }}
-          VITE_GEOCODE_URL: ${{ secrets.VITE_GEOCODE_URL }}
-          VITE_SPRINGBOOT_SERVER_API: ${{ secrets.VITE_SPRINGBOOT_SERVER_API }}
-
       - name: Setup Fly CLI
         uses: superfly/flyctl-actions/setup-flyctl@master
 
       - name: Deploy to Fly.io
-        run: flyctl deploy --remote-only
+        run: flyctl deploy -c fly.prod.toml
