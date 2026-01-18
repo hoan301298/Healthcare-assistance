@@ -23,8 +23,8 @@ async function startServer() {
 
     socketGateway(io);
 
-    server.listen(PORT, () => {
-      console.log(`Server is running on port ${constants.PORT}`);
+    server.listen(PORT, '0.0.0.0', () => {
+      console.log(`Express server is running on port ${PORT}`);
     });
 
   } catch (error) {

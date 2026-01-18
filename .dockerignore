@@ -1,53 +1,12 @@
-# Dependencies
 node_modules
 **/node_modules
-npm-debug.log
-yarn-error.log
-pnpm-debug.log
-
-/springboot-server
-
-# Build outputs
+target
+**/target
 dist
 build
-.next
-out
-.cache
-
-# Environment files
-.env
-.env.*
-!.env.example
-
-# Version control
 .git
-.gitignore
-.gitattributes
-
-# IDE
-.vscode
-.idea
-*.swp
-*.swo
-*~
-.DS_Store
-
-# OS files
-Thumbs.db
-
-# Logs
-logs
+.env*
 *.log
-
-# Testing
-coverage
-.nyc_output
-
-# Misc
-README.md
-.prettierrc
-.eslintrc
-tsconfig.json
-
-.vercel
-vercel.json
+client/node_modules
+node-server/node_modules
+springboot-server/target
