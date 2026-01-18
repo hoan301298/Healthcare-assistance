@@ -10,7 +10,7 @@ const useHandleAction = () => {
         email,
         referenceId,
         setAppointment,
-        removeAppointmentById
+        deleteAppointment
     } = useAppointment();
 
     const {
@@ -75,7 +75,7 @@ const useHandleAction = () => {
         }
 
         if (response.data) {
-            removeAppointmentById(appointmentDetail.id);
+            await deleteAppointment(appointmentDetail);
         }
     }
 

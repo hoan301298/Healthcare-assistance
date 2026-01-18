@@ -96,15 +96,20 @@ const AppointmentBar = ({ appointment, auth }: AppointmentBarProps) => {
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogCancel 
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      Cancel
+                    </AlertDialogCancel>
                     <AlertDialogAction
                       className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                      onClick={async () => 
+                      onClick={async (e) => {
+                        e.stopPropagation();
                         await handleDelete({ 
                           email: appointment.email, 
                           id: appointment.id 
                         } as AppointmentRequestDto
-                      )}
+                      )}}
                     >
                       Delete
                     </AlertDialogAction>

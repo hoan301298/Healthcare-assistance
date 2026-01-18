@@ -1,11 +1,13 @@
 import { Appointment } from "@/components/models/appointment/Appointment";
 import { AppointmentsResponseDto } from "@/components/models/appointment/AppointmentsResponseDto";
+import { AppointmentRequestDto } from "@/components/models/Dto/AppointmentDeleteRequestDto";
 import { setFilters } from "@/state/appointmentSlice";
 import { AppDispatch, RootState } from "@/state/store"
-import { getAllAppointmentByAuth } from "@/state/thunks/appointmentThunks";
+import { deleteAppointmentByAuth, getAllAppointmentByAuth } from "@/state/thunks/appointmentThunks";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux"
+import { toast } from "../use-toast";
 
 const useAppointment = () => {
     const appointmentState = useSelector((state: RootState) => state.appointment);
@@ -47,6 +49,27 @@ const useAppointment = () => {
         }
     }
 
+    const deleteAppointment = async ({ 
+        email, 
+        id 
+    }: AppointmentRequestDto): Promise<void> => {
+        const result = await dispatch(deleteAppointmentByAuth({ email, id }));
+
+        if (deleteAppointmentByAuth.fulfilled.match(result)) {
+            removeAppointmentById(id);
+            toast({
+                title: `Delete appointment with ID ${id} successfully`,
+                variant: "default"
+            })
+        } else {
+            toast({
+                title: `Fail to delete appointment with ID ${id}`,
+                description: "Try again!",
+                variant: "destructive"
+            })
+        }
+    }
+
     return {
         singleAppointment: appointmentState.singleAppointment,
         authAppointments: appointmentState.authAppointments,
@@ -58,6 +81,7 @@ const useAppointment = () => {
         setEmail,
         setAppointment,
         removeAppointmentById,
+        deleteAppointment,
         clearAuthAppointments
     }
 }

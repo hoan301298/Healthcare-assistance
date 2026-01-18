@@ -68,7 +68,7 @@ public class BookingController {
         }
     }
 
-    @DeleteMapping("/delete/{email}/{id}")
+    @DeleteMapping("/{email}/{id}")
     public ResponseEntity<?> deleteAppointment(
             @NonNull @PathVariable String id,
             @NonNull @PathVariable String email) {

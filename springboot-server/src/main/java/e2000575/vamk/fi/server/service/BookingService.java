@@ -103,7 +103,7 @@ public class BookingService {
     }
 
     private BookingForm getAppointmentByIdEntity(String id, String email) {
-        return bookingRepository.findByHashedEmail(email)
+        return bookingRepository.findByHashedEmail(hashEmail(email))
                 .stream()
                 .filter(a -> a.getId().equals(id))
                 .findFirst()
