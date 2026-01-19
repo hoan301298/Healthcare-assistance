@@ -1,5 +1,9 @@
 # ---------- Frontend build ----------
 FROM node:20-alpine AS frontend
+
+ARG VITE_GEOCODE_URL
+ARG VITE_MAP_API_KEY
+
 WORKDIR /app
 COPY client/package*.json ./
 RUN npm ci
@@ -7,6 +11,7 @@ COPY client .
 
 ENV VITE_GEOCODE_URL=$VITE_GEOCODE_URL
 ENV VITE_MAP_API_KEY=$VITE_MAP_API_KEY
+
 RUN npm run build
 
 # ---------- Node server deps ----------
