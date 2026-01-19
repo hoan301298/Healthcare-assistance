@@ -12,6 +12,7 @@ import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import Appointment from "./pages/Appointment";
 import useAuth from "./hooks/auth/useAuth";
+import Profile from "./pages/Profile";
 
 const queryClient = new QueryClient();
 
@@ -34,8 +35,9 @@ const App = () => {
             <Route path="/booking/:id" element={<Booking />} />
             <Route path="/appointment" element={<Appointment />} />
             <Route path="/chat" element={<Chat />} />
-            {!user && !isAuthenticated && <Route path="/auth" element={<Auth />} /> }
             <Route path="*" element={<NotFound href="/" label="Back to Home page" />} />
+            {!user && !isAuthenticated && <Route path="/auth" element={<Auth />} /> }
+            {user && isAuthenticated && <Route path="/profile" element={<Profile />}/> }
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
