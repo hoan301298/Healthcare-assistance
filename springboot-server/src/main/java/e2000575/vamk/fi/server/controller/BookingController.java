@@ -68,12 +68,12 @@ public class BookingController {
         }
     }
 
-    @DeleteMapping("/delete/{username}/{id}")
+    @DeleteMapping("/{email}/{id}")
     public ResponseEntity<?> deleteAppointment(
             @NonNull @PathVariable String id,
-            @NonNull @PathVariable String username) {
+            @NonNull @PathVariable String email) {
         try {
-            bookingService.deleteAppointment(id, username);
+            bookingService.deleteAppointment(id, email);
             return ResponseEntity.ok("Appointment deleted successfully.");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

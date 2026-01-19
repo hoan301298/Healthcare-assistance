@@ -17,13 +17,16 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import useHandleAction from "@/hooks/appointment/useHandleAction";
+import { AppointmentRequestDto } from "../models/Dto/AppointmentDeleteRequestDto";
 
 interface AppointmentBarProps {
   appointment: Appointment;
-  onDelete?: (id: string) => void;
+  auth: boolean;
 }
 
-const AppointmentBar = ({ appointment, onDelete }: AppointmentBarProps) => {
+const AppointmentBar = ({ appointment, auth }: AppointmentBarProps) => {
+  const { handleDelete } = useHandleAction();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const status = getAppointmentStatus(appointment);
 
@@ -73,35 +76,47 @@ const AppointmentBar = ({ appointment, onDelete }: AppointmentBarProps) => {
               <Eye className="w-5 h-5" />
             </Button>
 
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-9 w-9 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <Trash2 className="w-4 h-4" />
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Delete Appointment</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    Are you sure you want to delete the item: "{appointment.id}"? This action cannot be undone.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction
-                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                    onClick={() => onDelete(appointment.id)}
+            {auth &&
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-9 w-9 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                    onClick={(e) => e.stopPropagation()}
                   >
-                    Delete
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Delete Appointment</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Are you sure you want to delete the item: "{appointment.id}"? This action cannot be undone.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel 
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      Cancel
+                    </AlertDialogCancel>
+                    <AlertDialogAction
+                      className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                      onClick={async (e) => {
+                        e.stopPropagation();
+                        await handleDelete({ 
+                          email: appointment.email, 
+                          id: appointment.id 
+                        } as AppointmentRequestDto
+                      )}}
+                    >
+                      Delete
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            }
           </div>
         </div>
       </div>

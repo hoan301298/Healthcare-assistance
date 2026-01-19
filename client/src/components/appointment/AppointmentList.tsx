@@ -31,6 +31,7 @@ const AppointmentList = () => {
                     <AppointmentBar
                         key={`${singleAppointment.id}-search`}
                         appointment={singleAppointment}
+                        auth={false}
                     />
                 </div>
             }
@@ -41,7 +42,7 @@ const AppointmentList = () => {
                         <AppointmentBar
                             key={appointment.id}
                             appointment={appointment}
-                        // onDelete={handleDelete}
+                            auth={true}
                         />
                     ))}
                 </div>
