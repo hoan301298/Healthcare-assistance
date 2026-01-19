@@ -5,6 +5,7 @@ target
 dist
 build
 .git
+.env*
 *.log
 client/node_modules
 node-server/node_modules
