@@ -17,7 +17,7 @@ export const AuthMiddleware = async (req, res, next) => {
         }
 
         const user = await User
-            .findById(decoded.id).select("_id hashedEmail encryptedEmail name")
+            .findById(decoded.id).select("_id hashedEmail encryptedEmail name password")
             .lean();
             
         if (!user) {

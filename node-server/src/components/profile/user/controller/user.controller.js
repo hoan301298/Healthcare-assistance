@@ -1,60 +1,61 @@
 import User from '../../../../model/User.schema.js';
 import { compare, hash } from 'bcryptjs';
+import userService from '../service/user.service.js';
 
-const getUser = async (req, res) => {
-    const { id } = req.params;
-    try {
-        const userDetails = await User.findOne({ id: id });
+class UserController {
+    constructor() {}
 
-        if (!userDetails) {
-            return res.status(401).json({ error: 'Error Fetching User' });
-        }
-        return res.json({userDetails});
-    } catch (error) {
-        res.status(500).json({error: "Internal server error"});
-    }
-}
-
-const updateUser = async (req, res) => {
-    const { updateUser } = req.body;
-    try {
-        const user = await User.findOne({ username: updateUser.username});
-        compare(updateUser.password, user.password, async (err, result) => {
-            if (err || !result) {
-                return res.status(401).json({ error: 'Invalid password!' });
-            } else {
-                updateUser.password = user.password;
-                const result = await User.updateOne(user, updateUser);
-                return res.json(`${result.modifiedCount} document(s) updated!`);
+    async getUser (req, res) {
+        const { id } = req.params;
+        try {
+            const userDetails = await User.findOne({ id: id });
+    
+            if (!userDetails) {
+                return res.status(401).json({ error: 'Error Fetching User' });
             }
-        })
-    } catch (error) {
-        res.status(500).json({error: "Internal server error"});
+            return res.json({userDetails});
+        } catch (error) {
+            res.status(500).json({error: "Internal server error"});
+        }
     }
-}
 
-const resetPassword = async (req, res) => {
-    const { username, oldPassword, newPassword } = req.body;
-    try {
-        const user = await User.findOne({ username: username });
-        if(user) {
-            compare(oldPassword, user.password, async (err, result) => {
-                if(err || !result) {
-                    return res.status(401).json({error: 'Your current password is wrong!'})
+    async updateUser (req, res) {
+        const { updateUser } = req.body;
+        try {
+            const user = await User.findOne({ username: updateUser.username});
+            compare(updateUser.password, user.password, async (err, result) => {
+                if (err || !result) {
+                    return res.status(401).json({ error: 'Invalid password!' });
                 } else {
-                    const hashedPassword = await hash(newPassword, 12);
-                    const result = await User.updateOne({username: username}, {password: hashedPassword});
-                    return res.json(`${result.modifiedCount} updated!`);
+                    updateUser.password = user.password;
+                    const result = await User.updateOne(user, updateUser);
+                    return res.json(`${result.modifiedCount} document(s) updated!`);
                 }
             })
+        } catch (error) {
+            res.status(500).json({error: "Internal server error"});
         }
-    } catch (e) {
-        res.status(500).json({e: "Internal server error"});
+    }
+
+    async resetPassword (req, res) {
+        const { oldPassword, newPassword } = req.body;
+        const user = req.user;
+    
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User Not Found"
+            });
+        }
+    
+        const response = await userService.resetPassword(user, oldPassword, newPassword);
+
+        if (!response.success) {
+            return res.status(400).json(response);
+        }
+
+        return res.status(200).json(response);
     }
 }
 
-export { 
-    getUser, 
-    updateUser, 
-    resetPassword 
-};
+export default new UserController();
