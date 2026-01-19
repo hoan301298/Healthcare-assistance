@@ -41,7 +41,7 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 # Startup script
 COPY start.sh .
-RUN chmod +x start.sh
+RUN sed -i 's/\r$//' start.sh && chmod +x start.sh
 
 EXPOSE 8080
 
