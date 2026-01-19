@@ -34,4 +34,7 @@ jobs:
         uses: superfly/flyctl-actions/setup-flyctl@master
 
       - name: Deploy to Fly.io
-        run: flyctl deploy -c fly.prod.toml
+        run: |
+          flyctl deploy -c fly.prod.toml --remote-only \
+            --build-arg VITE_GEOCODE_URL=${{ secrets.VITE_GEOCODE_URL }} \
+            --build-arg VITE_MAP_API_KEY=${{ secrets.VITE_MAP_API_KEY }}
