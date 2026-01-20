@@ -1,6 +1,6 @@
 import type { RootState, AppDispatch } from "@/state/store";
 import { useSelector, useDispatch } from "react-redux";
-import { login, register, checkAuth, logout } from "@/state/thunks/authThunks";
+import { login, register, checkAuth, logout, resetPassword } from "@/state/thunks/authThunks";
 import { AuthResponseDto } from "@/components/models/Dto/AuthResponseDto";
 import { LoginRequestDto } from "@/components/models/Dto/LoginRequestDto";
 import { RegisterRequestDto } from "@/components/models/Dto/RegisterRequestDto";
@@ -11,6 +11,7 @@ import { useSocket } from "@/providers/socket/socket.context";
 import useChat from "../chat/useChat";
 import { clearChatState } from "@/state/chatSlice";
 import useAppointment from "../appointment/useAppointment";
+import { ResetPasswordRequestDto } from "@/components/models/Dto/ResetPasswordRequestDto";
 
 const useAuth = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -92,6 +93,27 @@ const useAuth = () => {
         }
     };
 
+    const resetPasswordUser = async (data: ResetPasswordRequestDto) => {
+        try {
+            const result = await dispatch(resetPassword(data));
+
+            if (!resetPassword.fulfilled.match(result)) {
+                return {
+                    success: false,
+                    message: result.payload as string,
+                } as AuthResponseDto;
+            }
+
+            return result.payload;
+        } catch (error) {
+            console.error("Reset Password error: ", error);
+            return {
+                success: false,
+                message: "Unexpected reset password error"
+            } as AuthResponseDto;
+        }
+    }
+
     const clearAuthStatus = () => dispatch(resetAuthState());
 
     return {
@@ -106,6 +128,7 @@ const useAuth = () => {
         register: registerUser,
         checkAuth: checkUserAuth,
         logout: logoutUser,
+        resetPassword: resetPasswordUser,
         clearAuthStatus,
     };
 };

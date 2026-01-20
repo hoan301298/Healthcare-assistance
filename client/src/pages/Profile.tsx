@@ -1,46 +1,43 @@
 import Navbar from "@/components/navbar/Navbar";
 import useAuth from "@/hooks/auth/useAuth";
-import React, { useState } from "react";
+import useAuthForm from "@/hooks/auth/useAuthForm";
+import useHandleAuth from "@/hooks/auth/useHandleAuth";
+import React, { useEffect, useState } from "react";
 
 const Profile: React.FC = () => {
     const {
         user
     } = useAuth();
 
-    const [password, setPassword] = useState({
-        currentPassword: "",
-        newPassword: "",
-        confirmNewPassword: "",
-    });
+    const {
+        handleResetPassword
+    } = useHandleAuth();
 
-    const [error, setError] = useState<string | null>(null);
-    const [success, setSuccess] = useState<string | null>(null);
+    const {
+        resetPasswordForm,
+        setResetPasswordForm
+    } = useAuthForm();
 
-    const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPassword({ ...password, [e.target.name]: e.target.value });
-    };
+    const [confirmedPassword, setConfirmedPassword] = useState<string>('');
+    const [message, setMessage] = useState<string | null>(null);
+    const [success, setSuccess] = useState<boolean>(false);
 
-    const handleResetPassword = (e: React.FormEvent) => {
-        e.preventDefault();
-
-        if (password.newPassword !== password.confirmNewPassword) {
-            setError("New passwords do not match");
-            setSuccess(null);
-            return;
+    useEffect(() => {
+        if (resetPasswordForm.newPassword.trim() !== '' && resetPasswordForm.newPassword === confirmedPassword) {
+            setMessage("Matched");
         }
 
-        setError(null);
-        setSuccess("Password updated successfully");
+        if (resetPasswordForm.newPassword.trim() !== '' && resetPasswordForm.newPassword !== confirmedPassword) {
+            setMessage("Mismatched");
+            setSuccess(false);
+        }
 
-        // TODO: call reset password API
-        console.log("Reset password payload", password);
-
-        setPassword({
-            currentPassword: "",
-            newPassword: "",
-            confirmNewPassword: "",
-        });
-    };
+        if (resetPasswordForm.oldPassword.trim() !== '' && message === "Matched") {
+            setSuccess(true);
+        } else {
+            setSuccess(false);
+        }
+    })
 
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
@@ -77,10 +74,15 @@ const Profile: React.FC = () => {
 
                     <input
                         type="password"
-                        name="currentPassword"
+                        name="oldPassword"
                         placeholder="Current password"
-                        value={password.currentPassword}
-                        onChange={handlePasswordChange}
+                        value={resetPasswordForm.oldPassword}
+                        onChange={(e) => {
+                            setResetPasswordForm({
+                                ...resetPasswordForm,
+                                oldPassword: e.target.value
+                            })
+                        }}
                         required
                         className="w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
@@ -89,8 +91,13 @@ const Profile: React.FC = () => {
                         type="password"
                         name="newPassword"
                         placeholder="New password"
-                        value={password.newPassword}
-                        onChange={handlePasswordChange}
+                        value={resetPasswordForm.newPassword}
+                        onChange={(e) => {
+                            setResetPasswordForm({
+                                ...resetPasswordForm,
+                                newPassword: e.target.value
+                            })
+                        }}
                         required
                         className="w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
@@ -99,18 +106,18 @@ const Profile: React.FC = () => {
                         type="password"
                         name="confirmNewPassword"
                         placeholder="Confirm new password"
-                        value={password.confirmNewPassword}
-                        onChange={handlePasswordChange}
+                        value={confirmedPassword}
+                        onChange={(e) => setConfirmedPassword(e.target.value)}
                         required
                         className="w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
 
-                    {error && <p className="text-sm text-red-600">{error}</p>}
-                    {success && <p className="text-sm text-green-600">{success}</p>}
+                    {message && <p className="text-sm text-red-600">{message}</p>}
 
                     <button
                         type="submit"
                         className="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition"
+                        disabled={!success}
                     >
                         Update Password
                     </button>

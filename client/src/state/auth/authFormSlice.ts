@@ -1,10 +1,12 @@
 import { LoginRequestDto } from "@/components/models/Dto/LoginRequestDto";
 import { RegisterRequestDto } from "@/components/models/Dto/RegisterRequestDto";
+import { ResetPasswordRequestDto } from "@/components/models/Dto/ResetPasswordRequestDto";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface AuthFormState {
     loginForm: LoginRequestDto,
     registerForm: RegisterRequestDto,
+    resetPasswordForm: ResetPasswordRequestDto,
 }
 
 const initialState: AuthFormState = {
@@ -17,6 +19,10 @@ const initialState: AuthFormState = {
         name: '',
         password: '',
         confirmPassword: ''
+    },
+    resetPasswordForm: {
+        oldPassword: '',
+        newPassword: '',
     }
 }
 
@@ -30,9 +36,12 @@ const authFormSlice = createSlice({
         setRegisterFormState: (state, action: PayloadAction<RegisterRequestDto>) => {
             state.registerForm = action.payload;
         },
+        setResetPasswordFormState: (state, action: PayloadAction<ResetPasswordRequestDto>) => {
+            state.resetPasswordForm = action.payload;
+        },
         clearFormState: () => initialState,
     }
 });
 
-export const { setLoginFormState, setRegisterFormState, clearFormState } = authFormSlice.actions;
+export const { setLoginFormState, setRegisterFormState, setResetPasswordFormState, clearFormState } = authFormSlice.actions;
 export default authFormSlice.reducer;
