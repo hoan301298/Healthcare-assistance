@@ -40,6 +40,7 @@ export class AppointmentService {
             }
             delete plainApp.hashedEmail;
             delete plainApp.encryptedEmail;
+            delete plainApp.password;
             return plainApp;
         });
 

@@ -26,7 +26,6 @@ const UserMenu = ({ user }) => {
 
       <DropdownMenuContent className="w-56" align="end">
         <DropdownMenuLabel>
-          Logged in as <br />
           <span className="font-medium">{user.name}</span>
         </DropdownMenuLabel>
 
@@ -37,10 +36,6 @@ const UserMenu = ({ user }) => {
             Profile
           </DropdownMenuItem>
         </Link>
-
-        <DropdownMenuItem className="cursor-pointer">
-          Settings
-        </DropdownMenuItem>
 
         <DropdownMenuSeparator />
 
