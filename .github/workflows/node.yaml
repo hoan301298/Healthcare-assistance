@@ -40,11 +40,6 @@ jobs:
         with:
           mongodb-version: ${{ matrix.mongodb-version }}
 
-      - name: Install Serverless dependencies
-        run: |
-          cd api
-          npm install
-
       - name: Install Node Server dependencies
         run: |
           cd node-server
