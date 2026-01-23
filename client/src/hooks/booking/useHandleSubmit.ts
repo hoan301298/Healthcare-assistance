@@ -9,7 +9,7 @@ const useHandleSubmit = () => {
     const navigate = useNavigate();
     const { toast } = useToast();
     const { formData, clearFormData } = useBooking();
-    const { setAppointment } = useAppointment();
+    const { setAppointment, setReferenceId, setEmail } = useAppointment();
 
     const handleCreateBooking = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -37,13 +37,16 @@ const useHandleSubmit = () => {
 
             if (response) {
                 setAppointment(response);
+                setReferenceId(response.id);
+                setEmail(response.email);
+                
                 toast({
                     title: "Booking Confirmed!",
                     description: "Your appointment has been successfully scheduled. Check your email for confirmation.",
                 });
                 clearFormData();
 
-                setTimeout(() => navigate("/appointment"), 1500);
+                setTimeout(() => navigate("/appointment"), 500);
             }
         } catch (error) {
             console.error("Booking error:", error);
