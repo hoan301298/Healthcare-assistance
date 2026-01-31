@@ -1,13 +1,8 @@
 import { encrypt } from '../helper/cryptoFunctions.js';
-import { Mistral } from '@mistralai/mistralai';
-import { constants } from '../../constant.js';
-import Chat from '../../model/Chat.schema.js';
+import { buildMistralMessages, getMistralReply } from './service/mistral.service.js';
+import Chat from './model/Chat.schema.js';
 
-const ALLOWED_SENDERS = ["user"];
-
-const mistral = new Mistral({
-    apiKey: constants.MISTRAL_API_KEY,
-});
+const ALLOWED_SENDERS = "user";
 
 const socketGateway = (io) => {
 
@@ -27,6 +22,7 @@ const socketGateway = (io) => {
 
                 socket.data.chatId = chat_id;
                 socket.data.userId = user_id;
+                socket.data.messages = chat.messages;
 
                 socket.join(chat_id);
 
@@ -41,29 +37,28 @@ const socketGateway = (io) => {
 
         socket.on('send-message', async ({ id, sender, text, timestamp }) => {
             try {
+                
                 const chatId = socket.data.chatId;
 
                 if (!chatId) {
                     return socket.emit("error", { message: "Join a chat first" });
                 }
 
-                if (!text || typeof text !== "string") {
-                    return socket.emit("error", { message: "Invalid message" });
-                }
+                const trimmed = text?.trim();
+                if (!trimmed) return;
 
-                if (!ALLOWED_SENDERS.includes(sender)) {
+                if (sender !== ALLOWED_SENDERS) {
                     return socket.emit("error", {
                         message: "Invalid sender",
                     });
                 }
 
-                const trimmed = text.trim();
-                if (!trimmed) return;
                 if (trimmed.length > 5000) {
                     return socket.emit("error", { message: "Message too long" });
                 };
+
                 const encryptedText = encrypt(trimmed);
-                
+
                 const message = {
                     id: id ?? Date.now().toString(),
                     sender,
@@ -75,11 +70,43 @@ const socketGateway = (io) => {
                     $push: { messages: message },
                 });
 
+                socket.data.messages.push(message);
+
                 io.to(chatId).emit("message-response", {
                     id: message.id,
                     sender,
                     text: trimmed,
                     timestamp: message.timestamp,
+                });
+
+                io.to(chatId).emit("typing-response", {
+                    sender: "bot",
+                    isTyping: true,
+                });
+
+                const mistralMessages = [
+                    { role: "system", content: "You are a helpful healthcare assistant." },
+                    ...buildMistralMessages(socket.data.messages.slice(-10)),
+                ];
+
+                const botReply = await getMistralReply(mistralMessages);
+
+                const botMessage = {
+                    id: Date.now().toString(),
+                    sender: "bot",
+                    text: encrypt(botReply),
+                    timestamp: new Date(),
+                };
+
+                await Chat.findByIdAndUpdate(chatId, {
+                    $push: { messages: botMessage },
+                });
+
+                io.to(chatId).emit("message-response", {
+                    id: botMessage.id,
+                    sender: "bot",
+                    text: botReply,
+                    timestamp: botMessage.timestamp,
                 });
 
                 console.log(`Message sent in chat ${chatId} by ${sender}`);

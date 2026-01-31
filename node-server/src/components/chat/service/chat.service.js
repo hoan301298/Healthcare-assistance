@@ -1,5 +1,5 @@
-import ChatDetail from "../../model/Chat.schema.js";
-import { decrypt } from "../helper/cryptoFunctions.js";
+import ChatDetail from "../model/Chat.schema.js";
+import { decrypt } from "../../helper/cryptoFunctions.js";
 
 const chatService = async (user_id) => {
     try {
