@@ -1,4 +1,4 @@
-import chatService from "./chat.service.js";
+import chatService from "./service/chat.service.js";
 
 const chatController = async (req, res) => {
     const user = req.user;

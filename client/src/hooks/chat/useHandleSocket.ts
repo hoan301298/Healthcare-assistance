@@ -59,26 +59,6 @@ const useHandleSocket = () => {
             text: text,
             timestamp: userMessage.timestamp
         });
-
-        setTimeout(() => sendBotMessage(), 1000);
-    };
-
-    const sendBotMessage = () => {
-        if (!socket || !isConnected) return;
-
-        const botMessage: Message = {
-            id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
-            text: botResponses[Math.floor(Math.random() * botResponses.length)],
-            sender: 'bot',
-            timestamp: new Date(),
-        };
-
-        socket.emit('send-message', {
-            id: botMessage.id,
-            sender: botMessage.sender,
-            text: botMessage.text,
-            timestamp: botMessage.timestamp
-        });
     };
 
     const handleSend = () => {
