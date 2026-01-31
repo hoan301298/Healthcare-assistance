@@ -1,7 +1,13 @@
 import { encrypt } from '../helper/cryptoFunctions.js';
+import { Mistral } from '@mistralai/mistralai';
+import { constants } from '../../constant.js';
 import Chat from '../../model/Chat.schema.js';
 
-const ALLOWED_SENDERS = ["user", "bot"];
+const ALLOWED_SENDERS = ["user"];
+
+const mistral = new Mistral({
+    apiKey: constants.MISTRAL_API_KEY,
+});
 
 const socketGateway = (io) => {
 
