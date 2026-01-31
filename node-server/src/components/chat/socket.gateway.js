@@ -116,16 +116,6 @@ const socketGateway = (io) => {
             }
         });
 
-        socket.on('typing', ({ sender, isTyping }) => {
-            const chatId = socket.data.chatId;
-            if (!chatId) return;
-
-            socket.to(chatId).emit("typing-response", {
-                sender,
-                isTyping: Boolean(isTyping),
-            });
-        });
-
         socket.on('disconnect', () => {
             console.log(`❌: User disconnected - ${socket.id}`);
         });
