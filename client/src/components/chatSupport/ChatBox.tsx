@@ -10,32 +10,31 @@ const ChatBox = () => {
     const {
         isAuthenticated,
         isConnected,
+        isTyping,
         inputValue,
         messagesEndRef,
         handleSend,
         handleKeyPress,
         messages,
-        // handleTyping,
         setInputValue,
     } = useHandleSocket();
 
     useLayoutEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [messages]);
+    }, [messages, isTyping]);
 
     return (
-        <Card className="h-[calc(100vh-200px)] flex flex-col border-border">
+        <Card className="h-[calc(100vh-100px)] flex flex-col border-border">
             <CardHeader className="border-b border-border">
                 <CardTitle className="flex items-center gap-2">
                     <div className="p-2 bg-primary/10 rounded-lg">
                         <Bot className="h-5 w-5 text-primary" />
                     </div>
                     Healthcare Chat Support
-                    <span className={`ml-auto text-xs px-2 py-1 rounded-full ${
-                        isConnected
-                            ? 'bg-green-500/10 text-green-500' 
+                    <span className={`ml-auto text-xs px-2 py-1 rounded-full ${isConnected
+                            ? 'bg-green-500/10 text-green-500'
                             : 'bg-red-500/10 text-red-500'
-                    }`}>
+                        }`}>
                         {isConnected ? '● Online' : '● Offline'}
                     </span>
                 </CardTitle>
@@ -48,15 +47,14 @@ const ChatBox = () => {
                     messages.map((message) => (
                         <div
                             key={message.id}
-                            className={`flex items-start gap-3 ${
-                                message.sender === 'user'
-                                    ? 'flex-row-reverse' 
+                            className={`flex items-start gap-3 ${message.sender === 'user'
+                                    ? 'flex-row-reverse'
                                     : ''
-                            }`}
+                                }`}
                         >
                             <Avatar className={
-                                message.sender === 'bot' 
-                                    ? 'bg-primary/10' 
+                                message.sender === 'bot'
+                                    ? 'bg-primary/10'
                                     : 'bg-accent/10'
                             }>
                                 <AvatarFallback>
@@ -68,18 +66,16 @@ const ChatBox = () => {
                                 </AvatarFallback>
                             </Avatar>
                             <div
-                                className={`flex flex-col max-w-[70%] ${
-                                    message.sender === 'user'
-                                        ? 'items-end' 
+                                className={`flex flex-col max-w-[70%] ${message.sender === 'user'
+                                        ? 'items-end'
                                         : 'items-start'
-                                }`}
+                                    }`}
                             >
                                 <div
-                                    className={`px-4 py-2 rounded-lg ${
-                                        message.sender === 'bot'
+                                    className={`px-4 py-2 rounded-lg ${message.sender === 'bot'
                                             ? 'bg-muted text-foreground'
                                             : 'bg-primary text-primary-foreground'
-                                    }`}
+                                        }`}
                                 >
                                     <p className="text-sm whitespace-pre-wrap break-words">
                                         {message.text}
@@ -99,6 +95,21 @@ const ChatBox = () => {
                         <p>No messages yet. Start a conversation!</p>
                     </div>
                 )}
+                {isTyping && (
+                    <div className="flex items-start gap-3">
+                        <Avatar className="bg-primary/10">
+                            <AvatarFallback>
+                                <Bot className="h-5 w-5 text-primary" />
+                            </AvatarFallback>
+                        </Avatar>
+
+                        <div className="px-4 py-2 rounded-lg bg-muted text-foreground">
+                            <p className="text-sm italic text-muted-foreground">
+                                Bot is answering...
+                            </p>
+                        </div>
+                    </div>
+                )}
                 <div ref={messagesEndRef} />
             </CardContent>
             <div className="border-t border-border p-4">
@@ -107,15 +118,14 @@ const ChatBox = () => {
                         value={inputValue}
                         onChange={(e) => {
                             setInputValue(e.target.value);
-                            // handleTyping();
                         }}
                         onKeyDown={handleKeyPress}
                         placeholder={
-                            !isAuthenticated 
-                                ? "Please verify to chat..." 
-                                : !isConnected 
-                                ? "Connecting..." 
-                                : "Type your message..."
+                            !isAuthenticated
+                                ? "Please verify to chat..."
+                                : !isConnected
+                                    ? "Connecting..."
+                                    : "Type your message..."
                         }
                         className="flex-1"
                         disabled={!isAuthenticated || !isConnected}

@@ -8,7 +8,7 @@ const Chat = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="container mx-auto px-4 pt-24 pb-6">
+      <div className="container mx-auto px-4 pt-20 pb-2">
         <div className="max-w-4xl mx-auto">
           <ChatBox />
         </div>
