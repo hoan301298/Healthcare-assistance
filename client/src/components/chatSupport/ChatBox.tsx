@@ -24,7 +24,7 @@ const ChatBox = () => {
     }, [messages, isTyping]);
 
     return (
-        <Card className="h-[calc(100vh-200px)] flex flex-col border-border">
+        <Card className="h-[calc(100vh-100px)] flex flex-col border-border">
             <CardHeader className="border-b border-border">
                 <CardTitle className="flex items-center gap-2">
                     <div className="p-2 bg-primary/10 rounded-lg">
