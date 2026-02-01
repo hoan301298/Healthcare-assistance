@@ -109,6 +109,11 @@ const socketGateway = (io) => {
                     timestamp: botMessage.timestamp,
                 });
 
+                io.to(chatId).emit("typing-response", {
+                    sender: "bot",
+                    isTyping: false,
+                });
+
                 console.log(`Message sent in chat ${chatId} by ${sender}`);
             } catch (error) {
                 console.error('send-message error:', error);
