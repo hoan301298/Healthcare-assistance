@@ -17,8 +17,8 @@ export const getMistralReply = async (chatMessages) => {
     const response = await mistral.chat.complete({
         model: "mistral-small-latest",
         messages: chatMessages,
-        temperature: 0.7,
-        maxTokens: 300,
+        temperature: 0.5,
+        maxTokens: 4096,
     });
 
     return response.choices[0].message.content;
