@@ -1,6 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Message } from "@/components/models/chat/Message";
-import { botResponses } from "@/components/models/chat/BotResponses";
 import useChat from "./useChat";
 import useAuth from "../auth/useAuth";
 import { useSocket } from "@/providers/socket/socket.context";
@@ -9,6 +8,7 @@ const useHandleSocket = () => {
     const { socket } = useSocket();
     const { isAuthenticated } = useAuth();
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const [isTyping, setIsTyping] = useState<boolean>(false);
     const {
         chatDetail,
         isConnected,
@@ -35,6 +35,12 @@ const useHandleSocket = () => {
 
         socket.on("message-response", onMessage);
 
+        socket.on("typing-response", (data: { sender: string; isTyping: boolean }) => {
+            if (data.sender === 'bot') {
+                setIsTyping(data.isTyping);
+            }
+        });
+
         return () => {
             socket.off("message-response", onMessage);
         };
@@ -59,26 +65,6 @@ const useHandleSocket = () => {
             text: text,
             timestamp: userMessage.timestamp
         });
-
-        setTimeout(() => sendBotMessage(), 1000);
-    };
-
-    const sendBotMessage = () => {
-        if (!socket || !isConnected) return;
-
-        const botMessage: Message = {
-            id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
-            text: botResponses[Math.floor(Math.random() * botResponses.length)],
-            sender: 'bot',
-            timestamp: new Date(),
-        };
-
-        socket.emit('send-message', {
-            id: botMessage.id,
-            sender: botMessage.sender,
-            text: botMessage.text,
-            timestamp: botMessage.timestamp
-        });
     };
 
     const handleSend = () => {
@@ -93,24 +79,15 @@ const useHandleSocket = () => {
         }
     };
 
-    const handleTyping = () => {
-        if (!socket || !isConnected) return;
-
-        socket.emit('typing', {
-            sender: 'user',
-            isTyping: true
-        });
-    };
-
     return {
         isAuthenticated,
         isConnected,
+        isTyping,
         inputValue,
         messagesEndRef,
         messages,
         handleSend,
         handleKeyPress,
-        handleTyping,
         setInputValue,
     }
 }

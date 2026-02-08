@@ -14,4 +14,5 @@ export const constants = {
     EMAIL_HASH_SALT: process.env.EMAIL_HASH_SALT,
     PASSWORD_HASH_SALT: process.env.PASSWORD_HASH_SALT,
     NODE_ENV: process.env.NODE_ENV,
+    CHAT_API_KEY: process.env.MISTRAL_API_KEY,
 };
