@@ -41,6 +41,8 @@ const useAuth = () => {
 
         if (register.fulfilled.match(result)) {
             clearForms();
+            await fetchChatDetail();
+            await getAllAppointments();
             toast({ title: result.payload.message });
             return { success: true, data: result.payload as AuthResponseDto };
         } else {
