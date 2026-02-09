@@ -15,3 +15,4 @@ class MongoKeywords:
 
     def disconnect(self):
         self.client.close()
+        
