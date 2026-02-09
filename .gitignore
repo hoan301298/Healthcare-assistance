@@ -16,3 +16,4 @@ fly-deploy-local.sh
 /tests/*.xml
 **/__pycache__/
 *.pyc
+/results

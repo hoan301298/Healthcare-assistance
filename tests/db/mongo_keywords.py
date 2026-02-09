@@ -1,17 +1,21 @@
 from pymongo import MongoClient
+from variables.env import MONGO_URI, DB_NAME
 
 class MongoKeywords:
     ROBOT_LIBRARY_SCOPE = "GLOBAL"
     
-    def connect(self, uri, db_name):
-        self.client = MongoClient(uri)
-        self.db = self.client[db_name]
+    def connect(self):
+        self.client = MongoClient(MONGO_URI)
+        self.db = self.client[DB_NAME]
 
-    def clear_collection(self, collection):
-        self.db[collection].delete_many({})
-
+    def get_document(self, collection, query):
+        return self.db[collection].find_one(query)
+    
     def insert_document(self, collection, document):
         self.db[collection].insert_one(document)
+
+    def delete_document(self, collection, query):
+        self.db[collection].delete_one(query)
 
     def disconnect(self):
         self.client.close()

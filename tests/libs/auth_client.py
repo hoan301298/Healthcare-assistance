@@ -1,5 +1,6 @@
 from .base_client import BaseClient
 from typing import Dict, Optional
+from db.mongo_keywords import MongoKeywords
 
 class AuthClient(BaseClient):
     ROBOT_LIBRARY_SCOPE = "GLOBAL"
@@ -94,7 +95,10 @@ class AuthClient(BaseClient):
         Delete a user from the database.
         """
 
-        self.db.execute("DELETE FROM users WHERE id = %s", (id,))
+        mongo = MongoKeywords()
+        mongo.connect()
+        mongo.delete_document("users", {"_id": id})
+        mongo.disconnect()
 
 
     def logout(self, token: Optional[str] = None) -> Dict:
