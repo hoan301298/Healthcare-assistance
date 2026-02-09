@@ -14,5 +14,5 @@ fly.dev.toml
 fly-deploy-local.sh
 /tests/*.html
 /tests/*.xml
-__pycache__/
+**/__pycache__/
 *.pyc
