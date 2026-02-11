@@ -18,7 +18,7 @@ Test section:
 - User authentication & management
 - Searching medical facilities (max 20 - Google API restriction)
 - Appointment booking system
-- Real-time chat with doctors/agency (**encrypted content**, **Socket.IO**)
+- Real-time chat with AI bot (**encrypted content**, **Socket.IO**, **Mistral AI chat bot**)
 
 ## 🛠️ Tech Stack
 - **Frontend**: React TypeScript, Redux-Toolkit, TanStack Query, Tailwind CSS, Socket.IO 
