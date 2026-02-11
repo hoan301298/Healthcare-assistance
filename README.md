@@ -1,11 +1,10 @@
 # Healthcare Assistance
 
-A full-stack web application providing healthcare assistance, search medical facilities on physical map (**Google Map API**), real-time chat, authentication (**JWT & Cookie**), appointment booking using **MERN stack**, and **Spring Boot**.
+A full-stack web application providing healthcare assistance, search medical facilities on physical map (**Google Map API**), real-time AI-assisted chat, authentication (**JWT & Cookie**), appointment booking using **MERN stack**, and **Spring Boot**.
 
 [Theseus Link](https://www.theseus.fi/handle/10024/861496) 
 
-[Deploy version-1](https://healthcare-assistance.vercel.app)
-[Deploy version-2](https://healthcare-assistance.fly.dev/) - New version (support Socket.IO)
+[Deployment](https://healthcare-assistance.fly.dev/) - New version (support Socket.IO)
 
 Test section:
 
@@ -53,7 +52,8 @@ Create a .env file in each frontend and backend directories and add the followin
 VITE_MAP_API_KEY=??
 VITE_GEOCODE_URL=https://maps.googleapis.com/maps/api/geocode/json
 VITE_NODE_SERVER_API=http://localhost:5000
-VITE_SPRINGBOOT_SERVER_API=http://localhost:8080
+VITE_SPRINGBOOT_SERVER_API=http://localhost:5001
+VITE_ENV=dev
 ```
 
 ```sh
@@ -72,7 +72,6 @@ PORT=5000
 # SpringBoot-server Environment Variables
 # Open PowerShell (Run as Administration) or Bash
 setx SPRING_DATA_MONGODB_URI "<Your Mongo Server URL>" /M
-setx SERVER_PORT "8080" /M
 setx SPRING_SECRET_KEY "9f4b2c7d8e1a3b5c6d7e8f901234567890abcdef1234567890abcdef12345678" /M
 setx SPRING_ENCRYPT_KEY "f3a1c9d7b8e45f92a6b1c3e4d5f7a8901234567890abcdef1234567890abcdef" /M
 setx SPRING_ORIGINS_URL "http://localhost:5173" /M
@@ -104,7 +103,7 @@ Frontend: port 5173
 
 Express: port 5000
 
-Spring Boot: port 8080
+Spring Boot: port 5001
 
 ## 🤝 Contributing
 Contributions are welcome! Fork the repository and create a pull request.
