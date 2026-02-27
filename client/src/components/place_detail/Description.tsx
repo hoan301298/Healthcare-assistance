@@ -5,6 +5,8 @@ import { Card, CardHeader, CardTitle } from "../ui/card"
 import { Place } from "../models/search/Place";
 import PlaceImage from "./content/PlaceImage";
 import Reviews from "./content/Reviews";
+import { getValue } from "../helper/KeyValue";
+import { MedicalType } from "../models/search/PlaceProperties";
 
 const Description: React.FC<{ place: Place }> = ({ place }) => {
     return (
@@ -12,7 +14,7 @@ const Description: React.FC<{ place: Place }> = ({ place }) => {
             <Card className="border-border">
                 <CardHeader>
                     <div className="flex items-start justify-between mb-4">
-                        <Badge variant="secondary" className="text-sm">{capitalizeFirst(place.primaryType)}</Badge>
+                        <Badge variant="secondary" className="text-sm">{capitalizeFirst(getValue(MedicalType, place.primaryType))}</Badge>
                         <div className="flex items-center gap-2">
                             <div className="flex items-center gap-1">
                                 <Star className="h-5 w-5 fill-accent text-accent" />

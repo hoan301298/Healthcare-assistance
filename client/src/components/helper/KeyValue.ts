@@ -18,7 +18,7 @@ export const getValue = <T extends Record<string, string>>(
     prefixToRemove?: string
 ) : string | undefined => {
     const entry = Object.entries(enumObject).find(([key,_]) => key === comparedKey);
-    if (!entry) return undefined;
+    if (!entry) return "Medical Center";
 
     const value = entry[1];
     return prefixToRemove
