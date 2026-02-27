@@ -11,8 +11,8 @@ interface AuthFormState {
 
 const initialState: AuthFormState = {
     loginForm: {
-        email: '',
-        password: ''
+        email: 'healthcare@gmail.com',
+        password: 'example123'
     },
     registerForm: {
         email: '',
