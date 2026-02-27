@@ -15,7 +15,7 @@ on:
 
 jobs:
   deploy:
-    name: Deploy app
+    name: Build and Deploy app
     runs-on: ubuntu-latest
     
     env:
@@ -30,11 +30,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Setup Docker Buildx (faster + better caching support)
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Build Docker image locally in GitHub runner
+      - name: Build Docker image
+        run: |
+          docker build \
+            --build-arg VITE_GEOCODE_URL=${{ secrets.VITE_GEOCODE_URL }} \
+            --build-arg VITE_MAP_API_KEY=${{ secrets.VITE_MAP_API_KEY }} \
+            --build-arg VITE_ENV=prod \
+            -t healthcare-app:latest .
+
+      # Setup Fly CLI
       - name: Setup Fly CLI
         uses: superfly/flyctl-actions/setup-flyctl@master
 
+      # Deploy using already-built image (NO rebuilding)
       - name: Deploy to Fly.io
-        run: |
-          flyctl deploy -c fly.prod.toml --remote-only \
-            --build-arg VITE_GEOCODE_URL=${{ secrets.VITE_GEOCODE_URL }} \
-            --build-arg VITE_MAP_API_KEY=${{ secrets.VITE_MAP_API_KEY }}
+        run: flyctl deploy -c fly.prod.toml --image healthcare-app:latest
