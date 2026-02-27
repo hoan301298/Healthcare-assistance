@@ -27,26 +27,31 @@ jobs:
 
     steps:
 
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      # Setup Docker Buildx (faster + better caching support)
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # Build Docker image locally in GitHub runner
+      - name: Setup Fly CLI
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      # Login Docker to Fly registry
+      - name: Login to Fly registry
+        run: flyctl auth docker
+
+      # Build image tagged for YOUR Fly app
       - name: Build Docker image
         run: |
           docker build \
             --build-arg VITE_GEOCODE_URL=${{ secrets.VITE_GEOCODE_URL }} \
             --build-arg VITE_MAP_API_KEY=${{ secrets.VITE_MAP_API_KEY }} \
             --build-arg VITE_ENV=prod \
-            -t healthcare-app:latest .
+            -t registry.fly.io/healthcare-assistance:latest .
 
-      # Setup Fly CLI
-      - name: Setup Fly CLI
-        uses: superfly/flyctl-actions/setup-flyctl@master
+      # Push image to Fly
+      - name: Push image
+        run: docker push registry.fly.io/healthcare-assistance:latest
 
-      # Deploy using already-built image (NO rebuilding)
-      - name: Deploy to Fly.io
-        run: flyctl deploy -c fly.prod.toml --image healthcare-app:latest
+      # Deploy WITHOUT building
+      - name: Deploy to Fly
+        run: flyctl deploy -c fly.prod.toml --image registry.fly.io/healthcare-assistance:latest
