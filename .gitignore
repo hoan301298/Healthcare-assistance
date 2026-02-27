@@ -10,8 +10,10 @@
 
 node_modules
 
-.vercel
-vercel.json
-api
 fly.dev.toml
 fly-deploy-local.sh
+/tests/*.html
+/tests/*.xml
+**/__pycache__/
+*.pyc
+/results
